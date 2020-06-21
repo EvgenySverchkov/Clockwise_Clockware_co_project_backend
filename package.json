@@ -17,6 +17,12 @@
   },
   "homepage": "https://github.com/EvgenySverchkov/Clockwise_Clockware_co_project_backend#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }
