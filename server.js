@@ -19,7 +19,7 @@ const conn = mysql.createPool({
 
 
 app.get('/', function (req, res) {
-  conn.query("SELECT * FROM new_table", function(err, result){
+  conn.query("SELECT * FROM masters", function(err, result){
     if(err){
       res.send(err);
     }else{
