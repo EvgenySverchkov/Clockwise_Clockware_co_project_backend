@@ -33,8 +33,8 @@ app.get('/get_masters', function (req, res) {
   });
 });
 
-app.get("/some", function(req, res){
-  res.send("I'm some");
+app.delete("/delete", function(req, res){
+  res.send("I'm delete");
 });
 
 app.post("/post_master", urlencodedParser, function(req, res){
