@@ -33,6 +33,10 @@ app.get('/get_masters', function (req, res) {
   });
 });
 
+app.get("/some", function(req, res){
+  res.send("I'm some");
+});
+
 app.post("/post_master", urlencodedParser, function(req, res){
   console.log(req.body, "BODY");
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -45,11 +49,6 @@ app.post("/post_master", urlencodedParser, function(req, res){
     else {
       res.send(req.body)
     }});
-});
-
-app.get("/some", function(res,req){
-  console.log("DELEEEEEEEEEEEEET");
-  res.send("I'm some");
 });
 
 
