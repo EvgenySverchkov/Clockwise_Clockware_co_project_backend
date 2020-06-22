@@ -47,6 +47,7 @@ app.post("/post_master", urlencodedParser, function(req, res){
     }});
 
 app.delete("/delete_master", function(res,req){
+  console.log("DELTITIIIIIIIIN G")
   const sql = `DELETE FROM masters WHERE id = ${req.body.id}`;
   conn.query(sql, function(err, result){
     if(err){
