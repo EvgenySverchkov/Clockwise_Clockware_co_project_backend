@@ -38,7 +38,7 @@ app.post("/post_master", urlencodedParser, function(req, res){
       res.send("Error: ", err)
     }
     else {
-      res.send("Master is add")
+      res.send(JSON.stringify(req.body))
     }});
   // const name = req.body.name;
   // const towns = req.body.towns;
