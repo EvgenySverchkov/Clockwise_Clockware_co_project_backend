@@ -8,6 +8,7 @@ const app = express();
 
 app.use(cors());
 const urlencodedParser = bodyParser.urlencoded({extended: true});
+app.use(bodyParser.json());
 
 const conn = mysql.createPool({
   connectionLimit: 5,
