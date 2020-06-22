@@ -45,13 +45,13 @@ app.post("/post_master", urlencodedParser, function(req, res){
     else {
       res.send(req.body)
     }});
+});
 
 app.delete("/delete/:id", urlencodedParser, function(res,req){
   res.setHeader('Access-Control-Allow-Origin', '*');
   console.log("DELEEEEEEEEEEEEET", req.params);
   res.send();
 });
-
 
 
 app.listen(process.env.PORT || 9000, function(){
