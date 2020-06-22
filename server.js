@@ -33,20 +33,17 @@ app.get('/get_masters', function (req, res) {
   });
 });
 
-app.delete("/delete/:id", function(req, res){
-  console.log("!!!!!!!!!!!!!!!!!!!!!!!!", req.params.id)
-  const sql = `DELETE FROM masters WHERE id = ${req.params.id}`;
-  conn.query(sql, function(err, results) {
-      if(err){
-        res.send(err);
-      }else{
-        res.send(req.params.id);
-      }
+app.get('/get_towns', function(req,res){
+  conn.query("SELECT * FROM townsnames", function(err, result){
+    if(err){
+      res.send(err);
+    }else{
+      res.send(result);
+    };
   });
 });
 
 app.post("/post_master", urlencodedParser, function(req, res){
-  console.log(req.body, "BODY");
   res.setHeader('Access-Control-Allow-Origin', '*');
   const master = [req.body.id, req.body.name, req.body.towns, req.body.rating];
   const sql = "INSERT INTO masters(id, name, towns, rating) VALUES(?, ?, ?, ?)";
@@ -59,6 +56,41 @@ app.post("/post_master", urlencodedParser, function(req, res){
     }});
 });
 
+app.post("/post_town", urlencodedParser, function(req, res){
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  const sql = "INSERT INTO townsnames (name, id) VALUES(?, ?)";
+  const townInfo = [req.body.name, req.body.id];
+  console.log(req.body)
+  conn.query(sql, townInfo, function(err, result){
+    if(err){
+      res.send(err);
+    }else{
+      res.send(req.body);
+    }
+  });
+});
+
+app.delete("/delete_master/:id", function(req, res){
+  const sql = `DELETE FROM masters WHERE id = ${req.params.id}`;
+  conn.query(sql, function(err, results) {
+      if(err){
+        res.send(err);
+      }else{
+        res.send(req.params.id);
+      }
+  });
+});
+
+app.delete("/delete_town/:id", function(req,res){
+  const sql = `DELETE FROM townsnames WHERE id = ${req.params.id}`;
+  conn.query(sql, function(err, results){
+    if(err){
+      res.send(err);
+    }else{
+      res.send(req.params.id);
+    }
+  });
+});
 
 app.listen(process.env.PORT || 9000, function(){
   console.log("Server start")
