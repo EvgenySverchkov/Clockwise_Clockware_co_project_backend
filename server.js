@@ -34,7 +34,8 @@ app.get('/get_masters', function (req, res) {
 });
 
 app.delete("/del/:id", function(req, res){
-  res.send("IIIIIIIIIII")
+  console.log(req.params.id, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+  res.send("IIIIIIIIIII");
   // const sql = `DELETE FROM masters WHERE id = ${req.params.id}`;
   // conn.query(sql, function(err, results) {
   //     if(err){
