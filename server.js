@@ -38,7 +38,7 @@ app.post("/post_master", urlencodedParser, function(req, res){
       res.send("Error: ", err)
     }
     else {
-      res.send(JSON.stringify(req.body))
+      res.send(JSON.stringify(req))
     }});
   // const name = req.body.name;
   // const towns = req.body.towns;
