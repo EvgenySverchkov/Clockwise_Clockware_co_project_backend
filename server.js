@@ -46,33 +46,10 @@ app.post("/post_master", urlencodedParser, function(req, res){
       res.send(req.body)
     }});
 
-app.delete("/delete", urlencodedParser, function(res,req){
+app.delete("/delete/:id", urlencodedParser, function(res,req){
   res.setHeader('Access-Control-Allow-Origin', '*');
   console.log("DELEEEEEEEEEEEEET", req.params);
   res.send();
-  /*const sql = `DELETE FROM masters WHERE id = ${req.body.id}`;
-  conn.query(sql, function(err, result){
-    if(err){
-      res.send(err);
-    }else{
-      res.send("Master deleted")
-    }
-  });*/
-});
-  // const name = req.body.name;
-  // const towns = req.body.towns;
-  // const rating = +req.body.rating;
-
-  // let master= [null, name, towns, rating];
-  // const sql = "INSERT INTO masters(id, name, towns, rating) VALUES(?, ?, ?, ?)";
-  // conn.query(sql, master, function(err, results) {
-  //   if(err){
-  //     res.send("Error: ", err)
-  //   }
-  //   else {
-  //     res.send("Master is add")
-  //   }
-  // });
 });
 
 
