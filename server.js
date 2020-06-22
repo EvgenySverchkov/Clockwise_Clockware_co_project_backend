@@ -33,12 +33,13 @@ app.post("/post_master", urlencodedParser, function(req, res){
   res.setHeader('Access-Control-Allow-Origin', '*');
   const master = [null, "New", "Dnipro, Uzhorod", "2"];
   const sql = "INSERT INTO masters(id, name, towns, rating) VALUES(?, ?, ?, ?)";
+  let bod = JSON.stringify(req);
   conn.query(sql, master, function(err, results) {
     if(err){
       res.send("Error: ", err)
     }
     else {
-      res.send(JSON.stringify(req))
+      res.send(bod)
     }});
   // const name = req.body.name;
   // const towns = req.body.towns;
