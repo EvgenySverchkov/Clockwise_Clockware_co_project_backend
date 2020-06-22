@@ -19,6 +19,7 @@ const conn = mysql.createPool({
 
 
 app.get('/', function (req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
   conn.query("SELECT * FROM masters", function(err, result){
     if(err){
       res.send(err);
@@ -29,6 +30,7 @@ app.get('/', function (req, res) {
 });
 
 app.post("/post_master", urlencodedParser, function(req, res){
+  res.setHeader('Access-Control-Allow-Origin', '*');
   const name = req.body.name;
   const towns = req.body.towns;
   const rating = +req.body.rating;
