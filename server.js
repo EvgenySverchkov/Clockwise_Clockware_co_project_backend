@@ -46,7 +46,7 @@ app.post("/post_master", urlencodedParser, function(req, res){
       res.send(req.body)
     }});
 
-app.delete("/delete/:id", urlencodedParser, function(res,req){
+app.delete("/delete", urlencodedParser, function(res,req){
   res.setHeader('Access-Control-Allow-Origin', '*');
   console.log("DELEEEEEEEEEEEEET", req.params);
   res.send();
