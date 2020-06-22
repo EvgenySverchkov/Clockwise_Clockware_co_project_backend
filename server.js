@@ -36,7 +36,7 @@ app.get('/get_masters', function (req, res) {
 app.post("/post_master", urlencodedParser, function(req, res){
   console.log(req.body, "BODY");
   res.setHeader('Access-Control-Allow-Origin', '*');
-  const master = [null, req.body.name, req.body.towns, req.body.rating];
+  const master = [req.body.id, req.body.name, req.body.towns, req.body.rating];
   const sql = "INSERT INTO masters(id, name, towns, rating) VALUES(?, ?, ?, ?)";
   conn.query(sql, master, function(err, results) {
     if(err){
