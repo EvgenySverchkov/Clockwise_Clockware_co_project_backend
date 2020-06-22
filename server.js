@@ -18,8 +18,11 @@ const conn = mysql.createPool({
   password: "429f0925"
 });
 
-
 app.get('/', function (req, res) {
+  res.send("Hello")
+});
+
+app.get('/get_masters', function (req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   conn.query("SELECT * FROM masters", function(err, result){
     if(err){
