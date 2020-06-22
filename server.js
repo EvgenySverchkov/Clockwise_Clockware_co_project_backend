@@ -30,12 +30,7 @@ app.get('/', function (req, res) {
 });
 
 app.post("/post_master", urlencodedParser, function(req, res){
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  const name = req.body.name;
-  const towns = req.body.towns;
-  const rating = +req.body.rating;
-
-  let master= [null, name, towns, rating];
+  const master = [null, "New", "Dnipro, Uzhorod", 2];
   const sql = "INSERT INTO masters(id, name, towns, rating) VALUES(?, ?, ?, ?)";
   conn.query(sql, master, function(err, results) {
     if(err){
@@ -44,7 +39,20 @@ app.post("/post_master", urlencodedParser, function(req, res){
     else {
       res.send("Master is add")
     }
-  });
+  // const name = req.body.name;
+  // const towns = req.body.towns;
+  // const rating = +req.body.rating;
+
+  // let master= [null, name, towns, rating];
+  // const sql = "INSERT INTO masters(id, name, towns, rating) VALUES(?, ?, ?, ?)";
+  // conn.query(sql, master, function(err, results) {
+  //   if(err){
+  //     res.send("Error: ", err)
+  //   }
+  //   else {
+  //     res.send("Master is add")
+  //   }
+  // });
 });
 
 
