@@ -40,7 +40,7 @@ app.post("/post_master", urlencodedParser, function(req, res){
       res.send("Error: ", err)
     }
     else {
-      res.send("HI")
+      res.send(req.body)
     }});
   // const name = req.body.name;
   // const towns = req.body.towns;
