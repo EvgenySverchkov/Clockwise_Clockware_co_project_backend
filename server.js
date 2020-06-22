@@ -47,8 +47,9 @@ app.post("/post_master", urlencodedParser, function(req, res){
     }});
 });
 
-app.get("/delete/:id", urlencodedParser, function(res,req){
-  console.log("DELEEEEEEEEEEEEET", req.params);
+app.get("/some", function(res,req){
+  console.log("DELEEEEEEEEEEEEET");
+  res.send();
 });
 
 
