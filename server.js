@@ -31,7 +31,7 @@ app.get('/', function (req, res) {
 });
 
 app.post("/post_master", urlencodedParser, function(req, res){
-  console.log(req.body);
+  console.log(req.body, "BODY");
   res.setHeader('Access-Control-Allow-Origin', '*');
   const master = [null, "New", "Dnipro, Uzhorod", "2"];
   const sql = "INSERT INTO masters(id, name, towns, rating) VALUES(?, ?, ?, ?)";
