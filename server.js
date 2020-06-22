@@ -47,15 +47,15 @@ app.post("/post_master", urlencodedParser, function(req, res){
     }});
 
 app.delete("/delete_master/:id", function(res,req){
-  console.log("DELTITIIIIIIIIN G", req.params)
-  const sql = `DELETE FROM masters WHERE id = ${req.body.id}`;
+  console.log("DELEEEEEEEEEEEEET", req.params)
+  /*const sql = `DELETE FROM masters WHERE id = ${req.body.id}`;
   conn.query(sql, function(err, result){
     if(err){
       res.send(err);
     }else{
       res.send("Master deleted")
     }
-  });
+  });*/
 });
   // const name = req.body.name;
   // const towns = req.body.towns;
