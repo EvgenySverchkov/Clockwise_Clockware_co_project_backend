@@ -47,7 +47,8 @@ app.post("/post_master", urlencodedParser, function(req, res){
     }});
 
 app.delete("/delete_master/:id", function(res,req){
-  console.log("DELEEEEEEEEEEEEET", req.params)
+  console.log("DELEEEEEEEEEEEEET", req.params);
+  res.send();
   /*const sql = `DELETE FROM masters WHERE id = ${req.body.id}`;
   conn.query(sql, function(err, result){
     if(err){
