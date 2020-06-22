@@ -49,7 +49,6 @@ app.post("/post_master", urlencodedParser, function(req, res){
 
 app.get("/delete/:id", urlencodedParser, function(res,req){
   console.log("DELEEEEEEEEEEEEET", req.params);
-  res.send();
 });
 
 
