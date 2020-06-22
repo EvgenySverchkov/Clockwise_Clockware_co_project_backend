@@ -7,7 +7,7 @@ const path = require('path');
 const app = express();
 
 app.use(cors());
-const urlencodedParser = bodyParser.urlencoded({extended: false});
+const urlencodedParser = bodyParser.urlencoded({extended: true});
 
 const conn = mysql.createPool({
   connectionLimit: 5,
