@@ -38,9 +38,9 @@ app.delete("/del/:id", function(req, res){
   const sql = `DELETE FROM masters WHERE id = ${req.params.id}`;
   conn.query(sql, function(err, results) {
       if(err){
-        res.send(err)
+        res.send(err);
       }else{
-        res.send("Master deleted")
+        res.send(req.params.id);
       }
   });
 });
