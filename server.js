@@ -47,6 +47,7 @@ app.post("/post_master", urlencodedParser, function(req, res){
     }});
 
 app.delete("/delete_master/:id", function(res,req){
+  res.setHeader('Access-Control-Allow-Origin', '*');
   console.log("DELEEEEEEEEEEEEET", req.params);
   res.send();
   /*const sql = `DELETE FROM masters WHERE id = ${req.body.id}`;
