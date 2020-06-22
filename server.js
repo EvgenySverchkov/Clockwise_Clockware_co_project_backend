@@ -49,7 +49,7 @@ app.post("/post_master", urlencodedParser, function(req, res){
 
 app.get("/some", function(res,req){
   console.log("DELEEEEEEEEEEEEET");
-  res.send();
+  res.send("I'm some");
 });
 
 
