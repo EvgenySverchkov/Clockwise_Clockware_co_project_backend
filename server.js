@@ -33,7 +33,7 @@ app.get('/get_masters', function (req, res) {
   });
 });
 
-app.delete("/del", function(req, res){
+app.delete("/del/:id", function(req, res){
   res.send("IIIIIIIIIII")
   // const sql = `DELETE FROM masters WHERE id = ${req.params.id}`;
   // conn.query(sql, function(err, results) {
