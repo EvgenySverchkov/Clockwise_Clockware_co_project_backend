@@ -35,15 +35,14 @@ app.get('/get_masters', function (req, res) {
 
 app.delete("/del/:id", function(req, res){
   console.log(req.params.id, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-  res.send("IIIIIIIIIII");
-  // const sql = `DELETE FROM masters WHERE id = ${req.params.id}`;
-  // conn.query(sql, function(err, results) {
-  //     if(err){
-  //       res.send(err)
-  //     }else{
-  //       res.send("Master deleted")
-  //     }
-  // });
+  const sql = `DELETE FROM masters WHERE id = ${req.params.id}`;
+  conn.query(sql, function(err, results) {
+      if(err){
+        res.send(err)
+      }else{
+        res.send("Master deleted")
+      }
+  });
 });
 
 app.post("/post_master", urlencodedParser, function(req, res){
