@@ -39,7 +39,7 @@ app.get('/get_towns', function(req,res){
       res.send(err);
     }else{
       res.send(result);
-    };
+    }
   });
 });
 
@@ -47,13 +47,19 @@ app.post("/post_master", urlencodedParser, function(req, res){
   res.setHeader('Access-Control-Allow-Origin', '*');
   const master = [req.body.id, req.body.name, req.body.towns, req.body.rating];
   const sql = "INSERT INTO masters(id, name, towns, rating) VALUES(?, ?, ?, ?)";
-  conn.query(sql, master, function(err, results) {
+  conn.query(sql, master, function(err, result){
     if(err){
-      res.send("Error: ", err)
+      res.send(err);
+    }else{
+      conn.query("SELECT * FROM masters", function(err, result){
+        if(err){
+          res.send(err);
+        }else{
+          res.send(result[result.length-1]);
+        }
+      });
     }
-    else {
-      res.send(req.body)
-    }});
+  });
 });
 
 app.post("/post_town", urlencodedParser, function(req, res){
@@ -65,7 +71,13 @@ app.post("/post_town", urlencodedParser, function(req, res){
     if(err){
       res.send(err);
     }else{
-      res.send(req.body);
+      conn.query("SELECT * FROM townsnames", function(err, result){
+        if(err){
+          res.send(err);
+        }else{
+          res.send(result[result.length-1]);
+        }
+      });
     }
   });
 });
