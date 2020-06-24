@@ -19,7 +19,7 @@ const conn = mysql.createPool({
 });
 
 app.get('/', function (req, res) {
-  res.send("Hello")
+  res.send("Welcome to the server!!!")
 });
 
 app.get('/get_masters', function (req, res) {
@@ -78,6 +78,30 @@ app.post("/post_town", urlencodedParser, function(req, res){
           res.send(result[result.length-1]);
         }
       });
+    }
+  });
+});
+
+app.put("/put_master/:id", urlencodedParser, function(req,res){
+  let sql = "UPDATE masters SET name=?,rating=?,towns=? WHERE id=?";
+  let data = [req.body.name, req.body.rating, req.body.towns, req.params.id];
+  conn.query(sql, data, function(err, result){
+    if(err){
+      res.send(err);
+    }else{
+      res.send(req.body);
+    }
+  });
+});
+
+app.put("/put_town/:id", urlencodedParser, function(req,res){
+  let sql = "UPDATE townsnames SET name=? WHERE id=?";
+  let data = [req.body.name, req.params.id];
+  conn.query(sql, data, function(err, result){
+    if(err){
+      res.send(err);
+    }else{
+      res.send(req.body);
     }
   });
 });
