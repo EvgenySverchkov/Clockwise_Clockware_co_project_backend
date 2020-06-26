@@ -51,7 +51,7 @@ app.post("/post_master", urlencodedParser, function(req, res){
     if(err){
       res.send(err);
     }else{
-      res.send(req.body);
+      res.send(req.body); 
     }
   });
 });
