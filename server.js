@@ -122,12 +122,13 @@ app.put("/put_town/:id", urlencodedParser, function(req,res){
 app.put("/put_order/:id", urlencodedParser, function(req,res){
   let sql = "UPDATE orders SET name=?, email=?, size=?, town=?, date=?, time=?, masterId=? WHERE id=?";
   let data = [req.body.name, req.body.email,
-              req.body.clockSize, req.body.town, req.body.date,
+              req.body.size, req.body.town, req.body.date,
               req.body.time, req.body.masterId, req.body.id];
   conn.query(sql, data, function(err, result){
     if(err){
       res.send(err);
     }else{
+      console.log(req.body)
       res.send(req.body);
     }
   });
