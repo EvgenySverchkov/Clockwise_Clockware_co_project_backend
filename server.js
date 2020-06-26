@@ -43,6 +43,17 @@ app.get('/get_towns', function(req,res){
   });
 });
 
+app.get('/get_orders', function (req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  conn.query("SELECT * FROM orders", function(err, result){
+    if(err){
+      res.send(err);
+    }else{
+      res.send(result);
+    }
+  });
+});
+
 app.post("/post_master", urlencodedParser, function(req, res){
   res.setHeader('Access-Control-Allow-Origin', '*');
   const master = [req.body.id, req.body.name, req.body.towns, req.body.rating];
@@ -51,7 +62,7 @@ app.post("/post_master", urlencodedParser, function(req, res){
     if(err){
       res.send(err);
     }else{
-      res.send(req.body); 
+      res.send(req.body);
     }
   });
 });
@@ -61,6 +72,21 @@ app.post("/post_town", urlencodedParser, function(req, res){
   const sql = "INSERT INTO townsnames (name, id) VALUES(?, ?)";
   const townInfo = [req.body.name, req.body.id];
   conn.query(sql, townInfo, function(err, result){
+    if(err){
+      res.send(err);
+    }else{
+      res.send(req.body);
+    }
+  });
+});
+
+app.post("/post_order", urlencodedParser, function(req, res){
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  const sql = "INSERT INTO orders (id, name, email, size, town, date, time, masterId) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+  const orderInfo = [req.body.id, req.body.name, req.body.email,
+                     req.body.clockSize, req.body.town, req.body.date,
+                     req.body.time, req.body.masterId];
+  conn.query(sql, orderInfo, function(err, result){
     if(err){
       res.send(err);
     }else{
@@ -93,6 +119,20 @@ app.put("/put_town/:id", urlencodedParser, function(req,res){
   });
 });
 
+app.put("/put_order/:id", urlencodedParser, function(req,res){
+  let sql = "UPDATE orders SET name=?, email=?, size=?, town=?, date=?, time=?, masterId=? WHERE id=?";
+  let data = [req.body.name, req.body.email,
+              req.body.clockSize, req.body.town, req.body.date,
+              req.body.time, req.body.masterId, req.body.id];
+  conn.query(sql, data, function(err, result){
+    if(err){
+      res.send(err);
+    }else{
+      res.send(req.body);
+    }
+  });
+});
+
 app.delete("/delete_master/:id", function(req, res){
   const sql = `DELETE FROM masters WHERE id = ${req.params.id}`;
   conn.query(sql, function(err, results) {
@@ -106,6 +146,17 @@ app.delete("/delete_master/:id", function(req, res){
 
 app.delete("/delete_town/:id", function(req,res){
   const sql = `DELETE FROM townsnames WHERE id = ${req.params.id}`;
+  conn.query(sql, function(err, results){
+    if(err){
+      res.send(err);
+    }else{
+      res.send(req.params.id);
+    }
+  });
+});
+
+app.delete("/delete_order/:id", function(req,res){
+  const sql = `DELETE FROM orders WHERE id = ${req.params.id}`;
   conn.query(sql, function(err, results){
     if(err){
       res.send(err);
