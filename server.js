@@ -51,13 +51,7 @@ app.post("/post_master", urlencodedParser, function(req, res){
     if(err){
       res.send(err);
     }else{
-      conn.query("SELECT * FROM masters", function(err, result){
-        if(err){
-          res.send(err);
-        }else{
-          res.send(result[result.length-1]);
-        }
-      });
+      res.send(req.body);
     }
   });
 });
@@ -66,18 +60,11 @@ app.post("/post_town", urlencodedParser, function(req, res){
   res.setHeader('Access-Control-Allow-Origin', '*');
   const sql = "INSERT INTO townsnames (name, id) VALUES(?, ?)";
   const townInfo = [req.body.name, req.body.id];
-  console.log(req.body)
   conn.query(sql, townInfo, function(err, result){
     if(err){
       res.send(err);
     }else{
-      conn.query("SELECT * FROM townsnames", function(err, result){
-        if(err){
-          res.send(err);
-        }else{
-          res.send(result[result.length-1]);
-        }
-      });
+      res.send(req.body);
     }
   });
 });
