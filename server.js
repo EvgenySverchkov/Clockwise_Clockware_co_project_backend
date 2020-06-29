@@ -3,6 +3,7 @@ const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require('path');
+const nodemailer = require('nodemailer');
 
 const app = express();
 
@@ -17,6 +18,35 @@ const conn = mysql.createPool({
   database: "heroku_c647561c828c05a",
   password: "429f0925"
 });
+///////////////////////////////////////////////////////////////////nodemailer////////////////////////////////////////////////
+
+
+app.post("/send_message", async function(req, res){
+  let testEmailAccount = await nodemailer.createTestAccount();
+  let transporter = nodemailer.createTransport({
+     service: 'gmail',
+     auth: {
+         user: "confirmationsendler@gmail.com",
+         pass: "qwertyuiop1234!"
+       }
+     });
+  let options = {
+      from: '"Clockwise" <confirmationsendler@gmail.com>',
+      to: req.body.email,
+      subject: "Confirmation of an order",
+      text: `You ordered master on ${req.body.date} ${req.body.time} in ${req.body.town}`,
+      html: `You ordered master on ${req.body.date} ${req.body.time} in ${req.body.town}`
+    }
+  let result = await transporter.sendMail(options, function(err, info){
+    if(err){
+      res.json(err);
+    }
+    console.log("email is send");
+    res.json(info);
+  });
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.get('/', function (req, res) {
   res.send("Welcome to the server!!!")
