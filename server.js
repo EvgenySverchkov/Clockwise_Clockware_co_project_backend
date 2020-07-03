@@ -112,10 +112,10 @@ app.post("/post_town", urlencodedParser, function(req, res){
 
 app.post("/post_order", urlencodedParser, function(req, res){
   res.setHeader('Access-Control-Allow-Origin', '*');
-  const sql = "INSERT INTO orders (id, name, email, size, town, date, time, masterId) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+  const sql = "INSERT INTO orders (id, name, email, size, town, date, time, masterId, endTime) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
   const orderInfo = [req.body.id, req.body.name, req.body.email,
                      req.body.size, req.body.town, req.body.date,
-                     req.body.time, req.body.masterId];
+                     req.body.time, req.body.masterId, req.body.endTime];
   conn.query(sql, orderInfo, function(err, result){
     if(err){
       res.send(err);
