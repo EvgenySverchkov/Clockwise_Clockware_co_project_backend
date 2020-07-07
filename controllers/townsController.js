@@ -1,54 +1,28 @@
-const mysql = require("mysql");
+const townsModel = require("../models/townsModel");
 
-const conn = mysql.createPool({
-  connectionLimit: 5,
-  host: "us-cdbr-east-05.cleardb.net",
-  user: "b9d382caa58e34",
-  database: "heroku_c647561c828c05a",
-  password: "429f0925"
-});
+exports.index = function(req,res){
+  townsModel.getAllTowns()
+  .then(data=>res.send(data))
+  .catch(err=>res.send(err));
+};
 
-exports.getTowns = function(req,res){
-  conn.query("SELECT * FROM townsnames", function(err, result){
-    if(err){
-      res.send(err);
-    }else{
-      res.send(result);
-    }
-  });
-}
-
-exports.postTown = function(req, res){
-  const sql = "INSERT INTO townsnames (name, id) VALUES(?, ?)";
+exports.add = function(req,res){
   const townInfo = [req.body.name, req.body.id];
-  conn.query(sql, townInfo, function(err, result){
-    if(err){
-      res.send(err);
-    }else{
-      res.send(req.body);
-    }
-  });
-}
+  townsModel.postNewTown(townInfo, req.body)
+  .then(data=>res.send(data))
+  .catch(err=>res.send(err));
+};
 
-exports.putTown = function(req,res){
-  let sql = "UPDATE townsnames SET name=? WHERE id=?";
-  let data = [req.body.name, req.params.id];
-  conn.query(sql, data, function(err, result){
-    if(err){
-      res.send(err);
-    }else{
-      res.send(req.body);
-    }
-  });
-}
+exports.edit = function(req,res){
+  const dataArr = [req.body.name, req.params.id];
+  townsModel.updateTown(dataArr, req.body)
+  .then(data=>res.send(data))
+  .catch(err=>res.send(err));
+};
 
-exports.deleteTown = function(req,res){
-  const sql = `DELETE FROM townsnames WHERE id = ${req.params.id}`;
-  conn.query(sql, function(err, results){
-    if(err){
-      res.send(err);
-    }else{
-      res.send(req.params.id);
-    }
-  });
-}
+exports.delete = function(req,res){
+  const townId = req.params.id;
+  townsModel.deleteTown(townId)
+  .then(data=>res.send(data))
+  .catch(err=>res.send(err));
+};

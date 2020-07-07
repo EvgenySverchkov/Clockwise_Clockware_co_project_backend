@@ -1,55 +1,28 @@
-const mysql = require("mysql");
+const mastersModel = require('../models/mastersModel');
 
-const conn = mysql.createPool({
-  connectionLimit: 5,
-  host: "us-cdbr-east-05.cleardb.net",
-  user: "b9d382caa58e34",
-  database: "heroku_c647561c828c05a",
-  password: "429f0925"
-});
+exports.index = function(req, res){
+  mastersModel.getAllMasters()
+  .then((data)=>res.send(data))
+  .catch((err)=>res.send(err));
+}
 
-
-exports.getMasters = function(req, res){
-  conn.query("SELECT * FROM masters", function(err, result){
-    if(err){
-      res.send(err);
-    }else{
-      res.send(result);
-    }
-  });
+exports.add = function(req, res){
+  const master = [req.body.id, req.body.name, req.body.towns, req.body.rating];
+  mastersModel.postNewMaster(master, req.body)
+  .then(data=>res.send(data))
+  .catch(err=>res.send(err));
 };
 
-exports.postMaster = function(req, res){
-  const master = [req.body.id, req.body.name, req.body.towns, req.body.rating];
-  const sql = "INSERT INTO masters(id, name, towns, rating) VALUES(?, ?, ?, ?)";
-  conn.query(sql, master, function(err, result){
-    if(err){
-      res.send(err);
-    }else{
-      res.send(req.body);
-    }
-  });
-}
+exports.edit = function(req,res){
+  const dataArr = [req.body.name, req.body.rating, req.body.towns, req.params.id];
+  mastersModel.updateMaster(dataArr, req.body)
+  .then(data=>res.send(data))
+  .catch(err=>res.send(err));
+};
 
-exports.putMaster = function(req,res){
-  let sql = "UPDATE masters SET name=?,rating=?,towns=? WHERE id=?";
-  let data = [req.body.name, req.body.rating, req.body.towns, req.params.id];
-  conn.query(sql, data, function(err, result){
-    if(err){
-      res.send(err);
-    }else{
-      res.send(req.body);
-    }
-  });
-}
-
-exports.deleteMaster = function(req, res){
-  const sql = `DELETE FROM masters WHERE id = ${req.params.id}`;
-  conn.query(sql, function(err, results) {
-      if(err){
-        res.send(err);
-      }else{
-        res.send(req.params.id);
-      }
-  });
-}
+exports.delete = function(req, res){
+  const masterId = req.params.id;
+  mastersModel.deleteMaster(masterId)
+  .then(data=>res.send(data))
+  .catch(err=>res.send(err));
+};
