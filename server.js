@@ -5,6 +5,9 @@ const nodemailer = require('nodemailer');
 const mastersRouter = require('./routes/mastersRouter');
 const townsRouter = require('./routes/townsRouter');
 const ordersRouter = require('./routes/ordersRouter');
+const freeMastersRouter = require('./routes/freeMastersRouter');
+const sqlConnection = require("./config/dbConnection");
+const qs = require('qs');
 
 const app = express();
 
@@ -12,8 +15,6 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json());
 ///////////////////////////////////////////////////////////////////nodemailer////////////////////////////////////////////////
-
-
 app.post("/send_message", async function(req, res){
   let testEmailAccount = await nodemailer.createTestAccount();
   let transporter = nodemailer.createTransport({
@@ -40,13 +41,14 @@ app.post("/send_message", async function(req, res){
 });
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 app.get('/', function (req, res) {
   res.send("Welcome to the server!!!")
 });
+
 app.use("/masters", mastersRouter);
 app.use("/towns", townsRouter);
 app.use("/orders", ordersRouter);
+app.use("/freeMasters", freeMastersRouter);
 
 app.listen(process.env.PORT || 9000, function(){
   console.log("Server start")
