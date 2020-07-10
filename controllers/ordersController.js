@@ -1,31 +1,36 @@
 const ordersModel = require("../models/ordersModel.js");
+const configDB = require('../config/sequelizeConfig');
+
+const Order = ordersModel(configDB.connectOption, configDB.dataType);
 
 exports.index = function (req, res) {
-  ordersModel.getAllOrders()
+  Order.findAll({raw: true})
   .then(data=>res.send(data))
   .catch(err=>res.send(err));
 }
+
 exports.add = function(req,res){
-  const orderInfo = [req.body.id, req.body.name, req.body.email,
-                     req.body.size, req.body.town, req.body.date,
-                     req.body.time, req.body.masterId, req.body.endTime];
-  ordersModel.postNewOrder(orderInfo, req.body)
+  Order.create(req.body)
   .then(data=>res.send(data))
   .catch(err=>res.send(err));
 };
 
 exports.edit = function(req,res){
-  const data = [req.body.name, req.body.email,
-              req.body.size, req.body.town, req.body.date,
-              req.body.time, req.body.masterId, req.body.id];
-  ordersModel.updateOrder(data, req.body)
-  .then(data=>res.send(data))
+  Order.update(req.body, {
+    where: {
+      id: req.params.id
+    }
+  })
+  .then(data=>res.send(req.body))
   .catch(err=>res.send(err));
 }
 
 exports.delete = function(req,res){
-  const orderId = req.params.id;
-  ordersModel.deleteOrder(orderId)
-  .then(data=>res.send(data))
+  Order.destroy({
+    where: {
+      id: req.params.id
+    }
+  })
+  .then(data=>res.send(req.params.id))
   .catch(err=>res.send(err));
 }

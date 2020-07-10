@@ -1,20 +1,28 @@
 module.exports = function(sequelize, DataType){
-  return sequelize.define("master", {
+  return sequelize.define("user", {
     id: {
       type: DataType.INTEGER.UNSIGNED,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false
     },
-    rating: {
-      type: DataType.INTEGER.UNSIGNED,
-      allowNull: false
-    },
-    towns: {
+    name: {
       type: DataType.STRING,
       allowNull: false
     },
-    name: {
+    login: {
+      type: DataType.STRING,
+      allowNull: false
+    },
+    email: {
+      type: DataType.STRING,
+      allowNull: false
+    },
+    password: {
+      type: DataType.STRING,
+      allowNull: false
+    },
+    role: {
       type: DataType.STRING,
       allowNull: false
     }

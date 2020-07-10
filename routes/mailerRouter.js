@@ -1,5 +1,7 @@
 const express = require("express");
-const mastersRouter = express.Router();
+const mailerRouter = express.Router();
 const mailerController = require("../controllers/mailerController");
 
-exports.mastersRouter = 
+mailerRouter.post('/send_message', mailerController.sendMessage);
+
+module.exports = mailerRouter;

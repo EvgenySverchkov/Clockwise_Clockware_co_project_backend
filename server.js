@@ -1,54 +1,36 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const nodemailer = require('nodemailer');
+
+const passport = require("passport");
+const passportJWT = require("passport-jwt");
+
 const mastersRouter = require('./routes/mastersRouter');
 const townsRouter = require('./routes/townsRouter');
 const ordersRouter = require('./routes/ordersRouter');
-const freeMastersRouter = require('./routes/freeMastersRouter');
-const sqlConnection = require("./config/dbConnection");
-const qs = require('qs');
+const authRouter = require('./routes/accountRouter');
+const mailerRouter = require('./routes/mailerRouter');
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json());
-///////////////////////////////////////////////////////////////////nodemailer////////////////////////////////////////////////
-app.post("/send_message", async function(req, res){
-  let testEmailAccount = await nodemailer.createTestAccount();
-  let transporter = nodemailer.createTransport({
-     service: 'gmail',
-     auth: {
-         user: "confirmationsendler@gmail.com",
-         pass: "qwertyuiop1234!"
-       }
-     });
-  let options = {
-      from: '"Clockwise" <confirmationsendler@gmail.com>',
-      to: req.body.email,
-      subject: "Confirmation of an order",
-      text: `You ordered master on ${req.body.date} ${req.body.time} in ${req.body.town}`,
-      html: `You ordered master on ${req.body.date} ${req.body.time} in ${req.body.town}`
-    }
-  let result = await transporter.sendMail(options, function(err, info){
-    if(err){
-      res.json(err);
-    }
-    console.log("email is send");
-    res.json(info);
-  });
-});
+app.use(passport.initialize());
+app.use(passport.session());
+require("./config/passport")(passport);
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 app.get('/', function (req, res) {
-  res.send("Welcome to the server!!!")
+  res.send("Welcome to the server!!!");
 });
+app.use('/', authRouter);
+app.use('/', mailerRouter);
 
+app.use(passport.authenticate('jwt', {session: false}));
 app.use("/masters", mastersRouter);
 app.use("/towns", townsRouter);
 app.use("/orders", ordersRouter);
-app.use("/freeMasters", freeMastersRouter);
 
 app.listen(process.env.PORT || 9000, function(){
   console.log("Server start")

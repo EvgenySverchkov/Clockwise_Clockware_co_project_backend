@@ -1,49 +1,42 @@
-const sqlConnection = require("../config/dbConnection");
-
-exports.getAllOrders = function(){
-  return new Promise(function(res,rej){
-    sqlConnection.query("SELECT * FROM orders", function(err, result){
-      if(err){
-        rej(err);
-      }else{
-        res(result);
-      }
-    });
+module.exports = function(sequelize, DataType){
+  return sequelize.define("order", {
+    id: {
+      type: DataType.INTEGER.UNSIGNED,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false
+    },
+    name: {
+      type: DataType.STRING,
+      allowNull: false
+    },
+    email: {
+      type: DataType.STRING,
+      allowNull: false
+    },
+    size: {
+      type: DataType.STRING,
+      allowNull: false
+    },
+    town: {
+      type: DataType.STRING,
+      allowNull: false
+    },
+    date: {
+      type: DataType.STRING,
+      allowNull: false
+    },
+    time: {
+      type: DataType.STRING,
+      allowNull: false
+    },
+    masterId: {
+      type: DataType.INTEGER.UNSIGNED,
+      allowNull: false
+    },
+    endTime: {
+      type: DataType.STRING,
+      allowNull: false
+    }
   });
 }
-exports.postNewOrder = function(dataArr, reqBody){
-  return new Promise(function(res, rej){
-    const sql = "INSERT INTO orders (id, name, email, size, town, date, time, masterId, endTime) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    sqlConnection.query(sql, dataArr, function(err, result){
-      if(err){
-        rej(err);
-      }else{
-        res(reqBody);
-      }
-    });
-  });
-}
-exports.updateOrder = function(dataArr, reqBody){
-  return new Promise(function(res, rej){
-    const sql = "UPDATE orders SET name=?, email=?, size=?, town=?, date=?, time=?, masterId=? WHERE id=?";
-    sqlConnection.query(sql, dataArr, function(err, result){
-      if(err){
-        rej(err);
-      }else{
-        res(reqBody);
-      }
-    });
-  });
-};
-exports.deleteOrder = function(orderId){
-  return new Promise(function(res, rej){
-    const sql = `DELETE FROM orders WHERE id = ${orderId}`;
-    sqlConnection.query(sql, function(err, results){
-      if(err){
-        rej(err);
-      }else{
-        res(orderId);
-      }
-    });
-  });
-};
