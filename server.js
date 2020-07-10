@@ -10,6 +10,7 @@ const townsRouter = require('./routes/townsRouter');
 const ordersRouter = require('./routes/ordersRouter');
 const authRouter = require('./routes/accountRouter');
 const mailerRouter = require('./routes/mailerRouter');
+const freeMastersRouter = require('./routes/freeMastersRouter');
 
 const app = express();
 
@@ -26,6 +27,11 @@ app.get('/', function (req, res) {
 });
 app.use('/', authRouter);
 app.use('/', mailerRouter);
+
+app.use("/mastersClient", mastersRouter);
+app.use("/townsClient", townsRouter);
+app.use("/ordersClient", ordersRouter);
+app.use("/freeMasters", freeMastersRouter);
 
 app.use(passport.authenticate('jwt', {session: false}));
 app.use("/masters", mastersRouter);
