@@ -5,7 +5,7 @@
 
 ### `1` 
 
-Clone a project from the directory https://github.com/EvgenySverchkov/Clockwise_Clockware_co_project_UI .<br>
+Clone a project from the directory https://github.com/EvgenySverchkov/Clockwise_Clockware_co_project_backend.<br>
 
 ### `2`
 
