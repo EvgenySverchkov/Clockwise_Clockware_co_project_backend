@@ -1,0 +1,165 @@
+{
+	"info": {
+		"_postman_id": "3ed8fbed-fb01-43c3-a335-e43bb6fd56a0",
+		"name": "towns_test(with JWT token in headers)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "towns(GET)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwibG9naW4iOiJhZG1pbkBleGFtcGxlLmNvbSIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQzVkdYL2VCRjRCMkFlOThMLmRpbXl1Z3NudGVNbE5NQlFCVUYyM2lTd0xxMWxOSE5xb09RaSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU5NDYzNDE1NSwiZXhwIjoxNTk0NzIwNTU1fQ.It8Q726Bg_rntjCpW9r0IVfHaoZ52oQ6uIdq6Y2rGJc",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9000/towns",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"towns"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "towns(POST)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwibG9naW4iOiJhZG1pbkBleGFtcGxlLmNvbSIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQzVkdYL2VCRjRCMkFlOThMLmRpbXl1Z3NudGVNbE5NQlFCVUYyM2lTd0xxMWxOSE5xb09RaSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU5NDYzNDE1NSwiZXhwIjoxNTk0NzIwNTU1fQ.It8Q726Bg_rntjCpW9r0IVfHaoZ52oQ6uIdq6Y2rGJc",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "30",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "TEST_TOWN",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9000/towns/post",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"towns",
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "towns(PUT)",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwibG9naW4iOiJhZG1pbkBleGFtcGxlLmNvbSIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQzVkdYL2VCRjRCMkFlOThMLmRpbXl1Z3NudGVNbE5NQlFCVUYyM2lTd0xxMWxOSE5xb09RaSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU5NDYzNDE1NSwiZXhwIjoxNTk0NzIwNTU1fQ.It8Q726Bg_rntjCpW9r0IVfHaoZ52oQ6uIdq6Y2rGJc",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "30",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "TEST_TOWN_PUT",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9000/towns/put/30",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"towns",
+						"put",
+						"30"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "towns(DELETE)",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwibG9naW4iOiJhZG1pbkBleGFtcGxlLmNvbSIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQzVkdYL2VCRjRCMkFlOThMLmRpbXl1Z3NudGVNbE5NQlFCVUYyM2lTd0xxMWxOSE5xb09RaSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU5NDYzNDE1NSwiZXhwIjoxNTk0NzIwNTU1fQ.It8Q726Bg_rntjCpW9r0IVfHaoZ52oQ6uIdq6Y2rGJc",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9000/towns/delete/30",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"towns",
+						"delete",
+						"30"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

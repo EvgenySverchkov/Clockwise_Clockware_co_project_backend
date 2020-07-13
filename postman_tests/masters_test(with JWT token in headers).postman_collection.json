@@ -1,0 +1,210 @@
+{
+	"info": {
+		"_postman_id": "f76113c2-3f8a-4b9c-8fd6-50bc59a8084f",
+		"name": "masters_test(with JWT token in headers)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "masters(GET)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwibG9naW4iOiJhZG1pbkBleGFtcGxlLmNvbSIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQzVkdYL2VCRjRCMkFlOThMLmRpbXl1Z3NudGVNbE5NQlFCVUYyM2lTd0xxMWxOSE5xb09RaSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU5NDYzNDE1NSwiZXhwIjoxNTk0NzIwNTU1fQ.It8Q726Bg_rntjCpW9r0IVfHaoZ52oQ6uIdq6Y2rGJc",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9000/masters",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"masters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "masters(POST)",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwibG9naW4iOiJhZG1pbkBleGFtcGxlLmNvbSIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQzVkdYL2VCRjRCMkFlOThMLmRpbXl1Z3NudGVNbE5NQlFCVUYyM2lTd0xxMWxOSE5xb09RaSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU5NDYzNDE1NSwiZXhwIjoxNTk0NzIwNTU1fQ.It8Q726Bg_rntjCpW9r0IVfHaoZ52oQ6uIdq6Y2rGJc",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "30",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "TEST_MASTER",
+							"type": "text"
+						},
+						{
+							"key": "rating",
+							"value": "5",
+							"type": "text"
+						},
+						{
+							"key": "towns",
+							"value": "Dnipro, Uzhorod",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9000/masters/post",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"masters",
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "masters(PUT)",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwibG9naW4iOiJhZG1pbkBleGFtcGxlLmNvbSIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQzVkdYL2VCRjRCMkFlOThMLmRpbXl1Z3NudGVNbE5NQlFCVUYyM2lTd0xxMWxOSE5xb09RaSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU5NDYzNDE1NSwiZXhwIjoxNTk0NzIwNTU1fQ.It8Q726Bg_rntjCpW9r0IVfHaoZ52oQ6uIdq6Y2rGJc",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "30",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "TEST_MASTER_PUT",
+							"type": "text"
+						},
+						{
+							"key": "rating",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "towns",
+							"value": "Dnipro",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9000/masters/put/30",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"masters",
+						"put",
+						"30"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9000/masters/delete/30",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwibG9naW4iOiJhZG1pbkBleGFtcGxlLmNvbSIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQzVkdYL2VCRjRCMkFlOThMLmRpbXl1Z3NudGVNbE5NQlFCVUYyM2lTd0xxMWxOSE5xb09RaSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU5NDYzNDE1NSwiZXhwIjoxNTk0NzIwNTU1fQ.It8Q726Bg_rntjCpW9r0IVfHaoZ52oQ6uIdq6Y2rGJc",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9000/masters/delete/30",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"masters",
+						"delete",
+						"30"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "50210006-d8c9-44ed-aae5-8178a63c92a8",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "5730e023-712a-4845-9e33-a8cf4c83b09a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
