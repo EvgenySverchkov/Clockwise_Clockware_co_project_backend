@@ -13,14 +13,14 @@ exports.login = function(req, res){
   .catch(err=>res.send(err))
   .then(user=>{
     if(!user){
-      res.send({msg: "Пользователь был не найден"})
+      res.send({msg: "User was not found"})
     }
     bcrypt.compare(password, user.password, function(err, result) {
       if(err){
         res.send(err);
       }
       if(!result){
-        res.send({success: false, msg: "Пароли не совпадают", err: err})
+        res.send({success: false, msg: "Password mismatch", err: err})
       }else{
         const token = jwt.sign(user.toJSON(), secret, {
           expiresIn: 3600 * 24
@@ -43,7 +43,7 @@ exports.signUp = function(req, res){
   User.findOne({where: {login: infoObj.login}})
   .then(data=>{
     if(data){
-      res.send({success: false, msg: "Пользователь с таким логином уже зарегестрирован"});
+      res.send({success: false, msg: "A user with this username is already registered"});
     }else{
       User.findAll().then(data=>{
         infoObj.id = uniqueId.create(data);
@@ -53,7 +53,7 @@ exports.signUp = function(req, res){
         bcrypt.hash(infoObj.password, SALT, function(err, hash) {
           let newObj = {...infoObj, password: hash};
           User.create(newObj)
-          .then(data=>res.send({success: true, msg: "Вы успешно зарегестрировались", user: {
+          .then(data=>res.send({success: true, msg: "You have successfully registered", user: {
             login: newObj.login,
             name: newObj.name,
             id: newObj.id
@@ -71,14 +71,14 @@ exports.adminLogin = function(req, res){
   .catch(err=>res.send(err))
   .then(user=>{
     if(!user){
-      res.send({msg: "Пользователь был не найден"})
+      res.send({msg: "User was not found"})
     }
     bcrypt.compare(password, user.password, function(err, result) {
       if(err){
         res.send(err);
       }
       if(!result){
-        res.send({success: false, msg: "Пароли не совпадают", err: err})
+        res.send({success: false, msg: "Password mismatch", err: err})
       }else{
         const token = jwt.sign(user.toJSON(), secret, {
           expiresIn: 3600 * 24
