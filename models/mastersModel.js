@@ -1,4 +1,6 @@
-module.exports = function(sequelize, DataType){
+const configDB = require('../config/sequelizeConfig');
+
+const mastersModel = function(sequelize, DataType){
   return sequelize.define("master", {
     id: {
       type: DataType.INTEGER.UNSIGNED,
@@ -20,3 +22,5 @@ module.exports = function(sequelize, DataType){
     }
   });
 }
+
+module.exports = mastersModel(configDB.connectOption, configDB.dataType);
