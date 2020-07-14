@@ -1,7 +1,4 @@
-const mastersModel = require('../models/mastersModel');
-const configDB = require('../config/sequelizeConfig');
-
-const Master = mastersModel(configDB.connectOption, configDB.dataType);
+const Master = require('../models/mastersModel');
 
 exports.index = function(req, res){
   Master.findAll({raw:true})

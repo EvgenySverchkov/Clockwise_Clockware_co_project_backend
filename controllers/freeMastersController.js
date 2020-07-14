@@ -1,10 +1,7 @@
-const mastersModel = require('../models/mastersModel');
-const ordersModel = require("../models/ordersModel.js");
-const configDB = require('../config/sequelizeConfig');
+const Master = require('../models/mastersModel');
+const Order = require("../models/ordersModel.js");
 const qs = require('qs');
 
-const Master = mastersModel(configDB.connectOption, configDB.dataType);
-const Order = ordersModel(configDB.connectOption, configDB.dataType);
 
 exports.index = function(req, res){
   Master.findAll()

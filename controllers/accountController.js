@@ -1,13 +1,11 @@
-const usersModel = require('../models/usersModel');
-const configDB = require('../config/sequelizeConfig');
+const User = require('../models/usersModel');
+
 const uniqueId = require('../helpers/createUniqueId');
 const SALT = require("../config/salt").salt;
 const secret = require('../config/secretKey').secretKey;
 
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-
-const User = usersModel(configDB.connectOption, configDB.dataType);
 
 exports.login = function(req, res){
   const {login, password} = req.body;

@@ -4,8 +4,7 @@ var JwtStrategy = require('passport-jwt').Strategy,
 const configDB = require('../config/sequelizeConfig');
 const passport = require("passport");
 
-const usersModel = require('../models/usersModel');
-const User = usersModel(configDB.connectOption, configDB.dataType);
+const User = require('../models/usersModel');
 
 module.exports = function(passport){
   var opts = {}

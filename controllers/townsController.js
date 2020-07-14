@@ -1,7 +1,4 @@
-const townsModel = require("../models/townsModel");
-const configDB = require('../config/sequelizeConfig');
-
-const Town = townsModel(configDB.connectOption, configDB.dataType);
+const Town = require("../models/townsModel");
 
 exports.index = function(req,res){
   Town.findAll({raw: true})

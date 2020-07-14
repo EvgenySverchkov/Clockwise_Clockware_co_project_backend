@@ -1,7 +1,4 @@
-const ordersModel = require("../models/ordersModel.js");
-const configDB = require('../config/sequelizeConfig');
-
-const Order = ordersModel(configDB.connectOption, configDB.dataType);
+const Order = require("../models/ordersModel.js");
 
 exports.index = function (req, res) {
   Order.findAll({raw: true})
