@@ -1,13 +1,13 @@
 const Master = require('../models/mastersModel');
 const Order = require("../models/ordersModel.js");
-const qs = require('qs');
 
 
 exports.index = function(req, res){
   Master.findAll()
   .catch(err=>res.send(err))
   .then((result)=>{
-    const infoObj = qs.parse(req.params.infoObj);
+    console.log(req.body)
+    const infoObj = req.body;
     let mastersArrByTown = result.filter(item=>{
       let townsArr = item.towns.split(',');
       if(townsArr.includes(infoObj.town)){
