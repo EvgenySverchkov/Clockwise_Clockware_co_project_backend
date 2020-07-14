@@ -6,7 +6,6 @@ exports.index = function(req, res){
   Master.findAll()
   .catch(err=>res.send(err))
   .then((result)=>{
-    console.log(req.body)
     const infoObj = req.body;
     let mastersArrByTown = result.filter(item=>{
       let townsArr = item.towns.split(',');
