@@ -18,3 +18,29 @@ In the cmd run  `npm start`
 ### `4`
 
 Server run on `http://localhost:9000/`
+
+## LOCAL DB
+
+### '1'
+
+Imprort DB from remote server
+
+### '2'
+
+Create local connection
+
+### '4'
+
+Create local DB
+
+### '5'
+
+Open files with expansion .sql and run in local DB
+
+### '6'
+
+Server uses for local DB: 
+    hostName: 127.0.0.1
+    dbName: local_db
+    login: root
+    password: root
