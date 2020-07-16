@@ -1,5 +1,7 @@
 const Master = require('../models/mastersModel');
 const Order = require("../models/ordersModel.js");
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 class FreeMastersController{
   constructor(masterModel, orderModel){
@@ -7,37 +9,34 @@ class FreeMastersController{
     this.orderModel = orderModel;
     this.index = this.index.bind(this);
   }
+  
   index(req, res){
-    this.masterModel.findAll()
+    this.masterModel.findAll({
+      where: {
+        towns: {
+          [Op.like]: `%${req.body.town}%`
+        }
+      }
+    })
     .catch(err=>res.send(err))
     .then((result)=>{
       const infoObj = req.body;
-      let mastersArrByTown = result.filter(item=>{
-        let townsArr = item.towns.split(',');
-        if(townsArr.includes(infoObj.town)){
-          return true;
-        }else{
-          return false;
+      let mastersArrByTown = result;
+
+      this.orderModel.findAll({
+        where: {
+          date: infoObj.date,
+          [Op.or]: [
+            {time: infoObj.timeStart}, 
+            {endTime: {[Op.lt]: infoObj.timeEnd}}]
         }
-      });
-      this.orderModel.findAll()
-      .catch(err=>res.send(err))
+      })
       .then(result=>{
-        let bookedMastersIdx = [];
-        result.forEach(item=>{
-          if(item.date === infoObj.date){
-            let orderHourStart = +item.time.match(/[^:]+/);
-            let clientHourStart = +infoObj.timeStart.match(/[^:]+/);
-            let orderHourEnd = +item.endTime.match(/[^:]+/);
-            let clientHourEnd = +infoObj.timeEnd.match(/[^:]+/);
-            if(orderHourStart === clientHourStart || clientHourEnd>orderHourEnd){
-              bookedMastersIdx.push(item.masterId);
-            }
-          }
-        })
+        let bookedMastersIdx = result.map((item)=>item.masterId);
         let freeMasters = mastersArrByTown.filter(item=>!bookedMastersIdx.includes(item.id))
         res.send(freeMasters);
       })
+      .catch(err=>console.log(err));
     });
   }
 }
