@@ -27,10 +27,6 @@ if(process.env.CLEARDB_DATABASE_URL){
   });
 }
 
-
-
-console.log(process.env)
-
 module.exports = {
   dataType: Sequelize,
   connectOption: sequelize
