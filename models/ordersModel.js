@@ -6,7 +6,9 @@ const ordersModel = function(sequelize, DataType){
       type: DataType.INTEGER.UNSIGNED,
       autoIncrement: true,
       primaryKey: true,
-      allowNull: false
+      allowNull: false,
+      defaultValue: null,
+      autoIncrement: true
     },
     name: {
       type: DataType.STRING,

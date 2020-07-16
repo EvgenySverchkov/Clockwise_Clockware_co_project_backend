@@ -1,6 +1,5 @@
 const User = require('../models/usersModel');
 
-const uniqueId = require('../helpers/createUniqueId');
 const SALT = require("../config/salt").salt;
 const secret = require('../config/secretKey').secretKey;
 
@@ -53,7 +52,6 @@ class AccountController{
         res.send({success: false, msg: "A user with this username is already registered"});
       }else{
         this.model.findAll().then(data=>{
-          infoObj.id = uniqueId.create(data);
           infoObj.role = 'user';
           return infoObj;
         }).then((data)=>{
@@ -62,8 +60,7 @@ class AccountController{
             this.model.create(newObj)
             .then(data=>res.send({success: true, msg: "You have successfully registered", user: {
               login: newObj.login,
-              name: newObj.name,
-              id: newObj.id
+              name: newObj.name
             }}))
             .catch(err=>res.send(err));
           });
