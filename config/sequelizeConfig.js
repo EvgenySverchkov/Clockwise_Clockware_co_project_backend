@@ -7,7 +7,7 @@ const operatorsAliases = {
   $lt: Op.lt
 }
 let sequelize
-if(process.env.DB_HOST){
+if(process.env.CLEARDB_DATABASE_URL){
   sequelize = new Sequelize("heroku_c647561c828c05a", "b9d382caa58e34", "429f0925", {
     dialect: "mysql",
     host: "us-cdbr-east-05.cleardb.net",
