@@ -1,6 +1,6 @@
-const configDB = require('../config/sequelizeConfig');
+const configDB = require("../config/sequelizeConfig");
 
-const ordersModel = function(sequelize, DataType){
+const ordersModel = function (sequelize, DataType) {
   return sequelize.define("order", {
     id: {
       type: DataType.INTEGER.UNSIGNED,
@@ -8,41 +8,41 @@ const ordersModel = function(sequelize, DataType){
       primaryKey: true,
       allowNull: false,
       defaultValue: null,
-      autoIncrement: true
+      autoIncrement: true,
     },
     name: {
       type: DataType.STRING,
-      allowNull: false
+      allowNull: false,
     },
     email: {
       type: DataType.STRING,
-      allowNull: false
+      allowNull: false,
     },
     size: {
       type: DataType.STRING,
-      allowNull: false
+      allowNull: false,
     },
     town: {
       type: DataType.STRING,
-      allowNull: false
+      allowNull: false,
     },
     date: {
       type: DataType.STRING,
-      allowNull: false
+      allowNull: false,
     },
     time: {
       type: DataType.STRING,
-      allowNull: false
+      allowNull: false,
     },
     masterId: {
       type: DataType.INTEGER.UNSIGNED,
-      allowNull: false
+      allowNull: false,
     },
     endTime: {
       type: DataType.STRING,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   });
-}
+};
 
 module.exports = ordersModel(configDB.connectOption, configDB.dataType);

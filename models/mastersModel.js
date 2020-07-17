@@ -1,27 +1,27 @@
-const configDB = require('../config/sequelizeConfig');
+const configDB = require("../config/sequelizeConfig");
 
-const mastersModel = function(sequelize, DataType){
+const mastersModel = function (sequelize, DataType) {
   return sequelize.define("master", {
     id: {
       type: DataType.INTEGER.UNSIGNED,
       primaryKey: true,
       allowNull: false,
       defaultValue: null,
-      autoIncrement: true
+      autoIncrement: true,
     },
     rating: {
       type: DataType.INTEGER.UNSIGNED,
-      allowNull: false
+      allowNull: false,
     },
     towns: {
       type: DataType.STRING,
-      allowNull: false
+      allowNull: false,
     },
     name: {
       type: DataType.STRING,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   });
-}
+};
 
 module.exports = mastersModel(configDB.connectOption, configDB.dataType);

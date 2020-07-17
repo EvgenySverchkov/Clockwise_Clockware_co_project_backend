@@ -28,9 +28,10 @@ app.get('/', function (req, res) {
 app.use('/', authRouter);
 app.use('/', mailerRouter);
 
-app.use("/freeMasters", freeMastersRouter);
-
+app.use("/mastersClient", mastersRouter);
 app.use("/townsClient", townsRouter);
+app.use("/ordersClient", ordersRouter);
+app.use("/freeMasters", freeMastersRouter);
 app.use(passport.authenticate('jwt', {session: false}));
 app.use("/masters", mastersRouter);
 app.use("/towns", townsRouter);

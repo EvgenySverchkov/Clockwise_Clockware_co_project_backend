@@ -1,6 +1,6 @@
-const configDB = require('../config/sequelizeConfig');
+const configDB = require("../config/sequelizeConfig");
 
-const usersModel = function(sequelize, DataType){
+const usersModel = function (sequelize, DataType) {
   return sequelize.define("user", {
     id: {
       type: DataType.INTEGER.UNSIGNED,
@@ -11,25 +11,25 @@ const usersModel = function(sequelize, DataType){
     },
     name: {
       type: DataType.STRING,
-      allowNull: false
+      allowNull: false,
     },
     login: {
       type: DataType.STRING,
-      allowNull: false
+      allowNull: false,
     },
     email: {
       type: DataType.STRING,
-      allowNull: false
+      allowNull: false,
     },
     password: {
       type: DataType.STRING,
-      allowNull: false
+      allowNull: false,
     },
     role: {
       type: DataType.STRING,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   });
-}
+};
 
 module.exports = usersModel(configDB.connectOption, configDB.dataType);

@@ -1,6 +1,6 @@
-const configDB = require('../config/sequelizeConfig');
+const configDB = require("../config/sequelizeConfig");
 
-const townsModel= function(sequelize, DataType){
+const townsModel = function (sequelize, DataType) {
   return sequelize.define("townsname", {
     id: {
       type: DataType.INTEGER.UNSIGNED,
@@ -11,9 +11,9 @@ const townsModel= function(sequelize, DataType){
     },
     name: {
       type: DataType.STRING,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   });
-}
+};
 
 module.exports = townsModel(configDB.connectOption, configDB.dataType);

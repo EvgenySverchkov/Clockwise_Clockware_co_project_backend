@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const accRouter = express.Router();
 
 const accountController = require("../controllers/accountController");
