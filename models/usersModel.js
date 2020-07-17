@@ -8,7 +8,6 @@ const usersModel = function(sequelize, DataType){
       primaryKey: true,
       allowNull: false,
       defaultValue: null,
-      autoIncrement: true
     },
     name: {
       type: DataType.STRING,

@@ -33,7 +33,7 @@ class AccountController{
           });
           res.send({
             success: true,
-            token: 'JWT ' + token,
+            token: token,
             user: {
               id: user.id,
               login: user.login,
@@ -51,21 +51,23 @@ class AccountController{
       if(data){
         res.send({success: false, msg: "A user with this username is already registered"});
       }else{
-        this.model.findAll().then(data=>{
-          infoObj.role = 'user';
-          return infoObj;
-        }).then((data)=>{
-          bcrypt.hash(infoObj.password, SALT, function(err, hash) {
-            let newObj = {...infoObj, password: hash};
-            this.model.create(newObj)
-            .then(data=>res.send({success: true, msg: "You have successfully registered", user: {
-              login: newObj.login,
-              name: newObj.name
-            }}))
-            .catch(err=>res.send(err));
-          });
-        })
+        return this.model.findAll()
       }
+    })
+    .then(data=>{
+      infoObj.role = 'user';
+      return infoObj;
+    }).then((data)=>{
+      function bcryptHashCallBack(err, hash) {
+        let newObj = {...infoObj, password: hash};
+        this.model.create(newObj)
+        .then(data=>res.send({success: true, msg: "You have successfully registered", user: {
+          login: newObj.login,
+          name: newObj.name,
+        }}))
+        .catch(err=>res.send(err));
+      }
+      bcrypt.hash(infoObj.password, SALT, bcryptHashCallBack.bind(this));
     });
   }
   adminLogin(req, res){
@@ -73,8 +75,9 @@ class AccountController{
     this.model.findOne({where: {login: login}})
     .catch(err=>res.send(err))
     .then(user=>{
-      if(!user){
-        res.send({msg: "User was not found"})
+      console.log(user)
+      if(!user || user.role!=="admin"){
+        res.send({msg: "User was not found or you don't have enough rights"})
       }
       bcrypt.compare(password, user.password, function(err, result) {
         if(err){

@@ -4,7 +4,6 @@ const mastersModel = function(sequelize, DataType){
   return sequelize.define("master", {
     id: {
       type: DataType.INTEGER.UNSIGNED,
-      autoIncrement: true,
       primaryKey: true,
       allowNull: false,
       defaultValue: null,

@@ -28,16 +28,19 @@ app.get('/', function (req, res) {
 app.use('/', authRouter);
 app.use('/', mailerRouter);
 
-app.use("/mastersClient", mastersRouter);
-app.use("/townsClient", townsRouter);
-app.use("/ordersClient", ordersRouter);
 app.use("/freeMasters", freeMastersRouter);
 
+app.use("/townsClient", townsRouter);
 app.use(passport.authenticate('jwt', {session: false}));
 app.use("/masters", mastersRouter);
 app.use("/towns", townsRouter);
 app.use("/orders", ordersRouter);
 
+app.use((error, req, res, next) => {
+  res.status(500);
+  res.send({msg: "Something went wrong"});
+  next(error);
+})
 app.listen(process.env.PORT || 9000, function(){
   console.log("Server start")
 })
