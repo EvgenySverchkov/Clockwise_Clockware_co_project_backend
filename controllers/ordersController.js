@@ -16,6 +16,7 @@ class OrdersController {
   }
   add(req, res) {
     let infoObj = req.body;
+    console.log(infoObj, "Controller")
     if (
       Object.keys(infoObj).length !== 8 ||
       Object.keys(infoObj).length === 0
@@ -24,13 +25,9 @@ class OrdersController {
     } else {
       this.model
         .create(req.body)
-        .then((data) =>
-          res.send(
-            res
-              .status(200)
-              .send({ success: true, msg: "You added order", payload: data })
-          )
-        )
+        .then((data) =>{
+          res.send({ success: true, msg: "You added order" })
+        })
         .catch((err) => {
           throw err;
         });
@@ -50,11 +47,9 @@ class OrdersController {
         },
       })
       .then((data) =>
-        res.send(
-          res
-            .status(200)
-            .send({ success: true, msg: "You update order", payload: data })
-        )
+        res
+          .status(200)
+          .send({ success: true, msg: "You update order", payload: data })
       )
       .catch((err) => {
         throw err;
@@ -84,15 +79,13 @@ class OrdersController {
         }
       })
       .then((data) =>
-        res.send(
-          res
-            .status(200)
-            .send({
-              success: true,
-              msg: "You deleted order",
-              payload: +req.params.id,
-            })
-        )
+        res
+          .status(200)
+          .send({
+            success: true,
+            msg: "You deleted order",
+            payload: +req.params.id,
+          })
       )
       .catch((err) => {
         throw err;

@@ -37,11 +37,7 @@ class TownsController {
           }
         })
         .then((data) =>
-          res.send(
-            res
-              .status(200)
-              .send({ success: true, msg: "You added town", payload: data })
-          )
+        res.status(200).send({ success: true, msg: "You added town", payload: data })
         )
         .catch((err) => {
           throw err;
@@ -75,11 +71,7 @@ class TownsController {
           }
         })
         .then((data) =>
-          res.send(
-            res
-              .status(200)
-              .send({ success: true, msg: "You updated town", payload: data })
-          )
+        res.status(200).send({ success: true, msg: "You updated town", payload: data })
         )
         .catch((err) => {
           throw err;
@@ -110,7 +102,6 @@ class TownsController {
         }
       })
       .then((data) =>
-        res.send(
           res
             .status(200)
             .send({
@@ -118,7 +109,6 @@ class TownsController {
               msg: "You deleted town",
               payload: +req.params.id,
             })
-        )
       )
       .catch((err) => {
         throw err;

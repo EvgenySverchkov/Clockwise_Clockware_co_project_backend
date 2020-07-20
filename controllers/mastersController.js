@@ -24,13 +24,7 @@ class MastersController {
     }
     this.model
       .create(req.body)
-      .then((data) =>
-        res.send(
-          res
-            .status(200)
-            .send({ success: true, msg: "You added master", payload: data })
-        )
-      )
+      .then((data) => res.status(200).send({ success: true, msg: "You added master", payload: data }))
       .catch((err) => {
         throw err;
       });
@@ -49,11 +43,9 @@ class MastersController {
         },
       })
       .then((data) =>
-        res.send(
-          res
-            .status(200)
-            .send({ success: true, msg: "You update master", payload: data })
-        )
+        res
+          .status(200)
+          .send({ success: true, msg: "You update master", payload: data })
       )
       .catch((err) => {
         throw err;
@@ -83,15 +75,13 @@ class MastersController {
         }
       })
       .then((data) =>
-        res.send(
-          res
-            .status(200)
-            .send({
-              success: true,
-              msg: "You deleted master",
-              payload: +req.params.id,
-            })
-        )
+      res
+        .status(200)
+        .send({
+          success: true,
+          msg: "You deleted master",
+          payload: +req.params.id,
+        })
       )
       .catch((err) => {
         throw err;

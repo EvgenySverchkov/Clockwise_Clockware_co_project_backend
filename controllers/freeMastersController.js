@@ -11,6 +11,7 @@ class FreeMastersController {
   }
 
   index(req, res) {
+    console.log("freeMasters");
     this.masterModel
       .findAll({
         where: {
@@ -39,6 +40,7 @@ class FreeMastersController {
             let freeMasters = mastersArrByTown.filter(
               (item) => !bookedMastersIdx.includes(item.id)
             );
+
             res.send(freeMasters);
           })
           .catch((err) => console.log(err));
