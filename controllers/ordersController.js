@@ -16,7 +16,6 @@ class OrdersController {
   }
   add(req, res) {
     let infoObj = req.body;
-    console.log(infoObj, "Controller")
     if (
       Object.keys(infoObj).length !== 8 ||
       Object.keys(infoObj).length === 0
@@ -26,7 +25,7 @@ class OrdersController {
       this.model
         .create(req.body)
         .then((data) =>{
-          res.send({ success: true, msg: "You added order" })
+          res.send({ success: true, msg: "You added order", payload: data})
         })
         .catch((err) => {
           throw err;
