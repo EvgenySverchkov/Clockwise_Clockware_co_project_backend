@@ -20,7 +20,16 @@ class FreeMastersController {
         }else{
           const infoObj = req.body;
           mastersArrByTown = result;
-          return this.orderModel.findAll({where: {date: infoObj.date, [Op.or]: [{ time: infoObj.timeStart },{ endTime: { [Op.lt]: infoObj.timeEnd } }]}});
+          console.log(infoObj.timeStart, infoObj.timeEnd)
+          return this.orderModel.findAll({
+            where: {
+              date: infoObj.date, 
+              [Op.or]: [
+                { time: infoObj.timeStart },
+                { endTime: { [Op.gte]: infoObj.timeStart } }
+              ]
+            }
+          });
         }
       })
       .then(result => {

@@ -4,7 +4,7 @@ const Op = Sequelize.Op;
 const operatorsAliases = {
   $like: Op.like,
   $or: Op.or,
-  $lt: Op.lt
+  $gte: Op.gte
 }
 let sequelize
 if(process.env.CLEARDB_DATABASE_URL){
