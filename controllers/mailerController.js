@@ -12,7 +12,6 @@ class MailerController {
         pass: "qwertyuiop1234!",
       },
     });
-    console.log(req.body.email);
     let options = {
       from: '"Clockwise" <confirmationsendler@gmail.com>',
       to: req.body.email,

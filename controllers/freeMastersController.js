@@ -11,40 +11,29 @@ class FreeMastersController {
   }
 
   index(req, res) {
-    console.log("freeMasters");
+    let mastersArrByTown;
     this.masterModel
-      .findAll({
-        where: {
-          towns: {
-            [Op.like]: `%${req.body.town}%`,
-          },
-        },
+      .findAll({where: {towns: {[Op.like]: `%${req.body.town}%`}}})
+      .then(result => {
+        if(result.length===0){
+          return Promise.reject({msg: "We don't have masters in this town", status: 404});
+        }else{
+          const infoObj = req.body;
+          mastersArrByTown = result;
+          return this.orderModel.findAll({where: {date: infoObj.date, [Op.or]: [{ time: infoObj.timeStart },{ endTime: { [Op.lt]: infoObj.timeEnd } }]}});
+        }
       })
-      .catch((err) => res.send(err))
-      .then((result) => {
-        const infoObj = req.body;
-        let mastersArrByTown = result;
-
-        this.orderModel
-          .findAll({
-            where: {
-              date: infoObj.date,
-              [Op.or]: [
-                { time: infoObj.timeStart },
-                { endTime: { [Op.lt]: infoObj.timeEnd } },
-              ],
-            },
-          })
-          .then((result) => {
-            let bookedMastersIdx = result.map((item) => item.masterId);
-            let freeMasters = mastersArrByTown.filter(
-              (item) => !bookedMastersIdx.includes(item.id)
-            );
-
-            res.send(freeMasters);
-          })
-          .catch((err) => console.log(err));
-      });
+      .then(result => {
+        let bookedMastersIdx = result.map((item) => item.masterId);
+        let freeMasters = mastersArrByTown.filter((item) => !bookedMastersIdx.includes(item.id));
+        if(freeMasters.length === 0){
+          return Promise.reject({msg: "We don't have masters on these date and time", status: 404});
+        }else{
+          return {success: true, msg: "You got free masters", payload: freeMasters, status: 200};
+        }
+      })
+      .then(data=>res.status(data.status).send(data))
+      .catch((err) => res.status(err.status||500).send(err));
   }
 }
 

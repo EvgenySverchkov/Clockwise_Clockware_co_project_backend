@@ -23,7 +23,8 @@ if(process.env.CLEARDB_DATABASE_URL){
     define: {
       timestamps: false
     },
-    operatorsAliases
+    sync: { force: true },
+    operatorsAliases,
   });
 }
 

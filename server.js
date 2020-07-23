@@ -3,7 +3,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const passport = require("passport");
-const passportJWT = require("passport-jwt");
 
 const mastersRouter = require('./routes/mastersRouter');
 const townsRouter = require('./routes/townsRouter');
@@ -21,7 +20,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 require("./config/passport")(passport);
 
-
 app.get('/', function (req, res) {
   res.send("Welcome to the server!!!");
 });
@@ -38,6 +36,7 @@ app.use("/freeMasters", freeMastersRouter);
 app.use((error, req, res, next) => {
   res.status(500);
   res.send({msg: "Something went wrong"});
+  console.log("Error handler")
   next(error);
 })
 app.listen(process.env.PORT || 9000, function(){
