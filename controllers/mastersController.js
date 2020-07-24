@@ -1,12 +1,10 @@
 const Master = require("../models/mastersModel");
 const Town = require("../models/townsModel");
-const MasterAndTowns = require("../models/MasterAndTownsModel");
 
 class MastersController {
-  constructor(model, townModel, mastersAndTownModel) {
+  constructor(model, townModel) {
     this.model = model;
     this.townModel = townModel;
-    this.mastersAndTownModel = mastersAndTownModel;
     this.index = this.index.bind(this);
     this.add = this.add.bind(this);
     this.edit = this.edit.bind(this);
@@ -29,34 +27,31 @@ class MastersController {
       res.status(400).send({ success: false, msg: "The string name must not contain numbers!" });
       return false;
     }
-    this.model
-      .create(req.body)
-      .then((masterData) => {
-        const townsArr = req.body.towns.split(",");
-        let last = Promise.resolve();
-        townsArr.forEach(item=>{
-          last = last.then(()=>{
-            this.townModel.findOne({where:{name: item}})
-            .then(data=>{
-              if(!data){
-                return Promise.reject(()=>{
-                  return {status: 500, msg: "town no found"}
-                });
-              }else{
-                return this.mastersAndTownModel.create({masterId: masterData.dataValues.id, townId: data.id});
-              }
+    this.model.findOne({where: {name: req.body.name}})
+      .then((result)=>{
+        if(result){
+          return Promise.reject({status: 404, msg: "Master with this name created"})
+        }else{
+          const townsArr = req.body.towns.split(",");
+          let lastPromise = Promise.resolve();
+          townsArr.forEach(item=>{
+            lastPromise = lastPromise.then(()=>{
+              return this.townModel.findOne({where: {name: item}})
+               .then(data=>this.model.create({...req.body, towns: data.id}))
             })
-          })
-        });
-        return last.then(()=>{
-          return { success: true, msg: "You added master", payload: masterData, status:200 };
-        });
+          });
+          return lastPromise.then(data=>{console.log(data); return data});
+        }
+      })
+      .then((masterData) => {
+        console.log(masterData, "AAAAAAAA");
+        return { success: true, msg: "You added master", payload: masterData, status:200 };
       })
       .then(data=>{
-        console.log(data);
+        console.log("SSSSSSSS")
         res.status(data.status).send(data);
       })
-      .catch((err) => res.status(err.status).send(err));
+      .catch((err) => res.status(err.status).send(err, "CATCH"));
   }
   edit(req, res) {
     for (let key in req.body) {
@@ -87,12 +82,10 @@ class MastersController {
         if (result) {
           return this.model.destroy({where: {id: req.params.id}});
         } else {
-          res
-            .status(400)
-            .send({
-              success: false,
-              msg: `Master with id: ${req.params.id} not found`,
-            });
+          res.status(400).send({
+            success: false,
+            msg: `Master with id: ${req.params.id} not found`
+          });
         }
       })
       .then(() =>
@@ -106,4 +99,4 @@ class MastersController {
   }
 }
 
-module.exports = new MastersController(Master, Town, MasterAndTowns);
+module.exports = new MastersController(Master, Town);
