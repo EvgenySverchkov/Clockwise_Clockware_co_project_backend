@@ -18,6 +18,7 @@ class OrdersController {
   }
   add(req, res) {
     for (let key in req.body) {
+      console.log(req.body[key], key);
       if (!req.body[key]) {
         res.status(400).send({ success: false, msg: "Filling all gaps!!" });
         return false;
@@ -26,7 +27,6 @@ class OrdersController {
     this.townModel
       .findOne({where: {name: req.body.town}})
       .then(data=>{
-        console.log(data)
         if(!data){
           return Promise.reject({status: 400, msg: "Town not found"});
         }else{

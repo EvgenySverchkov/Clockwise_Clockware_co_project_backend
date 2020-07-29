@@ -44,14 +44,12 @@ class MastersController {
         }
       })
       .then((masterData) => {
-        console.log(masterData, "AAAAAAAA");
         return { success: true, msg: "You added master", payload: masterData, status:200 };
       })
       .then(data=>{
-        console.log("SSSSSSSS")
         res.status(data.status).send(data);
       })
-      .catch((err) => res.status(err.status).send(err, "CATCH"));
+      .catch((err) => res.status(err.status).send(err));
   }
   edit(req, res) {
     for (let key in req.body) {
