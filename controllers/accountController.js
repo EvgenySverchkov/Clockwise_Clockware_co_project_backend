@@ -110,7 +110,7 @@ class AccountController {
       }
       bcrypt.hash(data.password, SALT, bcryptHashCallBack.bind(this));
     })
-    .catch(data=>res.status(500).send(err));
+    .catch(data=>res.status(data.status || 500).send(data));
   }
   adminLogin(req, res) {
     const { login, password } = req.body;
