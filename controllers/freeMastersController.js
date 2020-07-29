@@ -1,19 +1,21 @@
 const Master = require("../models/mastersModel");
 const Order = require("../models/ordersModel.js");
+const Town = require("../models/townsModel.js");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
 class FreeMastersController {
-  constructor(masterModel, orderModel) {
+  constructor(masterModel, orderModel, townModel) {
     this.masterModel = masterModel;
     this.orderModel = orderModel;
+    this.townModel = townModel;
     this.index = this.index.bind(this);
   }
 
   index(req, res) {
     let mastersArrByTown;
-    this.masterModel
-      .findAll({where: {towns: {[Op.like]: `%${req.body.town}%`}}})
+    this.townModel.findOne({where: {name: req.body.town}})
+      .then(data=>this.masterModel.findAll({where: {towns: data.id}}))
       .then(result => {
         if(result.length===0){
           return Promise.reject({msg: "We don't have masters in this town", status: 404});
@@ -46,4 +48,4 @@ class FreeMastersController {
   }
 }
 
-module.exports = new FreeMastersController(Master, Order);
+module.exports = new FreeMastersController(Master, Order, Town);
