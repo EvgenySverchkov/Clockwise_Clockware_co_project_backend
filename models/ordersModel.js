@@ -45,7 +45,7 @@ const ordersModel = function (sequelize, DataType) {
     townId: {
       type: DataType.INTEGER.UNSIGNED,
       allowNull: false,
-    }
+    },
   });
 };
 

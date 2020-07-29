@@ -5,7 +5,7 @@ class MailerController {
     this.sendMessage = this.sendMessage.bind(this);
   }
   async sendMessage(req, res) {
-    console.log(req.body.email, "It's body")
+    console.log(req.body.email, "It's body");
     let transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -22,7 +22,7 @@ class MailerController {
     };
     let result = await transporter.sendMail(options, function (err, info) {
       if (err) {
-        console.log(err)
+        console.log(err);
         res.send(err);
       }
       console.log("email is send");

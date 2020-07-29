@@ -23,30 +23,50 @@ class MastersController {
         return false;
       }
     }
-    if(req.body.name.match(/\d/)) {
-      res.status(400).send({ success: false, msg: "The string name must not contain numbers!" });
+    if (req.body.name.match(/\d/)) {
+      res
+        .status(400)
+        .send({
+          success: false,
+          msg: "The string name must not contain numbers!",
+        });
       return false;
     }
-    this.model.findOne({where: {name: req.body.name}})
-      .then((result)=>{
-        if(result){
-          return Promise.reject({status: 404, msg: "Master with this name created"})
-        }else{
+    this.model
+      .findOne({ where: { name: req.body.name } })
+      .then((result) => {
+        if (result) {
+          return Promise.reject({
+            status: 404,
+            msg: "Master with this name created",
+          });
+        } else {
           const townsArr = req.body.towns.split(",");
           let lastPromise = Promise.resolve();
-          townsArr.forEach(item=>{
-            lastPromise = lastPromise.then(()=>{
-              return this.townModel.findOne({where: {name: item}})
-               .then(data=>this.model.create({...req.body, towns: data.id}))
-            })
+          townsArr.forEach((item) => {
+            lastPromise = lastPromise.then(() => {
+              return this.townModel
+                .findOne({ where: { name: item } })
+                .then((data) =>
+                  this.model.create({ ...req.body, towns: data.id })
+                );
+            });
           });
-          return lastPromise.then(data=>{console.log(data); return data});
+          return lastPromise.then((data) => {
+            console.log(data);
+            return data;
+          });
         }
       })
       .then((masterData) => {
-        return { success: true, msg: "You added master", payload: masterData, status:200 };
+        return {
+          success: true,
+          msg: "You added master",
+          payload: masterData,
+          status: 200,
+        };
       })
-      .then(data=>{
+      .then((data) => {
         res.status(data.status).send(data);
       })
       .catch((err) => res.status(err.status).send(err));
@@ -58,8 +78,13 @@ class MastersController {
         return false;
       }
     }
-    if(req.body.name.match(/\d/)) {
-      res.status(400).send({ success: false, msg: "The string name must not contain numbers!" });
+    if (req.body.name.match(/\d/)) {
+      res
+        .status(400)
+        .send({
+          success: false,
+          msg: "The string name must not contain numbers!",
+        });
       return false;
     }
     this.model
@@ -69,31 +94,33 @@ class MastersController {
         },
       })
       .then((data) =>
-        res.status(200).send({ success: true, msg: "You update master", payload: data })
+        res
+          .status(200)
+          .send({ success: true, msg: "You update master", payload: data })
       )
-      .catch((err) => res.status(500).send({ success: false, msg: err}));
+      .catch((err) => res.status(500).send({ success: false, msg: err }));
   }
   delete(req, res) {
     this.model
-      .findOne({where: {id: req.params.id}})
+      .findOne({ where: { id: req.params.id } })
       .then((result) => {
         if (result) {
-          return this.model.destroy({where: {id: req.params.id}});
+          return this.model.destroy({ where: { id: req.params.id } });
         } else {
           res.status(400).send({
             success: false,
-            msg: `Master with id: ${req.params.id} not found`
+            msg: `Master with id: ${req.params.id} not found`,
           });
         }
       })
       .then(() =>
-      res.status(200).send({
+        res.status(200).send({
           success: true,
           msg: "You deleted master",
           payload: +req.params.id,
         })
       )
-      .catch((err) => res.status(500).send({success: false, msg: err}));
+      .catch((err) => res.status(500).send({ success: false, msg: err }));
   }
 }
 

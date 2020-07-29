@@ -18,25 +18,26 @@ class OrdersController {
   }
   add(req, res) {
     for (let key in req.body) {
-      console.log(req.body[key], key);
       if (!req.body[key]) {
         res.status(400).send({ success: false, msg: "Filling all gaps!!" });
         return false;
       }
     }
     this.townModel
-      .findOne({where: {name: req.body.town}})
-      .then(data=>{
-        if(!data){
-          return Promise.reject({status: 400, msg: "Town not found"});
-        }else{
-          return this.model.create({...req.body, townId: data.dataValues.id});
+      .findOne({ where: { name: req.body.town } })
+      .then((data) => {
+        if (!data) {
+          return Promise.reject({ status: 400, msg: "Town not found" });
+        } else {
+          return this.model.create({ ...req.body, townId: data.dataValues.id });
         }
       })
-      .then((data) =>{
-        res.send({ success: true, msg: "You added order", payload: data})
+      .then((data) => {
+        res.send({ success: true, msg: "You added order", payload: data });
       })
-      .catch((err) => res.status(err.status||500).send({ success: false, msg: err}));
+      .catch((err) =>
+        res.status(err.status || 500).send({ success: false, msg: err })
+      );
   }
   edit(req, res) {
     for (let key in req.body) {
@@ -56,37 +57,33 @@ class OrdersController {
           .status(200)
           .send({ success: true, msg: "You update order", payload: data })
       )
-      .catch((err) => res.status(500).send({ success: false, msg: err}));
+      .catch((err) => res.status(500).send({ success: false, msg: err }));
   }
   delete(req, res) {
     this.model
-      .findOne({where: {id: req.params.id}})
+      .findOne({ where: { id: req.params.id } })
       .then((result) => {
         if (result) {
           return this.model.destroy({
             where: {
-              id: req.params.id
-            }
+              id: req.params.id,
+            },
           });
         } else {
-          res
-            .status(400)
-            .send({
-              success: false,
-              msg: `Order with id: ${req.params.id} not found`,
-            });
+          res.status(400).send({
+            success: false,
+            msg: `Order with id: ${req.params.id} not found`,
+          });
         }
       })
       .then((data) =>
-        res
-          .status(200)
-          .send({
-            success: true,
-            msg: "You deleted order",
-            payload: +req.params.id,
-          })
+        res.status(200).send({
+          success: true,
+          msg: "You deleted order",
+          payload: +req.params.id,
+        })
       )
-      .catch((err) => res.status(500).send({success: false, msg: err}));
+      .catch((err) => res.status(500).send({ success: false, msg: err }));
   }
 }
 
