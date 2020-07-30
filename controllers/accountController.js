@@ -46,6 +46,14 @@ class AccountController {
   }
   login(req, res) {
     const { login, password } = req.body;
+    if(!login.match(/^[\w-@\.]{4,45}$/) || !login.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
+      res.status(400).send({ success: false, msg: "Login should not be:\n1. Longer than 45 characters\n2. Do not contain punctuation marks and spaces\n3. Only in the Latin alphabet\n4. You can use your email for login"});
+      return false;
+    }
+    if(password.length < 4 || password.length > 45){
+      res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 16 characters!!!" });
+      return false;
+    }
     this.model
       .findOne({ where: { login: login } })
       .then((user) => {
@@ -63,7 +71,42 @@ class AccountController {
       });
   }
   signUp(req, res) {
-    let infoObj = req.body;
+    const infoObj = req.body;
+    for(let key in infoObj){
+      if(!infoObj[key]){
+        res.status(400).send({ success: false, msg: "Filling all gaps!!" });
+        return false;
+      }
+      switch(key){
+        case "login": 
+          if(!infoObj[key].match(/^[\w-@\.]{4,45}$/) || !infoObj[key].match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
+            res.status(400).send({ success: false, msg: "Login should not be:\n1. Longer than 45 characters\n2. Do not contain punctuation marks and spaces\n3. Only in the Latin alphabet\n4. You can use your email for login"});
+            return false;
+          }
+          if(infoObj[key].toLowerCase().match(/admin/)){
+            res.status(400).send({ success: false, msg: "Your login cannot contain the word 'admin'" });
+            return false;
+          }
+          break;
+        case "email":
+          if(!infoObj[key].match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
+            res.status(400).send({ success: false, msg: "The format of your email is incorrect, please check it!!!" });
+            return false;
+          }
+          if(infoObj[key].toLowerCase().match(/admin/)){
+            res.status(400).send({ success: false, msg: "Your email cannot contain the word 'admin'" });
+            return false;
+          }
+          break;
+        case "password":
+          if(infoObj[key].length < 4 || infoObj[key].length > 45){
+            console.log(infoObj[key])
+            res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 16 characters!!!" });
+            return false;
+          }
+          break;
+      }
+    }
     this.model
       .findOne({
         where: {
@@ -129,6 +172,14 @@ class AccountController {
   }
   adminLogin(req, res) {
     const { login, password } = req.body;
+    if(!login.match(/^[\w-@\.]{4,45}$/) || !login.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
+      res.status(400).send({ success: false, msg: "Login should not be:\n1. Longer than 45 characters\n2. Do not contain punctuation marks and spaces\n3. Only in the Latin alphabet\n4. You can use your email for login"});
+      return false;
+    }
+    if(password.length < 4 || password.length > 45){
+      res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 16 characters!!!" });
+      return false;
+    }
     this.model
       .findOne({ where: { login: login } })
       .then((user) => {

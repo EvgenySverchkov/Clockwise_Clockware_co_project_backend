@@ -22,6 +22,13 @@ class OrdersController {
         res.status(400).send({ success: false, msg: "Filling all gaps!!" });
         return false;
       }
+      
+      if(key == 'name'){
+        if(req.body[key].length <= 3){
+          res.status(400).send({ success: false, msg: "Name must be at least 3 characters" });
+          return false;
+        }
+      }
     }
     this.townModel
       .findOne({ where: { name: req.body.town } })
