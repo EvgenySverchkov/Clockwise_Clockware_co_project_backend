@@ -22,15 +22,25 @@ class MastersController {
         res.status(400).send({ success: false, msg: "Filling all gaps!!" });
         return false;
       }
-    }
-    if (req.body.name.match(/\d/)) {
-      res
-        .status(400)
-        .send({
-          success: false,
-          msg: "The string name must not contain numbers!",
-        });
-      return false;
+      switch(key){
+        case 'name':
+          if(req.body[key].match(/\d/) || !req.body[key].match(/\w{3,45}/)){
+            res.status(400).send({success: false, msg: "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 45 characters!"});
+            return false;
+          }
+          break;
+        case 'rating':
+          if(+req.body[key] <= 0 || +req.body[key] > 5){
+            res.status(400).send({success: false, msg: "Rating value must be from 1 to 5 inclusive"});
+            return false;
+          }
+          break;
+        case 'towns':
+          if(req.body[key].match(/\s/)){
+            res.status(400).send({success: false, msg: "Towns field must not contain space charachter"});
+            return false;
+          }
+      }
     }
     this.model
       .findOne({ where: { name: req.body.name } })
@@ -52,10 +62,7 @@ class MastersController {
                 );
             });
           });
-          return lastPromise.then((data) => {
-            console.log(data);
-            return data;
-          });
+          return lastPromise.then((data) => data);
         }
       })
       .then((masterData) => {

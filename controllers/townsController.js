@@ -19,6 +19,15 @@ class TownsController {
       res.status(400).send({ success: false, msg: "Filling all gaps" });
       return false;
     }
+    if(!req.body.name.match(/^[A-Z]/)){
+      res
+        .status(400)
+        .send({
+          success: false,
+          msg: "The string name must start with capital letter",
+        });
+      return false;
+    }
     if (req.body.name.match(/\d/)) {
       res
         .status(400)
