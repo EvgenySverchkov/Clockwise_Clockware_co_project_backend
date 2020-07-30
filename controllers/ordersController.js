@@ -1,10 +1,12 @@
 const Order = require("../models/ordersModel");
 const Town = require("../models/townsModel");
+const Master = require("../models/mastersModel");
 
 class OrdersController {
-  constructor(model, townModel) {
+  constructor(model, townModel, masterModel) {
     this.model = model;
     this.townModel = townModel;
+    this.masterModel = masterModel;
     this.index = this.index.bind(this);
     this.add = this.add.bind(this);
     this.edit = this.edit.bind(this);
@@ -22,16 +24,58 @@ class OrdersController {
         res.status(400).send({ success: false, msg: "Filling all gaps!!" });
         return false;
       }
-      
-      if(key == 'name'){
-        if(req.body[key].length <= 3){
-          res.status(400).send({ success: false, msg: "Name must be at least 3 characters" });
-          return false;
-        }
+      switch(key){
+        case "name":
+          if(req.body[key].length <= 3 || req.body[key].length > 45){
+            res.status(400).send({ success: false, msg: "Name must be at least 3 characters" });
+            return false;
+          }
+          break;
+        case "email":
+          if(!req.body[key].match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
+            res.status(400).send({ success: false, msg: "The format of your email is incorrect, please check it!!!" });
+            return false;
+          }
+          break;
+        case "size":
+          if(!req.body[key].match(/\blarge\b|\bsmall\b|\bmiddle\b/)){
+            res.status(400).send({ success: false, msg: "The size field should only include such values:\n1. small\n2. middle\n3. large" });
+            return false;
+          }
+          break;
+        case "date":
+          if(!req.body[key].match(/(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-(20|21|22)\d\d/)){
+            res.status(400).send({ success: false, msg: "The date must be in the format: dd-mm-yyyy" });
+            return false;
+          }
+          if(!this.isClientDateLargeThenCurrDate(req.body[key])){
+            res.status(400).send({ success: false, msg: "Date must not be less than or equal to the current date" });
+            return false;
+          }
+          break;
+        case "time":
+          if(!req.body[key].match(/\d\d:\d\d/)){
+            res.status(400).send({ success: false, msg: "The time must be in the format: hh:mm" });
+            return false;
+          }
+          break;
+        case "endTime":
+          if(!req.body[key].match(/\d\d:\d\d/)){
+            res.status(400).send({ success: false, msg: "The time must be in the format: hh:mm" });
+            return false;
+          }
+          break;
       }
     }
-    this.townModel
-      .findOne({ where: { name: req.body.town } })
+    this.masterModel
+      .findOne({where: {id: req.body.masterId}})
+      .then(data=>{
+        if(data){
+          return this.townModel.findOne({ where: { name: req.body.town } })
+        }else{
+          return Promise.reject({ status: 400, msg: `Master with id ${req.body.masterId} was not found` });
+        }
+      })
       .then((data) => {
         if (!data) {
           return Promise.reject({ status: 400, msg: "Town not found" });
@@ -92,6 +136,18 @@ class OrdersController {
       )
       .catch((err) => res.status(500).send({ success: false, msg: err }));
   }
+  isClientDateLargeThenCurrDate(clientDate){
+    const datetime_regex = /(\d\d)-(\d\d)-(\d\d\d\d)/;
+    const client_date_arr = datetime_regex.exec(clientDate);
+    const client_datetime = new Date(`${client_date_arr[3]}-${client_date_arr[2]}-${client_date_arr[1]}`);
+    const currDate = new Date();
+
+    if(currDate.getTime() > client_datetime.getTime()) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }
 
-module.exports = new OrdersController(Order, Town);
+module.exports = new OrdersController(Order, Town, Master);
