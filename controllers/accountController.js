@@ -79,7 +79,11 @@ class AccountController {
       }
       switch(key){
         case "login": 
-          if(!infoObj[key].match(/^[\w-@\.]{4,45}$/) || !infoObj[key].match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
+          if(!infoObj[key].match(/^[\w-@\.]{4,45}$/)){
+            res.status(400).send({ success: false, msg: "Login should not be:\n1. Longer than 45 characters\n2. Do not contain punctuation marks and spaces\n3. Only in the Latin alphabet\n4. You can use your email for login"});
+            return false;
+          }
+          if(!infoObj[key].match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
             res.status(400).send({ success: false, msg: "Login should not be:\n1. Longer than 45 characters\n2. Do not contain punctuation marks and spaces\n3. Only in the Latin alphabet\n4. You can use your email for login"});
             return false;
           }
@@ -100,7 +104,6 @@ class AccountController {
           break;
         case "password":
           if(infoObj[key].length < 4 || infoObj[key].length > 45){
-            console.log(infoObj[key])
             res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 16 characters!!!" });
             return false;
           }

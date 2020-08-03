@@ -7,7 +7,7 @@ const ordersModel = function (sequelize, DataType) {
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       autoIncrement: true,
     },
     name: {

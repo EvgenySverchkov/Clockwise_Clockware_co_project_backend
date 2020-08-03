@@ -7,7 +7,7 @@ const townsModel = function (sequelize, DataType) {
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
     },
     name: {
       type: DataType.STRING,

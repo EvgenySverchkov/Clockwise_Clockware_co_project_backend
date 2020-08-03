@@ -6,7 +6,6 @@ const mastersModel = function (sequelize, DataType) {
       type: DataType.INTEGER.UNSIGNED,
       primaryKey: true,
       allowNull: false,
-      defaultValue: null,
       autoIncrement: true,
     },
     rating: {
