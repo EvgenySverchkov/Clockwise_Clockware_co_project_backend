@@ -83,10 +83,6 @@ class AccountController {
             res.status(400).send({ success: false, msg: "Login should not be:\n1. Longer than 45 characters\n2. Do not contain punctuation marks and spaces\n3. Only in the Latin alphabet\n4. You can use your email for login"});
             return false;
           }
-          if(!infoObj[key].match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
-            res.status(400).send({ success: false, msg: "Login should not be:\n1. Longer than 45 characters\n2. Do not contain punctuation marks and spaces\n3. Only in the Latin alphabet\n4. You can use your email for login"});
-            return false;
-          }
           if(infoObj[key].toLowerCase().match(/admin/)){
             res.status(400).send({ success: false, msg: "Your login cannot contain the word 'admin'" });
             return false;
