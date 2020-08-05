@@ -13,10 +13,6 @@ const usersModel = function (sequelize, DataType) {
       type: DataType.STRING,
       allowNull: false,
     },
-    login: {
-      type: DataType.STRING,
-      allowNull: false,
-    },
     email: {
       type: DataType.STRING,
       allowNull: false,

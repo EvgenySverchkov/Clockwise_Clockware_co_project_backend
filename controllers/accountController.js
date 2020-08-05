@@ -35,7 +35,6 @@ class AccountController {
             token: token,
             user: {
               id: user.id,
-              login: user.login,
               email: user.email,
               role: user.role,
             },
@@ -45,9 +44,9 @@ class AccountController {
     });
   }
   login(req, res) {
-    const { login, password } = req.body;
-    if(!login.match(/^[\w-@\.]{4,45}$/) || !login.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
-      res.status(400).send({ success: false, msg: "Login should not be:\n1. Longer than 45 characters\n2. Do not contain punctuation marks and spaces\n3. Only in the Latin alphabet\n4. You can use your email for login"});
+    const { email, password } = req.body;
+    if(!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
+      res.status(400).send({ success: false, msg: "The email format is incorrect. Check it out please!"});
       return false;
     }
     if(password.length < 4 || password.length > 45){
@@ -55,7 +54,7 @@ class AccountController {
       return false;
     }
     this.model
-      .findOne({ where: { login: login } })
+      .findOne({ where: { email: email } })
       .then((user) => {
         if (!user) {
           return Promise.reject({ msg: "User was not found", status: 404 });
@@ -78,16 +77,6 @@ class AccountController {
         return false;
       }
       switch(key){
-        case "login": 
-          if(!infoObj[key].match(/^[\w-@\.]{4,45}$/)){
-            res.status(400).send({ success: false, msg: "Login should not be:\n1. Longer than 45 characters\n2. Do not contain punctuation marks and spaces\n3. Only in the Latin alphabet\n4. You can use your email for login"});
-            return false;
-          }
-          if(infoObj[key].toLowerCase().match(/admin/)){
-            res.status(400).send({ success: false, msg: "Your login cannot contain the word 'admin'" });
-            return false;
-          }
-          break;
         case "email":
           if(!infoObj[key].match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
             res.status(400).send({ success: false, msg: "The format of your email is incorrect, please check it!!!" });
@@ -109,7 +98,7 @@ class AccountController {
     this.model
       .findOne({
         where: {
-          login: infoObj.login,
+          email: infoObj.email,
         },
       })
       .then((data) => {
@@ -158,7 +147,7 @@ class AccountController {
                 success: true,
                 msg: "You have successfully registered",
                 user: {
-                  login: data.dataValues.login,
+                  email: data.dataValues.email,
                   name: data.dataValues.name,
                 },
               });
@@ -170,9 +159,9 @@ class AccountController {
       .catch((data) => res.status(data.status || 500).send(data));
   }
   adminLogin(req, res) {
-    const { login, password } = req.body;
-    if(!login.match(/^[\w-@\.]{4,45}$/) || !login.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
-      res.status(400).send({ success: false, msg: "Login should not be:\n1. Longer than 45 characters\n2. Do not contain punctuation marks and spaces\n3. Only in the Latin alphabet\n4. You can use your email for login"});
+    const { email, password } = req.body;
+    if(!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
+      res.status(400).send({ success: false, msg: "The email format is incorrect. Check it out please!"});
       return false;
     }
     if(password.length < 4 || password.length > 45){
@@ -180,7 +169,7 @@ class AccountController {
       return false;
     }
     this.model
-      .findOne({ where: { login: login } })
+      .findOne({ where: { email: email } })
       .then((user) => {
         if (!user || user.role !== "admin") {
           return Promise.reject({
