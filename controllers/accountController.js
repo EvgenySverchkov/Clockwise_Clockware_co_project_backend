@@ -105,7 +105,7 @@ class AccountController {
         if (data) {
           return Promise.reject({
             success: false,
-            msg: "A user with this username is already registered",
+            msg: "A user with this email is already registered",
             status: 400,
           });
         } else {
