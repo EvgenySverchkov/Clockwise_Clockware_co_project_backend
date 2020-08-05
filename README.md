@@ -50,3 +50,4 @@ Server uses for local DB:
     login: root
     password: root
 ```
+You can update this data in https://github.com/EvgenySverchkov/Clockwise_Clockware_co_project_backend/blob/master/config/sequelizeConfig.js
