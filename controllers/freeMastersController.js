@@ -51,7 +51,7 @@ class FreeMastersController {
         } else {
           return {
             success: true,
-            msg: "You got free masters",
+            msg: "We have free masters",
             payload: freeMasters,
             status: 200,
           };

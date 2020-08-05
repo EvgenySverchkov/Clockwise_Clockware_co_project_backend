@@ -16,7 +16,7 @@ class TownsController {
   }
   add(req, res) {
     if (!req.body.name) {
-      res.status(400).send({ success: false, msg: "Filling all gaps" });
+      res.status(400).send({ success: false, msg: "Please, fill all fields!" });
       return false;
     }
     if(!req.body.name.match(/^[A-Z]/)){
@@ -43,7 +43,7 @@ class TownsController {
         if (result) {
           return Promise.reject({
             success: false,
-            msg: "The name of this town is already on the list!!",
+            msg: "The name of this town is already on the list!",
             status: 400,
           });
         } else {
@@ -59,7 +59,7 @@ class TownsController {
   }
   edit(req, res) {
     if (!req.body.name) {
-      res.status(400).send({ success: false, msg: "Filling all gaps" });
+      res.status(400).send({ success: false, msg: "Please, fill all fields!" });
     }
     this.model
       .findOne({ where: { name: req.body.name } })

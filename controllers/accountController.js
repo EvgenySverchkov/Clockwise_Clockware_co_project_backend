@@ -46,11 +46,11 @@ class AccountController {
   login(req, res) {
     const { email, password } = req.body;
     if(!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
-      res.status(400).send({ success: false, msg: "The email format is incorrect. Check it out please!"});
+      res.status(400).send({ success: false, msg: "Invalid email format. Please check your email!"});
       return false;
     }
-    if(password.length < 4 || password.length > 45){
-      res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 16 characters!!!" });
+    if(password.length < 4 || password.length > 8){
+      res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 8 characters!" });
       return false;
     }
     this.model
@@ -73,13 +73,13 @@ class AccountController {
     const infoObj = req.body;
     for(let key in infoObj){
       if(!infoObj[key]){
-        res.status(400).send({ success: false, msg: "Filling all gaps!!" });
+        res.status(400).send({ success: false, msg: "Please, fill all fields!" });
         return false;
       }
       switch(key){
         case "email":
           if(!infoObj[key].match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
-            res.status(400).send({ success: false, msg: "The format of your email is incorrect, please check it!!!" });
+            res.status(400).send({ success: false, msg: "Invalid email format. Please check your email!" });
             return false;
           }
           if(infoObj[key].toLowerCase().match(/admin/)){
@@ -88,8 +88,8 @@ class AccountController {
           }
           break;
         case "password":
-          if(infoObj[key].length < 4 || infoObj[key].length > 45){
-            res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 16 characters!!!" });
+          if(infoObj[key].length < 4 || infoObj[key].length > 8){
+            res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 8 characters!!!" });
             return false;
           }
           break;
@@ -161,11 +161,11 @@ class AccountController {
   adminLogin(req, res) {
     const { email, password } = req.body;
     if(!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
-      res.status(400).send({ success: false, msg: "The email format is incorrect. Check it out please!"});
+      res.status(400).send({ success: false, msg: "Invalid email format. Please check your email!"});
       return false;
     }
-    if(password.length < 4 || password.length > 45){
-      res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 16 characters!!!" });
+    if(password.length < 4 || password.length > 8){
+      res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 8 characters!!!" });
       return false;
     }
     this.model

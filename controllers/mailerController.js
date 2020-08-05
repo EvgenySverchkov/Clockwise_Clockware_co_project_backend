@@ -4,7 +4,7 @@ class MailerController {
   constructor() {
     this.sendMessage = this.sendMessage.bind(this);
   }
-  async sendMessage(req, res) {
+  sendMessage(req, res) {
     console.log(req.body.email, "It's body");
     let transporter = nodemailer.createTransport({
       service: "gmail",
@@ -20,12 +20,12 @@ class MailerController {
       text: `You ordered master on ${req.body.date} ${req.body.time} in ${req.body.town}`,
       html: `You ordered master on ${req.body.date} ${req.body.time} in ${req.body.town}`,
     };
-    let result = await transporter.sendMail(options, function (err, info) {
+    transporter.sendMail(options, function (err, info) {
       if (err) {
         console.log(err);
         res.send(err);
       }
-      console.log("email is send");
+      console.log("Email is send");
       res.json(info);
     });
   }

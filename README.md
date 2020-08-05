@@ -23,24 +23,30 @@ Server run on `http://localhost:9000/`
 
 ### '1'
 
-Imprort DB from remote server
+Create local connection
 
 ### '2'
 
-Create local connection
+Create local DB
+
+### '3'
+
+Export DB from remote server (creating dump file)
+
+```mysqldump -h us-cdbr-east-05.cleardb.net -u b9d382caa58e34 -p429f0925 heroku_c647561c828c05a > C:\Users\С\Documents\remoteDBDump.sql```
 
 ### '4'
 
-Create local DB
+Import dump file to local DB
 
-### '5'
+```mysql -h 127.0.0.1 -u root -p local_db < C:\Users\С\Documents\remoteDBDump.sql```
 
-Open files with expansion .sql and run in local DB
+### 'Credentials'
 
-### '6'
-
-Server uses for local DB: 
+Server uses for local DB:
+```
     hostName: 127.0.0.1
     dbName: local_db
     login: root
     password: root
+```

@@ -143,7 +143,7 @@ class OrdersController {
         return { success: true };
       case "email":
         if(!dataObj[fieldName].match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
-          return { success: false, msg: "The format of your email is incorrect, please check it!!!", status: 400 };
+          return { success: false, msg: "Invalid email format. Please check your email!", status: 400 };
         }
         return { success: true };
       case "size":

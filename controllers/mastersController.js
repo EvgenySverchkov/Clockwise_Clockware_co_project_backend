@@ -19,7 +19,7 @@ class MastersController {
   add(req, res) {
     for (let key in req.body) {
       if (!req.body[key]) {
-        res.status(400).send({ success: false, msg: "Filling all gaps!!" });
+        res.status(400).send({ success: false, msg: "Please, fill all fields!" });
         return false;
       }
       switch(key){
@@ -37,7 +37,7 @@ class MastersController {
           break;
         case 'towns':
           if(req.body[key].match(/\s/)){
-            res.status(400).send({success: false, msg: "Towns field must not contain space charachter"});
+            res.status(400).send({success: false, msg: "Towns field must not contain space character"});
             return false;
           }
       }
@@ -81,7 +81,7 @@ class MastersController {
   edit(req, res) {
     for (let key in req.body) {
       if (!req.body[key]) {
-        res.status(400).send({ success: false, msg: "Filling all gaps!!" });
+        res.status(400).send({ success: false, msg: "Please, fill all fields!" });
         return false;
       }
     }
@@ -103,7 +103,7 @@ class MastersController {
       .then((data) =>
         res
           .status(200)
-          .send({ success: true, msg: "You update master", payload: data })
+          .send({ success: true, msg: "You updated the master", payload: data })
       )
       .catch((err) => res.status(500).send({ success: false, msg: err }));
   }
