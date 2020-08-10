@@ -22,7 +22,7 @@ class OrdersController {
     const infoObj = req.body;
     for (let key in infoObj) {
       if (!infoObj[key]) {
-        res.status(400).send({ success: false, msg: "Filling all gaps!!" });
+        res.status(400).send({ success: false, msg: "Please, fill all fields!" });
         return false;
       }
       const dataValidation = this.validation(key, infoObj);
@@ -58,7 +58,7 @@ class OrdersController {
     const infoObj = req.body;
     for (let key in infoObj) {
       if (!infoObj[key]) {
-        res.status(400).send({ success: false, msg: "Filling all gaps!!" });
+        res.status(400).send({ success: false, msg: "Please, fill all fields!" });
         return false;
       }
       const dataValidation = this.validation(key, infoObj);
@@ -158,16 +158,6 @@ class OrdersController {
         }
         if(!this.isClientDateLargeThenCurrDate(dataObj[fieldName])){
           return { success: false, msg: "Date must not be less than or equal to the current date", status: 400 };
-        }
-        return { success: true };
-      case "time":
-        if(!dataObj[fieldName].match(/\d\d:\d\d/)){
-          return { success: false, msg: "The time must be in the format: hh:mm", status: 400 }
-        }
-        return { success: true };
-      case "endTime":
-        if(!dataObj[fieldName].match(/\d\d:\d\d/)){
-          return { success: false, msg: "The time must be in the format: hh:mm", status: 400};
         }
         return { success: true };
       default:

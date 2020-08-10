@@ -49,8 +49,8 @@ class AccountController {
       res.status(400).send({ success: false, msg: "Invalid email format. Please check your email!"});
       return false;
     }
-    if(password.length < 4 || password.length > 8){
-      res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 8 characters!" });
+    if(password.length < 4 || password.length > 16){
+      res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 16 characters!" });
       return false;
     }
     this.model
@@ -88,8 +88,8 @@ class AccountController {
           }
           break;
         case "password":
-          if(infoObj[key].length < 4 || infoObj[key].length > 8){
-            res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 8 characters!!!" });
+          if(infoObj[key].length < 4 || infoObj[key].length > 16){
+            res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 16 characters!!!" });
             return false;
           }
           break;
@@ -164,8 +164,8 @@ class AccountController {
       res.status(400).send({ success: false, msg: "Invalid email format. Please check your email!"});
       return false;
     }
-    if(password.length < 4 || password.length > 8){
-      res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 8 characters!!!" });
+    if(password.length < 4 || password.length > 16){
+      res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 16 characters!!!" });
       return false;
     }
     this.model

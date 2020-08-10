@@ -1,37 +1,30 @@
-'use strict';
-
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
-
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
-
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
+const Sequelize = require("sequelize");
+const sequelize = new Sequelize("local_db", "root", "root", {
+  dialect: "mysql",
+  host: '127.0.0.1',
+  define: {
+    timestamps: false
+  },
+  sync: { force: true },
 });
 
-db.sequelize = sequelize;
+const db = {};
+
 db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+
+db.master = require("./mastersModel");
+db.town = require("./townsModel");
+
+db.master.belongsToMany(db.town, {
+  through: "master_town",
+  as: "townsnames",
+  foreignKey: "master_id",
+});
+db.town.belongsToMany(db.master, {
+  through: "master_town",
+  as: "masters",
+  foreignKey: "townsname_id",
+});
 
 module.exports = db;

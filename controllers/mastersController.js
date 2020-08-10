@@ -1,20 +1,40 @@
+const Sequelize = require("sequelize");
+
 const Master = require("../models/mastersModel");
 const Town = require("../models/townsModel");
+const Masters_towns = require("../models/masters_towns");
 
 class MastersController {
-  constructor(model, townModel) {
-    this.model = model;
+  constructor(masterModel, townModel, masters_towns) {
+    this.masterModel = masterModel;
     this.townModel = townModel;
+    this.masters_towns = masters_towns;
+
     this.index = this.index.bind(this);
     this.add = this.add.bind(this);
     this.edit = this.edit.bind(this);
     this.delete = this.delete.bind(this);
+
+    this.masterModel.belongsToMany(this.townModel, {through: masters_towns});
+    this.townModel.belongsToMany(this.masterModel, {through: masters_towns});
   }
   index(req, res) {
-    this.model
-      .findAll({ raw: true })
-      .then((data) => res.send(data))
-      .catch((err) => res.send(err));
+    this.masterModel.findAll({
+      include: [{
+        model: this.townModel,
+      }]
+    })
+    .then(mastersArr=>{
+      return mastersArr.map(item=>{
+        item.towns = item.townsnames.map(item=>item.name).join(",")||"no towns";
+        delete item.dataValues.townsnames
+        return item;
+      })
+    })
+    .then((data)=>{
+      res.send(data)
+    })
+    .catch(err=>res.send(err));
   }
   add(req, res) {
     for (let key in req.body) {
@@ -42,41 +62,37 @@ class MastersController {
           }
       }
     }
-    this.model
-      .findOne({ where: { name: req.body.name } })
-      .then((result) => {
-        if (result) {
-          return Promise.reject({
-            status: 404,
-            msg: "Master with this name created",
-          });
-        } else {
-          const townsArr = req.body.towns.split(",");
-          let lastPromise = Promise.resolve();
-          townsArr.forEach((item) => {
-            lastPromise = lastPromise.then(() => {
-              return this.townModel
-                .findOne({ where: { name: item } })
-                .then((data) =>
-                  this.model.create({ ...req.body, towns: data.id })
-                );
-            });
-          });
-          return lastPromise.then((data) => data);
-        }
+    const townsArr = req.body.towns.split(",");
+    let lastPromise = Promise.resolve();
+    let townFields = [];
+
+    townsArr.forEach((item) => {
+      lastPromise = lastPromise.then(() => {
+        return this.townModel
+        .findOne({ where: { name: item } })
+        .then((town) => townFields.push(town));
+      });
+    });
+    lastPromise.then(()=>townFields)
+    .then(townsFields=>{
+      return this.masterModel.create({...req.body})
+      .then(master=>{
+        master.addTownsnames(townsFields);
+        return master;
       })
-      .then((masterData) => {
-        return {
-          success: true,
-          msg: "You added master",
-          payload: masterData,
-          status: 200,
-        };
-      })
-      .then((data) => {
-        res.status(data.status).send(data);
-      })
-      .catch((err) => res.status(err.status).send(err));
+    })
+    .then((masterData) => {
+      return {
+        success: true,
+        msg: "You added master",
+        payload: masterData,
+        status: 200,
+      };
+    })
+    .then((data) => {
+      res.status(data.status).send(data);
+    })
+    .catch((err) => res.status(err.status||500).send(err));
   }
   edit(req, res) {
     for (let key in req.body) {
@@ -94,7 +110,7 @@ class MastersController {
         });
       return false;
     }
-    this.model
+    this.masterModel
       .update(req.body, {
         where: {
           id: req.params.id,
@@ -108,11 +124,11 @@ class MastersController {
       .catch((err) => res.status(500).send({ success: false, msg: err }));
   }
   delete(req, res) {
-    this.model
+    this.masterModel
       .findOne({ where: { id: req.params.id } })
       .then((result) => {
         if (result) {
-          return this.model.destroy({ where: { id: req.params.id } });
+          return this.masterModel.destroy({ where: { id: req.params.id } });
         } else {
           res.status(400).send({
             success: false,
@@ -131,4 +147,4 @@ class MastersController {
   }
 }
 
-module.exports = new MastersController(Master, Town);
+module.exports = new MastersController(Master, Town, Masters_towns);

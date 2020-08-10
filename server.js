@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const passport = require("passport");
+const Sequelize = require("sequelize");
 
 const mastersRouter = require("./routes/mastersRouter");
 const townsRouter = require("./routes/townsRouter");
@@ -23,6 +24,7 @@ require("./config/passport")(passport);
 app.get("/", function (req, res) {
   res.send("Welcome to the server!!!");
 });
+
 app.use("/", authRouter);
 app.use("/", mailerRouter);
 

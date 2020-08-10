@@ -14,9 +14,8 @@ class FreeMastersController {
 
   index(req, res) {
     let mastersArrByTown;
-    this.townModel
-      .findOne({ where: { name: req.body.town } })
-      .then((data) => this.masterModel.findAll({ where: { towns: data.id } }))
+    this.masterModel
+    .findAll({where: {towns: {[Op.like]: `%${req.body.town}%`}}})
       .then((result) => {
         if (result.length === 0) {
           return Promise.reject({
