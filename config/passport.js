@@ -10,7 +10,7 @@ const User = require('../models/usersModel');
 function myExtracktor(req){
   const token = req.headers.authorization;
   if(!token){
-    if(req.path == "/towns" || req.path == "/freeMasters"){
+    if(req.path == "/towns" || (req.path == "/masters" && req.headers.include === 'free')){
       const token = jwt.sign({}, secret, {
         expiresIn: "1d",
       });

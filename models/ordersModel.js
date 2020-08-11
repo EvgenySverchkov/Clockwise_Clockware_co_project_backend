@@ -7,7 +7,6 @@ const ordersModel = function (sequelize, DataType) {
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
-      // defaultValue: null,
       autoIncrement: true,
     },
     name: {
@@ -40,10 +39,6 @@ const ordersModel = function (sequelize, DataType) {
     },
     endTime: {
       type: DataType.STRING,
-      allowNull: false,
-    },
-    townId: {
-      type: DataType.INTEGER.UNSIGNED,
       allowNull: false,
     },
   });

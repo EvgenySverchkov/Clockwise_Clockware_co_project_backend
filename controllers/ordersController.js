@@ -44,7 +44,7 @@ class OrdersController {
         if (!data) {
           return Promise.reject({ status: 400, msg: "Town not found" });
         } else {
-          return this.model.create({ ...infoObj, townId: data.dataValues.id });
+          return this.model.create(infoObj);
         }
       })
       .then((data) => {

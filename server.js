@@ -10,7 +10,6 @@ const townsRouter = require("./routes/townsRouter");
 const ordersRouter = require("./routes/ordersRouter");
 const authRouter = require("./routes/accountRouter");
 const mailerRouter = require("./routes/mailerRouter");
-const freeMastersRouter = require("./routes/freeMastersRouter");
 
 const app = express();
 
@@ -32,7 +31,6 @@ app.use(passport.authenticate("jwt", { session: false }));
 app.use("/masters", mastersRouter);
 app.use("/towns", townsRouter);
 app.use("/orders", ordersRouter);
-app.use("/freeMasters", freeMastersRouter);
 
 app.use((error, req, res, next) => {
   res.status(500);
