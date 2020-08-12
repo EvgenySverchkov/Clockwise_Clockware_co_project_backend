@@ -1,9 +1,9 @@
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize("local_db", "root", "root", {
   dialect: "mysql",
-  host: '127.0.0.1',
+  host: "127.0.0.1",
   define: {
-    timestamps: false
+    timestamps: false,
   },
   sync: { force: true },
 });

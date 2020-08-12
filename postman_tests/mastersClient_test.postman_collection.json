@@ -1,141 +1,120 @@
 {
-	"info": {
-		"_postman_id": "c55263ed-65aa-4bf6-93ae-57fab53c6633",
-		"name": "mastersClient_test",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "mastersClient(GET)",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:9000/mastersClient",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"mastersClient"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "mastersClient(POST)",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "id",
-							"value": "27",
-							"type": "text"
-						},
-						{
-							"key": "name",
-							"value": "TEST MASTER",
-							"type": "text"
-						},
-						{
-							"key": "rating",
-							"value": "5",
-							"type": "text"
-						},
-						{
-							"key": "towns",
-							"value": "Dnipro, Uzhorod",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:9000/mastersClient/post",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"mastersClient",
-						"post"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "mastersClient(PUT)",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "id",
-							"value": "27",
-							"type": "text"
-						},
-						{
-							"key": "name",
-							"value": "Master UPDATE",
-							"type": "text"
-						},
-						{
-							"key": "rating",
-							"value": "4",
-							"type": "text"
-						},
-						{
-							"key": "towns",
-							"value": "Dnipro",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:9000/mastersClient/put/27",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"mastersClient",
-						"put",
-						"27"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "mastersClient(DELETE)",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:9000/mastersClient/delete/27",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"mastersClient",
-						"delete",
-						"27"
-					]
-				}
-			},
-			"response": []
-		}
-	],
-	"protocolProfileBehavior": {}
+  "info": {
+    "_postman_id": "c55263ed-65aa-4bf6-93ae-57fab53c6633",
+    "name": "mastersClient_test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "mastersClient(GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9000/mastersClient",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["mastersClient"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "mastersClient(POST)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "id",
+              "value": "27",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "TEST MASTER",
+              "type": "text"
+            },
+            {
+              "key": "rating",
+              "value": "5",
+              "type": "text"
+            },
+            {
+              "key": "towns",
+              "value": "Dnipro, Uzhorod",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:9000/mastersClient/post",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["mastersClient", "post"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "mastersClient(PUT)",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "id",
+              "value": "27",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "Master UPDATE",
+              "type": "text"
+            },
+            {
+              "key": "rating",
+              "value": "4",
+              "type": "text"
+            },
+            {
+              "key": "towns",
+              "value": "Dnipro",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:9000/mastersClient/put/27",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["mastersClient", "put", "27"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "mastersClient(DELETE)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9000/mastersClient/delete/27",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["mastersClient", "delete", "27"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "protocolProfileBehavior": {}
 }

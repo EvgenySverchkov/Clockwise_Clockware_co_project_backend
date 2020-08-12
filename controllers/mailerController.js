@@ -5,7 +5,6 @@ class MailerController {
     this.sendMessage = this.sendMessage.bind(this);
   }
   sendMessage(req, res) {
-    console.log(req.body.email, "It's body");
     let transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {

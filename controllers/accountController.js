@@ -45,12 +45,23 @@ class AccountController {
   }
   login(req, res) {
     const { email, password } = req.body;
-    if(!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
-      res.status(400).send({ success: false, msg: "Invalid email format. Please check your email!"});
+    if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+      res
+        .status(400)
+        .send({
+          success: false,
+          msg: "Invalid email format. Please check your email!",
+        });
       return false;
     }
-    if(password.length < 4 || password.length > 16){
-      res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 16 characters!" });
+    if (password.length < 4 || password.length > 16) {
+      res
+        .status(400)
+        .send({
+          success: false,
+          msg:
+            "Password must not be less than 4 characters and must not be longer than 16 characters!",
+        });
       return false;
     }
     this.model
@@ -71,25 +82,43 @@ class AccountController {
   }
   signUp(req, res) {
     const infoObj = req.body;
-    for(let key in infoObj){
-      if(!infoObj[key]){
-        res.status(400).send({ success: false, msg: "Please, fill all fields!" });
+    for (let key in infoObj) {
+      if (!infoObj[key]) {
+        res
+          .status(400)
+          .send({ success: false, msg: "Please, fill all fields!" });
         return false;
       }
-      switch(key){
+      switch (key) {
         case "email":
-          if(!infoObj[key].match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
-            res.status(400).send({ success: false, msg: "Invalid email format. Please check your email!" });
+          if (!infoObj[key].match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+            res
+              .status(400)
+              .send({
+                success: false,
+                msg: "Invalid email format. Please check your email!",
+              });
             return false;
           }
-          if(infoObj[key].toLowerCase().match(/admin/)){
-            res.status(400).send({ success: false, msg: "Your email cannot contain the word 'admin'" });
+          if (infoObj[key].toLowerCase().match(/admin/)) {
+            res
+              .status(400)
+              .send({
+                success: false,
+                msg: "Your email cannot contain the word 'admin'",
+              });
             return false;
           }
           break;
         case "password":
-          if(infoObj[key].length < 4 || infoObj[key].length > 16){
-            res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 16 characters!!!" });
+          if (infoObj[key].length < 4 || infoObj[key].length > 16) {
+            res
+              .status(400)
+              .send({
+                success: false,
+                msg:
+                  "Password must not be less than 4 characters and must not be longer than 16 characters!!!",
+              });
             return false;
           }
           break;
@@ -132,13 +161,11 @@ class AccountController {
         function bcryptHashCallBack(err, hash) {
           let newObj = { ...data, password: hash };
           if (err) {
-            res
-              .status(500)
-              .send({
-                success: false,
-                msg: "Error during password verification",
-                error: err,
-              });
+            res.status(500).send({
+              success: false,
+              msg: "Error during password verification",
+              error: err,
+            });
           }
           this.model
             .create(newObj)
@@ -160,12 +187,23 @@ class AccountController {
   }
   adminLogin(req, res) {
     const { email, password } = req.body;
-    if(!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
-      res.status(400).send({ success: false, msg: "Invalid email format. Please check your email!"});
+    if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+      res
+        .status(400)
+        .send({
+          success: false,
+          msg: "Invalid email format. Please check your email!",
+        });
       return false;
     }
-    if(password.length < 4 || password.length > 16){
-      res.status(400).send({ success: false, msg: "Password must not be less than 4 characters and must not be longer than 16 characters!!!" });
+    if (password.length < 4 || password.length > 16) {
+      res
+        .status(400)
+        .send({
+          success: false,
+          msg:
+            "Password must not be less than 4 characters and must not be longer than 16 characters!!!",
+        });
       return false;
     }
     this.model

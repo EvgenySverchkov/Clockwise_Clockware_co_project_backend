@@ -1,191 +1,170 @@
 {
-	"info": {
-		"_postman_id": "331480b5-16a2-4387-aa15-c1dbd0badc1b",
-		"name": "ordersClient_test",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "ordersClient(GET)",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:9000/ordersClient",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"ordersClient"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "ordersClient(POST)",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "id",
-							"value": "26",
-							"type": "text"
-						},
-						{
-							"key": "name",
-							"value": "TEST ORDER",
-							"type": "text"
-						},
-						{
-							"key": "town",
-							"value": "Dnipro",
-							"type": "text"
-						},
-						{
-							"key": "email",
-							"value": "some@mail.com",
-							"type": "text"
-						},
-						{
-							"key": "size",
-							"value": "large",
-							"type": "text"
-						},
-						{
-							"key": "date",
-							"value": "01-01-2021",
-							"type": "text"
-						},
-						{
-							"key": "time",
-							"value": "10:00",
-							"type": "text"
-						},
-						{
-							"key": "masterId",
-							"value": "1",
-							"type": "text"
-						},
-						{
-							"key": "endTime",
-							"value": "13:00",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:9000/ordersClient/post",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"ordersClient",
-						"post"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "ordersClient(PUT)",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "id",
-							"value": "26",
-							"type": "text"
-						},
-						{
-							"key": "name",
-							"value": "ORDER TEST UPD",
-							"type": "text"
-						},
-						{
-							"key": "email",
-							"value": "some@mail.com",
-							"type": "text"
-						},
-						{
-							"key": "size",
-							"value": "large",
-							"type": "text"
-						},
-						{
-							"key": "town",
-							"value": "Dnipro, Uzhorod",
-							"type": "text"
-						},
-						{
-							"key": "date",
-							"value": "01-01-2021",
-							"type": "text"
-						},
-						{
-							"key": "time",
-							"value": "10:00",
-							"type": "text"
-						},
-						{
-							"key": "endTime",
-							"value": "13:00",
-							"type": "text"
-						},
-						{
-							"key": "masterId",
-							"value": "2",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:9000/ordersClient/put/26",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"ordersClient",
-						"put",
-						"26"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "ordersClient(DELETE)",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:9000/ordersClient/delete/26",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"ordersClient",
-						"delete",
-						"26"
-					]
-				}
-			},
-			"response": []
-		}
-	],
-	"protocolProfileBehavior": {}
+  "info": {
+    "_postman_id": "331480b5-16a2-4387-aa15-c1dbd0badc1b",
+    "name": "ordersClient_test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "ordersClient(GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9000/ordersClient",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["ordersClient"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ordersClient(POST)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "id",
+              "value": "26",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "TEST ORDER",
+              "type": "text"
+            },
+            {
+              "key": "town",
+              "value": "Dnipro",
+              "type": "text"
+            },
+            {
+              "key": "email",
+              "value": "some@mail.com",
+              "type": "text"
+            },
+            {
+              "key": "size",
+              "value": "large",
+              "type": "text"
+            },
+            {
+              "key": "date",
+              "value": "01-01-2021",
+              "type": "text"
+            },
+            {
+              "key": "time",
+              "value": "10:00",
+              "type": "text"
+            },
+            {
+              "key": "masterId",
+              "value": "1",
+              "type": "text"
+            },
+            {
+              "key": "endTime",
+              "value": "13:00",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:9000/ordersClient/post",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["ordersClient", "post"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ordersClient(PUT)",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "id",
+              "value": "26",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "ORDER TEST UPD",
+              "type": "text"
+            },
+            {
+              "key": "email",
+              "value": "some@mail.com",
+              "type": "text"
+            },
+            {
+              "key": "size",
+              "value": "large",
+              "type": "text"
+            },
+            {
+              "key": "town",
+              "value": "Dnipro, Uzhorod",
+              "type": "text"
+            },
+            {
+              "key": "date",
+              "value": "01-01-2021",
+              "type": "text"
+            },
+            {
+              "key": "time",
+              "value": "10:00",
+              "type": "text"
+            },
+            {
+              "key": "endTime",
+              "value": "13:00",
+              "type": "text"
+            },
+            {
+              "key": "masterId",
+              "value": "2",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:9000/ordersClient/put/26",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["ordersClient", "put", "26"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ordersClient(DELETE)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:9000/ordersClient/delete/26",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["ordersClient", "delete", "26"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "protocolProfileBehavior": {}
 }

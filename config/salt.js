@@ -1,3 +1,3 @@
 module.exports = {
-  salt: 10
-}
+  salt: 10,
+};

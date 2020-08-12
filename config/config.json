@@ -13,7 +13,7 @@
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
-    "production": {
+  "production": {
     "username": "b9d382caa58e34",
     "password": "429f0925",
     "database": "heroku_c647561c828c05a",

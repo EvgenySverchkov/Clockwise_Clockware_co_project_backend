@@ -19,22 +19,18 @@ class TownsController {
       res.status(400).send({ success: false, msg: "Please, fill all fields!" });
       return false;
     }
-    if(!req.body.name.match(/^[A-Z]/)){
-      res
-        .status(400)
-        .send({
-          success: false,
-          msg: "The string name must start with capital letter",
-        });
+    if (!req.body.name.match(/^[A-Z]/)) {
+      res.status(400).send({
+        success: false,
+        msg: "The string name must start with capital letter",
+      });
       return false;
     }
     if (req.body.name.match(/\d/)) {
-      res
-        .status(400)
-        .send({
-          success: false,
-          msg: "The string name must not contain numbers!",
-        });
+      res.status(400).send({
+        success: false,
+        msg: "The string name must not contain numbers!",
+      });
       return false;
     }
     this.model
