@@ -138,16 +138,10 @@ class OrdersController {
       .catch((err) => res.status(500).send({ success: false, msg: err }));
   }
   isClientDateLargeThenCurrDate(clientDate) {
-    const datetime_regex = /(\d\d\d\d)-(\d\d)-(\d\d)/;
-    const client_date_arr = datetime_regex.exec(clientDate);
-    console.log(client_date_arr);
-    const client_datetime = new Date(
-      `${client_date_arr[3]}-${client_date_arr[2]}-${client_date_arr[1]}`
-    );
-
+    const clientDt = new Date(clientDate);
     const currDate = new Date();
 
-    if (currDate.getTime() > client_datetime.getTime()) {
+    if (currDate.getTime() > clientDt.getTime()) {
       return false;
     } else {
       return true;
@@ -199,7 +193,7 @@ class OrdersController {
         if (!this.isClientDateLargeThenCurrDate(dataObj[fieldName])) {
           return {
             success: false,
-            msg: "Date must not be less than or equal to the current date",
+            msg: "Date must not be less than or equal to the current date!",
             status: 400,
           };
         }

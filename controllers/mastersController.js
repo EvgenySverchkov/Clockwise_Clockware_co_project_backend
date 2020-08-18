@@ -4,14 +4,14 @@ const Op = Sequelize.Op;
 const Master = require("../models/mastersModel");
 const Town = require("../models/townsModel");
 const Order = require("../models/ordersModel.js");
-const Masters_towns = require("../models/masters_towns");
+const MastersTowns = require("../models/masters_towns");
 
 class MastersController {
-  constructor(masterModel, townModel, orderModel, masters_towns) {
+  constructor(masterModel, townModel, orderModel, mastersTowns) {
     this.masterModel = masterModel;
     this.townModel = townModel;
     this.orderModel = orderModel;
-    this.masters_towns = masters_towns;
+    this.mastersTowns = mastersTowns;
 
     this.index = this.index.bind(this);
     this.add = this.add.bind(this);
@@ -20,8 +20,8 @@ class MastersController {
     this.getAllMasters = this.getAllMasters.bind(this);
     this.getFreeMasters = this.getFreeMasters.bind(this);
 
-    this.masterModel.belongsToMany(this.townModel, { through: masters_towns });
-    this.townModel.belongsToMany(this.masterModel, { through: masters_towns });
+    this.masterModel.belongsToMany(this.townModel, { through: mastersTowns });
+    this.townModel.belongsToMany(this.masterModel, { through: mastersTowns });
   }
   getAllMasters(res) {
     this.masterModel
@@ -300,4 +300,4 @@ class MastersController {
   }
 }
 
-module.exports = new MastersController(Master, Town, Order, Masters_towns);
+module.exports = new MastersController(Master, Town, Order, MastersTowns);
