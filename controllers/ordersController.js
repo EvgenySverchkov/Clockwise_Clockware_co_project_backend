@@ -1,6 +1,7 @@
 const Order = require("../models/ordersModel");
 const Town = require("../models/townsModel");
 const Master = require("../models/mastersModel");
+const dateHelper = require("../helpers/dateHelper");
 
 class OrdersController {
   constructor(model, townModel, masterModel) {
@@ -11,12 +12,23 @@ class OrdersController {
     this.add = this.add.bind(this);
     this.edit = this.edit.bind(this);
     this.delete = this.delete.bind(this);
+    this.getUserOrders = this.getUserOrders.bind(this);
   }
   index(req, res) {
     this.model
       .findAll({ raw: true })
       .then((data) => res.send(data))
       .catch((err) => res.send(err));
+  }
+  getUserOrders(req, res){
+    console.log(req.body, "!!!!!")
+    this.model
+      .findAll({
+        raw: true,
+        where: {email: req.body.email} 
+      })
+      .then(data=>res.send(data))
+      .catch(err=> res.send(err));
   }
   add(req, res) {
     const infoObj = req.body;
@@ -31,6 +43,16 @@ class OrdersController {
       if (!dataValidation.success) {
         res.status(dataValidation.status).send(dataValidation);
         return false;
+      }
+      if(key === "time"){
+        console.log(key)
+        if(infoObj[key] >= "18:00" || infoObj[key] < "09:00"){
+          console.log(infoObj[key])
+          res
+          .status(400)
+          .send({ success: false, msg: "Time should not be more than 18:00 and less than 09:00" });
+          return false;
+        }
       }
     }
     this.masterModel
@@ -67,6 +89,15 @@ class OrdersController {
           .status(400)
           .send({ success: false, msg: "Please, fill all fields!" });
         return false;
+      }
+      if(key === "time"){
+        console.log(key)
+        if(infoObj[key] >= "18:00" || infoObj[key] < "09:00"){
+          res
+          .status(400)
+          .send({ success: false, msg: "Time should not be more than 18:00 and less than 09:00" });
+          return false;
+        }
       }
       const dataValidation = this.validation(key, infoObj);
       if (!dataValidation.success) {
@@ -137,16 +168,6 @@ class OrdersController {
       )
       .catch((err) => res.status(500).send({ success: false, msg: err }));
   }
-  isClientDateLargeThenCurrDate(clientDate) {
-    const clientDt = new Date(clientDate);
-    const currDate = new Date();
-
-    if (currDate.getTime() > clientDt.getTime()) {
-      return false;
-    } else {
-      return true;
-    }
-  }
   validation(fieldName, dataObj) {
     switch (fieldName) {
       case "name":
@@ -190,7 +211,7 @@ class OrdersController {
             status: 400,
           };
         }
-        if (!this.isClientDateLargeThenCurrDate(dataObj[fieldName])) {
+        if (!dateHelper.isClientDateLargeThenCurrDate(dataObj[fieldName])) {
           return {
             success: false,
             msg: "Date must not be less than or equal to the current date!",

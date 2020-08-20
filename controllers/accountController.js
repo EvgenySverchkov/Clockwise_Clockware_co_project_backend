@@ -12,6 +12,36 @@ class AccountController {
     this.login = this.login.bind(this);
     this.signUp = this.signUp.bind(this);
     this.adminLogin = this.adminLogin.bind(this);
+    this.updateUserInfo = this.updateUserInfo.bind(this);
+  }
+  updateUserInfo(req, res){
+    if(req.body.name.length<3){
+      res.status(400).send({success:false, msg: "Name must be at least 3 characters"});
+      return false;
+    }
+    if (req.body.name.match(/\d/)) {
+      res.status(400).send({
+        success: false,
+        msg: "The string name must not contain numbers!",
+      });
+      return false;
+    }
+    this.model
+      .findOne({
+        where: {email: req.body.email}
+      })
+      .then(data=>{
+        if(data){
+          return this.model.update(req.body, {where: {email: req.body.email}})
+        }else{
+          return Promise.reject({
+            succes: false,
+            msg: "Such user does not exist"
+          })
+        }
+      })
+      .then(data=>res.status(200).send({succes: true, msg: "You updated your data"}))
+      .catch(err=>res.send(err));
   }
   comparePassword(password, user) {
     return new Promise((response, reject) => {
@@ -37,6 +67,7 @@ class AccountController {
               id: user.id,
               email: user.email,
               role: user.role,
+              name: user.name
             },
           });
         }
@@ -45,7 +76,7 @@ class AccountController {
   }
   login(req, res) {
     const { email, password } = req.body;
-    if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+    if (!email.match(/^\w+@[a-zA-Z_0-9]+?\.[a-zA-Z]{2,}$/)) {
       res
         .status(400)
         .send({
@@ -91,7 +122,7 @@ class AccountController {
       }
       switch (key) {
         case "email":
-          if (!infoObj[key].match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+          if (!infoObj[key].match(/^\w+@[a-zA-Z_0-9]+?\.[a-zA-Z]{2,}$/)) {
             res
               .status(400)
               .send({
@@ -187,7 +218,7 @@ class AccountController {
   }
   adminLogin(req, res) {
     const { email, password } = req.body;
-    if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+    if (!email.match(/^\w+@[a-zA-Z_0-9]+?\.[a-zA-Z]{2,}$/)) {
       res
         .status(400)
         .send({
