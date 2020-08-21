@@ -6,6 +6,8 @@ const Town = require("../models/townsModel");
 const Order = require("../models/ordersModel.js");
 const MastersTowns = require("../models/masters_towns");
 
+const validators = require("../helpers/validators");
+
 class MastersController {
   constructor(masterModel, townModel, orderModel, mastersTowns) {
     this.masterModel = masterModel;
@@ -124,48 +126,10 @@ class MastersController {
     }
   }
   add(req, res) {
-    for (let key in req.body) {
-      if (!req.body[key]) {
-        res
-          .status(400)
-          .send({ success: false, msg: "Please, fill all fields!" });
-        return false;
-      }
-      switch (key) {
-        case "name":
-          if (req.body[key].match(/\d/) || !req.body[key].match(/\w{3,45}/)) {
-            res
-              .status(400)
-              .send({
-                success: false,
-                msg:
-                  "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 45 characters!",
-              });
-            return false;
-          }
-          break;
-        case "rating":
-          if (+req.body[key] <= 0 || +req.body[key] > 5) {
-            res
-              .status(400)
-              .send({
-                success: false,
-                msg: "Rating value must be from 1 to 5 inclusive",
-              });
-            return false;
-          }
-          break;
-        case "towns":
-          if (req.body[key].match(/\s/)) {
-            res
-              .status(400)
-              .send({
-                success: false,
-                msg: "Towns field must not contain space character",
-              });
-            return false;
-          }
-      }
+    const validationResult = validators.mastersValidator(req.body);
+    if(!validationResult.success){
+      res.status(validationResult.status).send(validationResult);
+      return false;
     }
     const townsArr = req.body.towns.split(",");
     let lastPromise = Promise.resolve();
@@ -200,19 +164,9 @@ class MastersController {
       .catch((err) => res.status(err.status || 500).send(err));
   }
   edit(req, res) {
-    for (let key in req.body) {
-      if (!req.body[key]) {
-        res
-          .status(400)
-          .send({ success: false, msg: "Please, fill all fields!" });
-        return false;
-      }
-    }
-    if (req.body.name.match(/\d/)) {
-      res.status(400).send({
-        success: false,
-        msg: "The string name must not contain numbers!",
-      });
+    const validationResult = validators.mastersValidator(req.body);
+    if(!validationResult.success){
+      res.status(validationResult.status).send(validationResult);
       return false;
     }
     const townsArr = req.body.towns.split(",");

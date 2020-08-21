@@ -1,4 +1,5 @@
 const Town = require("../models/townsModel");
+const validators = require("../helpers/validators");
 
 class TownsController {
   constructor(model) {
@@ -15,22 +16,9 @@ class TownsController {
       .catch((err) => res.send(err));
   }
   add(req, res) {
-    if (!req.body.name) {
-      res.status(400).send({ success: false, msg: "Please, fill all fields!" });
-      return false;
-    }
-    if (!req.body.name.match(/^[A-Z]/)) {
-      res.status(400).send({
-        success: false,
-        msg: "The string name must start with capital letter",
-      });
-      return false;
-    }
-    if (req.body.name.match(/\d/)) {
-      res.status(400).send({
-        success: false,
-        msg: "The string name must not contain numbers!",
-      });
+    const validationResult = validators.townsValidator(req.body);
+    if(!validationResult.success){
+      res.status(validationResult.status).send(validationResult);
       return false;
     }
     this.model
@@ -54,8 +42,10 @@ class TownsController {
       .catch((data) => res.status(data.status).send(data));
   }
   edit(req, res) {
-    if (!req.body.name) {
-      res.status(400).send({ success: false, msg: "Please, fill all fields!" });
+    const validationResult = validators.townsValidator(req.body);
+    if(!validationResult.success){
+      res.status(validationResult.status).send(validationResult);
+      return false;
     }
     this.model
       .findOne({ where: { name: req.body.name } })

@@ -6,6 +6,8 @@ const secret = require("../config/secretKey").secretKey;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
+const validators = require("../helpers/validators");
+
 class AccountController {
   constructor(model) {
     this.model = model;
@@ -15,15 +17,10 @@ class AccountController {
     this.updateUserInfo = this.updateUserInfo.bind(this);
   }
   updateUserInfo(req, res){
-    if(req.body.name.length<3){
-      res.status(400).send({success:false, msg: "Name must be at least 3 characters"});
-      return false;
-    }
-    if (req.body.name.match(/\d/)) {
-      res.status(400).send({
-        success: false,
-        msg: "The string name must not contain numbers!",
-      });
+    const infoObj = req.body;
+    const validationResult = validators.updateUserInfoValidator(infoObj);
+    if(!validationResult.success){
+      res.status(validationResult.status).send(validationResult);
       return false;
     }
     this.model
@@ -76,23 +73,9 @@ class AccountController {
   }
   login(req, res) {
     const { email, password } = req.body;
-    if (!email.match(/^\w+@[a-zA-Z_0-9]+?\.[a-zA-Z]{2,}$/)) {
-      res
-        .status(400)
-        .send({
-          success: false,
-          msg: "Invalid email format. Please check your email!",
-        });
-      return false;
-    }
-    if (password.length < 4 || password.length > 16) {
-      res
-        .status(400)
-        .send({
-          success: false,
-          msg:
-            "Password must not be less than 4 characters and must not be longer than 16 characters!",
-        });
+    const validationResult = validators.loginValidator(req.body);
+    if(!validationResult.success){
+      res.status(validationResult.status).send(validationResult);
       return false;
     }
     this.model
@@ -113,47 +96,10 @@ class AccountController {
   }
   signUp(req, res) {
     const infoObj = req.body;
-    for (let key in infoObj) {
-      if (!infoObj[key]) {
-        res
-          .status(400)
-          .send({ success: false, msg: "Please, fill all fields!" });
-        return false;
-      }
-      switch (key) {
-        case "email":
-          if (!infoObj[key].match(/^\w+@[a-zA-Z_0-9]+?\.[a-zA-Z]{2,}$/)) {
-            res
-              .status(400)
-              .send({
-                success: false,
-                msg: "Invalid email format. Please check your email!",
-              });
-            return false;
-          }
-          if (infoObj[key].toLowerCase().match(/admin/)) {
-            res
-              .status(400)
-              .send({
-                success: false,
-                msg: "Your email cannot contain the word 'admin'",
-              });
-            return false;
-          }
-          break;
-        case "password":
-          if (infoObj[key].length < 4 || infoObj[key].length > 16) {
-            res
-              .status(400)
-              .send({
-                success: false,
-                msg:
-                  "Password must not be less than 4 characters and must not be longer than 16 characters!!!",
-              });
-            return false;
-          }
-          break;
-      }
+    const validationResult = validators.signUpValidator(infoObj);
+    if(!validationResult.success){
+      res.status(validationResult.status).send(validationResult);
+      return false;
     }
     this.model
       .findOne({
@@ -218,23 +164,9 @@ class AccountController {
   }
   adminLogin(req, res) {
     const { email, password } = req.body;
-    if (!email.match(/^\w+@[a-zA-Z_0-9]+?\.[a-zA-Z]{2,}$/)) {
-      res
-        .status(400)
-        .send({
-          success: false,
-          msg: "Invalid email format. Please check your email!",
-        });
-      return false;
-    }
-    if (password.length < 4 || password.length > 16) {
-      res
-        .status(400)
-        .send({
-          success: false,
-          msg:
-            "Password must not be less than 4 characters and must not be longer than 16 characters!!!",
-        });
+    const validationResult = validators.loginValidator(req.body);
+    if(!validationResult.success){
+      res.status(validationResult.status).send(validationResult);
       return false;
     }
     this.model
