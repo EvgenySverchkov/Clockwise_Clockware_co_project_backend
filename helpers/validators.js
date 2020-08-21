@@ -12,7 +12,7 @@ class Validators{
             switch (key) {
               case "name":
                 if (infoObj[key].match(/\d/) || !infoObj[key].match(/\b\w{3,20}\b/)) {
-                    return {success: false, msg: "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters!", status: falseStatus};
+                    return {success: false, msg: "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters\n4. Do not contain Cyrillic characters!", status: falseStatus};
                 }
                 break;
               case "rating":
@@ -39,7 +39,7 @@ class Validators{
                 if (infoObj[key].match(/\d/) || !infoObj[key].match(/\b\w{3,20}\b/)) {
                     return {
                         success: false,
-                        msg: "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters!",
+                        msg: "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters\n4. Do not contain Cyrillic characters!",
                         status: 400
                     };
                 }
@@ -113,7 +113,7 @@ class Validators{
             };
         }
         if(infoObj.name.match(/\d/) || !infoObj.name.match(/\b\w{3,20}\b/)){
-            return {success: false, msg: "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters!", status: 400};
+            return {success: false, msg: "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters\n4. Do not contain Cyrillic characters!", status: 400};
         }
         return {success: true}
     }
@@ -144,6 +144,11 @@ class Validators{
               case "password":
                 if (infoObj[key].length < 4 || infoObj[key].length > 16) {
                     return {success: false, msg: "Password must not be less than 4 characters and must not be longer than 16 characters!!!", status: 400};
+                }
+                break;
+              case "name":
+                if (infoObj[key].match(/\d/) || !infoObj[key].match(/\b\w{3,20}\b/)) {
+                    return {success: false, msg: "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters\n4. Do not contain Cyrillic characters!", status: 400};
                 }
                 break;
             }

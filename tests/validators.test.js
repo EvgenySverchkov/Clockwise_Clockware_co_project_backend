@@ -21,7 +21,7 @@ describe("Testing master validator", ()=>{
         });
     });
     describe("Name field validation", ()=>{
-        const resObj = {success: false, msg: "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters!", status: 400};
+        const resObj = {success: false, msg: "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters\n4. Do not contain Cyrillic characters!", status: 400};
         test('Contain number', () => {
             expect(validators.mastersValidator({...validObj, name: "Alex1"})).toMatchObject(resObj);
         });
@@ -30,6 +30,9 @@ describe("Testing master validator", ()=>{
         });
         test('More than 20 characters', () => {
             expect(validators.mastersValidator({...validObj, name: "AlexAlexAlexAlexAlexA"})).toMatchObject(resObj);
+        });
+        test('Contain Cyrillic characters', () => {
+            expect(validators.mastersValidator({...validObj, name: "Алексей"})).toMatchObject(resObj);
         });
     });
     describe("Rating field validation", ()=>{
@@ -96,7 +99,7 @@ describe("Testing order validator", ()=>{
         });
     });
     describe("Name field validation", ()=>{
-        const resObj = {success: false, msg: "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters!", status: 400};
+        const resObj = {success: false, msg: "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters\n4. Do not contain Cyrillic characters!", status: 400};
         test('Contain number', () => {
             expect(validators.ordersValidator({...validObj, name: "Alex1"})).toMatchObject(resObj);
         });
@@ -105,6 +108,9 @@ describe("Testing order validator", ()=>{
         });
         test('More than 20 characters', () => {
             expect(validators.ordersValidator({...validObj, name: "AlexAlexAlexAlexAlexA"})).toMatchObject(resObj);
+        });
+        test('Contain Cyrillic characters', () => {
+            expect(validators.ordersValidator({...validObj, name: "Алексей"})).toMatchObject(resObj);
         });
     });
     describe("Email field validation", ()=>{
@@ -161,7 +167,7 @@ describe("Testing update user info validator", ()=>{
         expect(validators.updateUserInfoValidator(validObj)).toMatchObject({success: true});
     });
     describe("Name field validation", ()=>{
-        const resObj = {success: false, msg: "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters!", status: 400};
+        const resObj = {success: false, msg: "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters\n4. Do not contain Cyrillic characters!", status: 400};
         test('Contain number', () => {
             expect(validators.updateUserInfoValidator({...validObj, name: "Alex1"})).toMatchObject(resObj);
         });
@@ -170,6 +176,9 @@ describe("Testing update user info validator", ()=>{
         });
         test('More than 20 characters', () => {
             expect(validators.updateUserInfoValidator({...validObj, name: "AlexAlexAlexAlexAlexA"})).toMatchObject(resObj);
+        });
+        test('Contain Cyrillic characters', () => {
+            expect(validators.updateUserInfoValidator({...validObj, name: "Алексей"})).toMatchObject(resObj);
         });
     });
     describe("Email field validation", ()=>{
@@ -235,6 +244,21 @@ describe("Testing sign up validator", ()=>{
         });
         test("Password length is more than 16", ()=>{
             expect(validators.signUpValidator({...validObj, password: "123a123a123a123a1"})).toMatchObject(resObj);
+        });
+    });
+    describe("Name field validation", ()=>{
+        const resObj = {success: false, msg: "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters\n4. Do not contain Cyrillic characters!", status: 400};
+        test('Contain number', () => {
+            expect(validators.signUpValidator({...validObj, name: "Alex1"})).toMatchObject(resObj);
+        });
+        test('Less than 3 characters', () => {
+            expect(validators.signUpValidator({...validObj, name: "Al"})).toMatchObject(resObj);
+        });
+        test('More than 20 characters', () => {
+            expect(validators.signUpValidator({...validObj, name: "AlexAlexAlexAlexAlexA"})).toMatchObject(resObj);
+        });
+        test('Contain Cyrillic characters', () => {
+            expect(validators.signUpValidator({...validObj, name: "Алексей"})).toMatchObject(resObj);
         });
     });
 });
