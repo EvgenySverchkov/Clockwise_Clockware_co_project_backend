@@ -29,6 +29,49 @@ class Validators{
         }
         return {success: true};
     }
+    getFreeMastersValidator(infoObj){
+        for (let key in infoObj) {
+            if (!infoObj[key]) {
+                return { success: false, msg: "Please, fill all fields!", status: 400 }
+            }
+            switch (key) {
+                case "date":
+                if (
+                    !infoObj[key].match(
+                      /(20|21|22)\d\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])/
+                    )
+                  ) {
+                    return {
+                      success: false,
+                      msg: "The date must be in the format: yyyy-mm-dd",
+                      status: 400,
+                    };
+                }
+                if (!this.dateHelper.isClientDateLargeThenCurrDate(infoObj[key])) {
+                    return {
+                      success: false,
+                      msg: "Date must not be less than or equal to the current date!",
+                      status: 400,
+                    };
+                  }
+                  break;
+            }
+        }
+        return {success: true};
+    }
+    getUserOrdersValidator(infoObj){
+        if(!infoObj.email){
+            return {success: false, msg: "Email field is empty, please fill it in", status: 400}
+        }
+        if (!infoObj.email.match(/^\w+@[a-zA-Z_0-9]+?\.[a-zA-Z]{2,}$/)) {
+            return {
+              success: false,
+              msg: "Invalid email format. Please check your email!",
+              status: 400,
+            };
+        }
+        return {success: true};
+    }
     ordersValidator(infoObj){
         for (let key in infoObj) {
             if (!infoObj[key]) {
@@ -71,7 +114,7 @@ class Validators{
                   ) {
                     return {
                       success: false,
-                      msg: "The date must be in the format: dd-mm-yyyy",
+                      msg: "The date must be in the format: yyyy-mm-dd",
                       status: 400,
                     };
                 }

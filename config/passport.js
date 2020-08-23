@@ -15,14 +15,14 @@ function myExtracktor(req) {
       (req.path == "/masters" && req.headers.include === "free")
     ) {
       const token = jwt.sign({}, secret, {
-        expiresIn: "1d",
+        expiresIn: "50d",
       });
       return token;
     }
     if (req.path == "/orders/post") {
       if (req.body.email && req.body.name) {
         const token = jwt.sign({}, secret, {
-          expiresIn: "1d",
+          expiresIn: "50d",
         });
         return token;
       }

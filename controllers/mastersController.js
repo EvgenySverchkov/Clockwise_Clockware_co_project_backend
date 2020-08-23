@@ -48,6 +48,11 @@ class MastersController {
       .catch((err) => res.send(err));
   }
   getFreeMasters(req, res) {
+    const validationResult = validators.getFreeMastersValidator(req.body);
+    if(!validationResult.success){
+      res.status(validationResult.status).send(validationResult);
+      return false;
+    }
     let mastersArrByTown;
     this.townModel
       .findOne({
