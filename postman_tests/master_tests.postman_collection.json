@@ -1,0 +1,828 @@
+{
+	"info": {
+		"_postman_id": "fef7b59c-7dd2-4099-8ac9-223e3519dd79",
+		"name": "master_tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST new master",
+			"item": [
+				{
+					"name": "Valid fields and  all fields are filled",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "TEST_MASTER",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "towns",
+									"value": "Dnipro,Uzhorod",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9000/masters/post",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"masters",
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Empty one field",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "towns",
+									"value": "Dnipro,Uzhorod",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "TEST_MASTER",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9000/masters/post",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"masters",
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid name field",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "TEST_MASTER12",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "towns",
+									"value": "Dnipro,Uzhorod",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9000/masters/post",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"masters",
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid rating field",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "TEST_MASTER",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "towns",
+									"value": "Dnipro,Uzhorod",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9000/masters/post",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"masters",
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid towns field",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "TEST_MASTER",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "towns",
+									"value": "Dnipro, Uzhorod",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9000/masters/post",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"masters",
+								"post"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "PUT master",
+			"item": [
+				{
+					"name": "Valid field and all fields are filled",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "TEST_MASTER_PUT",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "towns",
+									"value": "Dnipro",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9000/masters/put/30",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"masters",
+								"put",
+								"30"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Emty one field",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "towns",
+									"value": "Dnipro",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "TEST_MASTER_PUT",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9000/masters/put/30",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"masters",
+								"put",
+								"30"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid name field",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "TEST_MASTER_PUT12",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "towns",
+									"value": "Dnipro",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9000/masters/put/30",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"masters",
+								"put",
+								"30"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid rating field",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "TEST_MASTER_PUT",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "towns",
+									"value": "Dnipro",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9000/masters/put/30",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"masters",
+								"put",
+								"30"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid towns field",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "TEST_MASTER_PUT",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "towns",
+									"value": "Dnipro, Uzhorod",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9000/masters/put/30",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"masters",
+								"put",
+								"30"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "GET free masters",
+			"item": [
+				{
+					"name": "Valid fields and all field are filled",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "include",
+								"value": "free",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "date",
+									"value": "2020-09-23",
+									"type": "text"
+								},
+								{
+									"key": "timeStart",
+									"value": "13:00",
+									"type": "text"
+								},
+								{
+									"key": "town",
+									"value": "Dnipro",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9000/masters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"masters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid date field",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "include",
+								"value": "free",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "date",
+									"value": "09-23-2020",
+									"type": "text"
+								},
+								{
+									"key": "timeStart",
+									"value": "13:00",
+									"type": "text"
+								},
+								{
+									"key": "town",
+									"value": "Dnipro",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9000/masters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"masters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Empty one field",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "include",
+								"value": "free",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "timeStart",
+									"value": "13:00",
+									"type": "text"
+								},
+								{
+									"key": "town",
+									"value": "Dnipro",
+									"type": "text"
+								},
+								{
+									"key": "date",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9000/masters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"masters"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Get-all-masters",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "include",
+						"value": "all",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9000/masters",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"masters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete-master",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9000/masters/delete/30",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"masters",
+						"delete",
+						"30"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
