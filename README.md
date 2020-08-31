@@ -43,7 +43,7 @@ Filling tables with test data:
 
 ```sequelize db:seed:all```
 
-### 'Credentials'
+### `Credentials`
 
 Server uses for local DB:
 ```

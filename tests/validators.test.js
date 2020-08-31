@@ -125,7 +125,7 @@ describe("Testing order validator", ()=>{
     });
     describe("Date field validation", ()=>{
         test("Wrong date format", ()=>{
-            expect(validators.ordersValidator({...validObj, date: "23-08-2020"})).toMatchObject({success: false,msg: "The date must be in the format: dd-mm-yyyy",status: 400});
+            expect(validators.ordersValidator({...validObj, date: "23-08-2020"})).toMatchObject({success: false,msg: "The date must be in the format: yyyy-mm-dd",status: 400});
         });
         test("Date less than current date", ()=>{
             const currDate = new Date();
