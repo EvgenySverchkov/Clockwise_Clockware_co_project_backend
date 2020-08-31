@@ -36,7 +36,7 @@ Create local DB
 
 ```sequelize db:migrate```
 
-### '4'
+### `4`
 
 Filling tables with test data:
  - run seeders files (in the project folder):
