@@ -31,15 +31,17 @@ Create local DB
 
 ### '3'
 
-Export DB from remote server (creating dump file)
+Сreating tables:
+ - run migration files (in the project folder)
 
-```mysqldump -h us-cdbr-east-05.cleardb.net -u b9d382caa58e34 -p429f0925 heroku_c647561c828c05a > C:\Users\С\Documents\remoteDBDump.sql```
+```sequelize db:migrate```
 
 ### '4'
 
-Import dump file to local DB
+Filling tables with test data:
+ - run seeders files (in the project folder):
 
-```mysql -h 127.0.0.1 -u root -p local_db < C:\Users\С\Documents\remoteDBDump.sql```
+```sequelize db:seed:all```
 
 ### 'Credentials'
 
