@@ -21,18 +21,18 @@ Server run on `http://localhost:9000/`
 
 ## LOCAL DB
 
-### '1'
+### `1`
 
 Create local connection
 
-### '2'
+### `2`
 
 Create local DB
 
-### '3'
+### `3`
 
 Сreating tables:
- - run migration files (in the project folder)
+ - run migration files (in the project folder):
 
 ```sequelize db:migrate```
 
