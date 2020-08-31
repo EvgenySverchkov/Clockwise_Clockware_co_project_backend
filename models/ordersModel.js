@@ -36,11 +36,7 @@ const ordersModel = function (sequelize, DataType) {
     masterId: {
       type: DataType.INTEGER.UNSIGNED,
       allowNull: false,
-    },
-    endTime: {
-      type: DataType.STRING,
-      allowNull: false,
-    },
+    }
   });
 };
 

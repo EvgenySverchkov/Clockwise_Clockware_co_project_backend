@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
+const {connectOption} = require("../config/sequelizeConfig");
 
 const Master = require("../models/mastersModel");
 const Town = require("../models/townsModel");
@@ -24,6 +25,8 @@ class MastersController {
 
     this.masterModel.belongsToMany(this.townModel, { through: mastersTowns });
     this.townModel.belongsToMany(this.masterModel, { through: mastersTowns });
+
+    this.mastersTowns.sync({force: true});
   }
   getAllMasters(res) {
     this.masterModel
