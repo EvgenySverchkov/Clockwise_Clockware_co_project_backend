@@ -40,7 +40,7 @@ const ordersModel = function (sequelize, DataType) {
     endTime: {
       type: DataType.STRING,
       allowNull: false,
-    }
+    },
   });
 };
 

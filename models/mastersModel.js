@@ -15,7 +15,7 @@ const mastersModel = function (sequelize, DataType) {
     name: {
       type: DataType.STRING,
       allowNull: false,
-    }
+    },
   });
 };
 

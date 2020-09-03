@@ -17,7 +17,7 @@ class TownsController {
   }
   add(req, res) {
     const validationResult = validators.townsValidator(req.body);
-    if(!validationResult.success){
+    if (!validationResult.success) {
       res.status(validationResult.status).send(validationResult);
       return false;
     }
@@ -43,7 +43,7 @@ class TownsController {
   }
   edit(req, res) {
     const validationResult = validators.townsValidator(req.body);
-    if(!validationResult.success){
+    if (!validationResult.success) {
       res.status(validationResult.status).send(validationResult);
       return false;
     }

@@ -6,5 +6,5 @@ const accountController = require("../controllers/accountController");
 accRouter.post("/login", accountController.login);
 accRouter.post("/signUp", accountController.signUp);
 accRouter.post("/adminLogin", accountController.adminLogin);
-accRouter.post("/updateUserData", accountController.updateUserInfo)
+accRouter.post("/updateUserData", accountController.updateUserInfo);
 module.exports = accRouter;

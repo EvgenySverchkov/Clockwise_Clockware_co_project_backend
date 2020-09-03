@@ -20,31 +20,35 @@ class OrdersController {
       .then((data) => res.send(data))
       .catch((err) => res.send(err));
   }
-  getUserOrders(req, res){
+  getUserOrders(req, res) {
     const infoObj = req.body;
     const validationResult = validators.getUserOrdersValidator(infoObj);
-    if(!validationResult.success){
+    if (!validationResult.success) {
       res.status(validationResult.status).send(validationResult);
       return false;
     }
     this.model
       .findAll({
         raw: true,
-        where: {email: infoObj.email} 
+        where: { email: infoObj.email },
       })
-      .then(data=>{
-        if(data.length === 0){
-          return {success: false, msg: "This user has no orders yet", status: 400};
+      .then((data) => {
+        if (data.length === 0) {
+          return {
+            success: false,
+            msg: "This user has no orders yet",
+            status: 400,
+          };
         }
         return data;
       })
-      .then(data=>res.status(data.status||200).send(data))
-      .catch(err=> res.send(err));
+      .then((data) => res.status(data.status || 200).send(data))
+      .catch((err) => res.send(err));
   }
   add(req, res) {
     const infoObj = req.body;
     const validationResult = validators.ordersValidator(infoObj);
-    if(!validationResult.success){
+    if (!validationResult.success) {
       res.status(validationResult.status).send(validationResult);
       return false;
     }
@@ -77,7 +81,7 @@ class OrdersController {
   edit(req, res) {
     const infoObj = req.body;
     const validationResult = validators.ordersValidator(infoObj);
-    if(!validationResult.success){
+    if (!validationResult.success) {
       res.status(validationResult.status).send(validationResult);
       return false;
     }

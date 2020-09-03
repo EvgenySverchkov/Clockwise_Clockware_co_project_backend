@@ -16,29 +16,33 @@ class AccountController {
     this.adminLogin = this.adminLogin.bind(this);
     this.updateUserInfo = this.updateUserInfo.bind(this);
   }
-  updateUserInfo(req, res){
+  updateUserInfo(req, res) {
     const infoObj = req.body;
     const validationResult = validators.updateUserInfoValidator(infoObj);
-    if(!validationResult.success){
+    if (!validationResult.success) {
       res.status(validationResult.status).send(validationResult);
       return false;
     }
     this.model
       .findOne({
-        where: {email: req.body.email}
+        where: { email: req.body.email },
       })
-      .then(data=>{
-        if(data){
-          return this.model.update(req.body, {where: {email: req.body.email}})
-        }else{
+      .then((data) => {
+        if (data) {
+          return this.model.update(req.body, {
+            where: { email: req.body.email },
+          });
+        } else {
           return Promise.reject({
             succes: false,
-            msg: "Such user does not exist"
-          })
+            msg: "Such user does not exist",
+          });
         }
       })
-      .then(data=>res.status(200).send({succes: true, msg: "You updated your data"}))
-      .catch(err=>res.send(err));
+      .then((data) =>
+        res.status(200).send({ succes: true, msg: "You updated your data" })
+      )
+      .catch((err) => res.send(err));
   }
   comparePassword(password, user) {
     return new Promise((response, reject) => {
@@ -64,7 +68,7 @@ class AccountController {
               id: user.id,
               email: user.email,
               role: user.role,
-              name: user.name
+              name: user.name,
             },
           });
         }
@@ -74,7 +78,7 @@ class AccountController {
   login(req, res) {
     const { email, password } = req.body;
     const validationResult = validators.loginValidator(req.body);
-    if(!validationResult.success){
+    if (!validationResult.success) {
       res.status(validationResult.status).send(validationResult);
       return false;
     }
@@ -97,7 +101,7 @@ class AccountController {
   signUp(req, res) {
     const infoObj = req.body;
     const validationResult = validators.signUpValidator(infoObj);
-    if(!validationResult.success){
+    if (!validationResult.success) {
       res.status(validationResult.status).send(validationResult);
       return false;
     }
@@ -165,7 +169,7 @@ class AccountController {
   adminLogin(req, res) {
     const { email, password } = req.body;
     const validationResult = validators.loginValidator(req.body);
-    if(!validationResult.success){
+    if (!validationResult.success) {
       res.status(validationResult.status).send(validationResult);
       return false;
     }

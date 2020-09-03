@@ -1,230 +1,206 @@
 {
-	"info": {
-		"_postman_id": "64e1c29f-0f0d-47e5-9b57-674b349daa51",
-		"name": "town_tests",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Post-new-town",
-			"item": [
-				{
-					"name": "Valid field and all fields are filled",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "id",
-									"value": "30",
-									"type": "text"
-								},
-								{
-									"key": "name",
-									"value": "TEST_TOWN",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://localhost:9000/towns/post",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "9000",
-							"path": [
-								"towns",
-								"post"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Emty one field",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "id",
-									"value": "30",
-									"type": "text"
-								},
-								{
-									"key": "name",
-									"value": "",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://localhost:9000/towns/post",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "9000",
-							"path": [
-								"towns",
-								"post"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Name field start with lowercase latter",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "id",
-									"value": "30",
-									"type": "text"
-								},
-								{
-									"key": "name",
-									"value": "tEst_town",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://localhost:9000/towns/post",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "9000",
-							"path": [
-								"towns",
-								"post"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Name field contain number",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "id",
-									"value": "30",
-									"type": "text"
-								},
-								{
-									"key": "name",
-									"value": "Test_town1",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://localhost:9000/towns/post",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "9000",
-							"path": [
-								"towns",
-								"post"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "Get-towns",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://localhost:9000/towns",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"towns"
-					]
-				}
-			},
-			"response": []
-		}
-	],
-	"protocolProfileBehavior": {}
+  "info": {
+    "_postman_id": "64e1c29f-0f0d-47e5-9b57-674b349daa51",
+    "name": "town_tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Post-new-town",
+      "item": [
+        {
+          "name": "Valid field and all fields are filled",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "id",
+                  "value": "30",
+                  "type": "text"
+                },
+                {
+                  "key": "name",
+                  "value": "TEST_TOWN",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:9000/towns/post",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "9000",
+              "path": ["towns", "post"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Emty one field",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "id",
+                  "value": "30",
+                  "type": "text"
+                },
+                {
+                  "key": "name",
+                  "value": "",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:9000/towns/post",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "9000",
+              "path": ["towns", "post"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Name field start with lowercase latter",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "id",
+                  "value": "30",
+                  "type": "text"
+                },
+                {
+                  "key": "name",
+                  "value": "tEst_town",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:9000/towns/post",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "9000",
+              "path": ["towns", "post"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Name field contain number",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "id",
+                  "value": "30",
+                  "type": "text"
+                },
+                {
+                  "key": "name",
+                  "value": "Test_town1",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:9000/towns/post",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "9000",
+              "path": ["towns", "post"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "protocolProfileBehavior": {}
+    },
+    {
+      "name": "Get-towns",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk4MTE0MTg1LCJleHAiOjE1OTgyMDA1ODV9.cPQpyEiRC5hLv3phTvzv52o0xd3wabauMqeMndPUGwA",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:9000/towns",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["towns"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "protocolProfileBehavior": {}
 }

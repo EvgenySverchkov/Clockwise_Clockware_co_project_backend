@@ -1,244 +1,220 @@
 {
-	"info": {
-		"_postman_id": "25051436-fbb3-4cc2-a368-2711a45c0181",
-		"name": "signUp_tests",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Valid data and this user does not exist yet",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "email",
-							"value": "newUser@mail.com",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "1234",
-							"type": "text"
-						},
-						{
-							"key": "name",
-							"value": "New User",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:9000/signUp",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"signUp"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "User already exists",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "email",
-							"value": "newUser@mail.com",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "1234",
-							"type": "text"
-						},
-						{
-							"key": "name",
-							"value": "newUser",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:9000/signUp",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"signUp"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Invalid email",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "email",
-							"value": "newUser@mail..com",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "1234",
-							"type": "text"
-						},
-						{
-							"key": "name",
-							"value": "New User",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:9000/signUp",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"signUp"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Invalid password",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "email",
-							"value": "newUser@mail.com",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "12",
-							"type": "text"
-						},
-						{
-							"key": "name",
-							"value": "New User",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:9000/signUp",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"signUp"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Invalid name",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "email",
-							"value": "newUser@mail.com",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "1234",
-							"type": "text"
-						},
-						{
-							"key": "name",
-							"value": "Ne",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:9000/signUp",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"signUp"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Empty field",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "email",
-							"value": "newUser@mail.com",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "name",
-							"value": "New user",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:9000/signUp",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"signUp"
-					]
-				}
-			},
-			"response": []
-		}
-	],
-	"protocolProfileBehavior": {}
+  "info": {
+    "_postman_id": "25051436-fbb3-4cc2-a368-2711a45c0181",
+    "name": "signUp_tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Valid data and this user does not exist yet",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "newUser@mail.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "1234",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "New User",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:9000/signUp",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["signUp"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "User already exists",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "newUser@mail.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "1234",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "newUser",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:9000/signUp",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["signUp"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Invalid email",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "newUser@mail..com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "1234",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "New User",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:9000/signUp",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["signUp"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Invalid password",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "newUser@mail.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "12",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "New User",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:9000/signUp",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["signUp"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Invalid name",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "newUser@mail.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "1234",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "Ne",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:9000/signUp",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["signUp"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Empty field",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "newUser@mail.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "New user",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:9000/signUp",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["signUp"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "protocolProfileBehavior": {}
 }

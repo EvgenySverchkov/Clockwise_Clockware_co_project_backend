@@ -6,12 +6,12 @@ const townsModel = function (sequelize, DataType) {
       type: DataType.INTEGER.UNSIGNED,
       autoIncrement: true,
       primaryKey: true,
-      allowNull: false
+      allowNull: false,
     },
     name: {
       type: DataType.STRING,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   });
 };
 

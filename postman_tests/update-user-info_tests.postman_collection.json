@@ -1,146 +1,130 @@
 {
-	"info": {
-		"_postman_id": "cc569f13-2783-46e6-87c5-f88aecc73da4",
-		"name": "update-user-info_tests",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Valid data and user exist",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "email",
-							"value": "newUser@mail.com",
-							"type": "text"
-						},
-						{
-							"key": "name",
-							"value": "John Doe",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:9000/updateUserData",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"updateUserData"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Non-existent user",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "email",
-							"value": "noExistUser@mail.com",
-							"type": "text"
-						},
-						{
-							"key": "name",
-							"value": "John Doe",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:9000/updateUserData",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"updateUserData"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Invalid name field",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "email",
-							"value": "newUser@mail.com",
-							"type": "text"
-						},
-						{
-							"key": "name",
-							"value": "Jh",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:9000/updateUserData",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"updateUserData"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Invalid email field",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "email",
-							"value": "newUser@mail..com",
-							"type": "text"
-						},
-						{
-							"key": "name",
-							"value": "John Doe",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:9000/updateUserData",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9000",
-					"path": [
-						"updateUserData"
-					]
-				}
-			},
-			"response": []
-		}
-	],
-	"protocolProfileBehavior": {}
+  "info": {
+    "_postman_id": "cc569f13-2783-46e6-87c5-f88aecc73da4",
+    "name": "update-user-info_tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Valid data and user exist",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "newUser@mail.com",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "John Doe",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:9000/updateUserData",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["updateUserData"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Non-existent user",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "noExistUser@mail.com",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "John Doe",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:9000/updateUserData",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["updateUserData"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Invalid name field",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "newUser@mail.com",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "Jh",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:9000/updateUserData",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["updateUserData"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Invalid email field",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "newUser@mail..com",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "John Doe",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:9000/updateUserData",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "9000",
+          "path": ["updateUserData"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "protocolProfileBehavior": {}
 }

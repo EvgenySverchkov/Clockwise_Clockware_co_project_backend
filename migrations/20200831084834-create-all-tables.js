@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    const createMastersTable = queryInterface.createTable('masters', {
+    const createMastersTable = queryInterface.createTable("masters", {
       id: {
         type: Sequelize.INTEGER.UNSIGNED,
         primaryKey: true,
@@ -16,21 +16,21 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
         allowNull: false,
-      }
+      },
     });
-    const createTownsTable = queryInterface.createTable('townsnames', {
+    const createTownsTable = queryInterface.createTable("townsnames", {
       id: {
         type: Sequelize.INTEGER.UNSIGNED,
         autoIncrement: true,
         primaryKey: true,
-        allowNull: false
+        allowNull: false,
       },
       name: {
         type: Sequelize.STRING,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     });
-    const createOrdersTable = queryInterface.createTable('orders', {
+    const createOrdersTable = queryInterface.createTable("orders", {
       id: {
         type: Sequelize.INTEGER.UNSIGNED,
         autoIncrement: true,
@@ -69,9 +69,9 @@ module.exports = {
       endTime: {
         type: Sequelize.STRING,
         allowNull: false,
-      }
-    })
-    const createUsersTable = queryInterface.createTable('users', {
+      },
+    });
+    const createUsersTable = queryInterface.createTable("users", {
       id: {
         type: Sequelize.INTEGER.UNSIGNED,
         autoIncrement: true,
@@ -95,21 +95,30 @@ module.exports = {
         allowNull: false,
       },
     });
-    const createMastersTownsTable = queryInterface.createTable('masters_towns', {
-      masterId: {
-        type: Sequelize.INTEGER.UNSIGNED,
-        primaryKey: true
-      },
-      townsnameId: {
-        type: Sequelize.INTEGER.UNSIGNED,
-        primaryKey: true
+    const createMastersTownsTable = queryInterface.createTable(
+      "masters_towns",
+      {
+        masterId: {
+          type: Sequelize.INTEGER.UNSIGNED,
+          primaryKey: true,
+        },
+        townsnameId: {
+          type: Sequelize.INTEGER.UNSIGNED,
+          primaryKey: true,
+        },
       }
-    });
-    
-    return Promise.all([createMastersTable, createTownsTable, createOrdersTable, createUsersTable, createMastersTownsTable]);
+    );
+
+    return Promise.all([
+      createMastersTable,
+      createTownsTable,
+      createOrdersTable,
+      createUsersTable,
+      createMastersTownsTable,
+    ]);
   },
 
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropAllTables();
-  }
+  },
 };

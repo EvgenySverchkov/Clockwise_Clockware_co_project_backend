@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
-const {connectOption} = require("../config/sequelizeConfig");
+const { connectOption } = require("../config/sequelizeConfig");
 
 const Master = require("../models/mastersModel");
 const Town = require("../models/townsModel");
@@ -26,7 +26,7 @@ class MastersController {
     this.masterModel.belongsToMany(this.townModel, { through: mastersTowns });
     this.townModel.belongsToMany(this.masterModel, { through: mastersTowns });
 
-    this.mastersTowns.sync({alert: true});
+    this.mastersTowns.sync({ alert: true });
   }
   getAllMasters(res) {
     this.masterModel
@@ -41,9 +41,11 @@ class MastersController {
         return mastersArr.map((item) => {
           item.towns =
             item.townsnames.map((item) => item.name).join(",") || "no towns";
-          const townsString = item.dataValues.townsnames.map(item=>item.name).join(",");
+          const townsString = item.dataValues.townsnames
+            .map((item) => item.name)
+            .join(",");
           delete item.dataValues.townsnames;
-          return {...item.dataValues, towns: townsString};
+          return { ...item.dataValues, towns: townsString };
         });
       })
       .then((data) => {
@@ -53,7 +55,7 @@ class MastersController {
   }
   getFreeMasters(req, res) {
     const validationResult = validators.getFreeMastersValidator(req.body);
-    if(!validationResult.success){
+    if (!validationResult.success) {
       res.status(validationResult.status).send(validationResult);
       return false;
     }
@@ -125,18 +127,15 @@ class MastersController {
         this.getFreeMasters(req, res);
         break;
       default:
-        res
-          .status(400)
-          .send({
-            success: false,
-            msg:
-              "You must provide a value field with a value of 'all' or 'free'",
-          });
+        res.status(400).send({
+          success: false,
+          msg: "You must provide a value field with a value of 'all' or 'free'",
+        });
     }
   }
   add(req, res) {
     const validationResult = validators.mastersValidator(req.body);
-    if(!validationResult.success){
+    if (!validationResult.success) {
       res.status(validationResult.status).send(validationResult);
       return false;
     }
@@ -174,7 +173,7 @@ class MastersController {
   }
   edit(req, res) {
     const validationResult = validators.mastersValidator(req.body);
-    if(!validationResult.success){
+    if (!validationResult.success) {
       res.status(validationResult.status).send(validationResult);
       return false;
     }
