@@ -26,7 +26,7 @@ class MastersController {
     this.masterModel.belongsToMany(this.townModel, { through: mastersTowns });
     this.townModel.belongsToMany(this.masterModel, { through: mastersTowns });
 
-    this.mastersTowns.sync({force: true});
+    this.mastersTowns.sync({alert: true});
   }
   getAllMasters(res) {
     this.masterModel
@@ -41,8 +41,9 @@ class MastersController {
         return mastersArr.map((item) => {
           item.towns =
             item.townsnames.map((item) => item.name).join(",") || "no towns";
+          const townsString = item.dataValues.townsnames.map(item=>item.name).join(",");
           delete item.dataValues.townsnames;
-          return item;
+          return {...item.dataValues, towns: townsString};
         });
       })
       .then((data) => {

@@ -12,10 +12,6 @@ const mastersModel = function (sequelize, DataType) {
       type: DataType.INTEGER.UNSIGNED,
       allowNull: false,
     },
-    towns: {
-      type: DataType.STRING,
-      allowNull: false,
-    },
     name: {
       type: DataType.STRING,
       allowNull: false,
