@@ -32,16 +32,7 @@ class Validators {
               status: falseStatus,
             };
           }
-          break;
-        case "towns":
-          if (infoObj[key].match(/\s/)) {
-            return {
-              success: false,
-              msg: "Towns field must not contain space character",
-              status: falseStatus,
-            };
-          }
-          break;
+        break;
       }
     }
     return { success: true };
