@@ -4,17 +4,80 @@ const request = require('supertest')("http://localhost:9000");
 const MasterModel = require("../../models/mastersModel");
 const TownsModel = require("../../models/townsModel");
 const MasterTownsModel = require("../../models/masters_towns");
+const OrdersModel = require("../../models/ordersModel");
 
 function resetDB(){
-  return MasterTownsModel.truncate().then(()=>MasterModel.destroy({where:{}})).then(()=>TownsModel.destroy({where:{}}))
+  return (
+    MasterTownsModel
+    .truncate()
+    .then(()=>MasterModel.destroy({where:{}}))
+    .then(()=>TownsModel.destroy({where:{}}))
+    .then(()=>OrdersModel.destroy({where: {}}))
+  );
 }
 
 describe("Master requests", ()=>{
   beforeEach(()=>{
     return resetDB();
   });
-  const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk5MjE2MjMwLCJleHAiOjE1OTkzMDI2MzB9.PsHFspsRFp9bby3I-MgWyb_3zVIX4KIEPzPOJ4yqXT4";
+  const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNWR1gvZUJGNEIyQWU5OEwuZGlteXVnc250ZU1sTk1CUUJVRjIzaVN3THExbE5ITnFvT1FpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTk5Mjk5MjEwLCJleHAiOjE1OTkzODU2MTB9.zh1fVmhESwU-KAcPSt74Y6gPwrCkT_VuRGV3-OqT_JM";
   
+  describe("GET 'free' masters", ()=>{
+    const currDate = new Date();
+    const newDate = `${currDate.getFullYear()+1}-${("0" + (+currDate.getMonth() + 1)).slice(-2)}-${("0" + currDate.getDate()).slice(-2)}`;
+    const timeStart = "12:00";
+    const timeEnd = "15:00";
+    const town = "Dnipro";
+    function init(){
+      MasterModel.belongsToMany(TownsModel, { through: MasterTownsModel });
+      TownsModel.belongsToMany(MasterModel, { through: MasterTownsModel });
+  
+      MasterTownsModel.sync({ alert: true })
+      .then(()=>{
+        return TownsModel.create({id: 1, name: "Dnipro"})
+      })
+      .then((townField) => {
+        return MasterModel.create({ id: 1, name: "TEST", rating: 5, towns: "Dnipro" }).then((master) => {
+          return master.addTownsname(townField);
+        });
+      })
+      .then(()=>(
+        OrdersModel
+        .create(
+          {
+            id: 1, 
+            name: "TEST", 
+            email: 'test@test.com', 
+            size: 'large',
+            town: town,
+            date: "2020-10-10",
+            time: timeStart,
+            masterId: 1,
+            endTime: timeEnd
+          }
+        ))
+      )
+    }
+    beforeEach(()=>{return init()})
+    describe("works", ()=>{
+      it("done", (done)=>{
+        request
+        .post("/masters")
+        .send({date: "2020-10-10", timeStart: timeStart, timeEnd: timeEnd, town: "Dnipro"})
+        .set("Authorization", token)
+        .set("Content-Type", "application/json")
+        .set("include", "free")
+        .end((err, res)=>{
+          console.log(res)
+          if(err) return done(err);
+          expect(res.body.payload).toEqual([{id: 1, name: "TEST", rating: 5, towns: "Dnipro"}])
+          done();
+        })
+      })
+    })
+  })
+
+
   describe("GET 'all' masters", ()=>{
     describe("works", ()=>{
       beforeEach(()=> {return MasterModel.create({id: 1, name: "TEST", rating: 5})});

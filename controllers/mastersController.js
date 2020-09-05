@@ -66,8 +66,13 @@ class MastersController {
           name: req.body.town,
         },
       })
-      .then((towns) =>
-        this.townModel.findOne({
+      .then((towns) =>{
+        console.log(towns)//когда запускаються интеграционные тесты, 
+        //здесь выводиться null (при запуске на продакшене и в режиме разработки 
+        //выводиться города(как и планируеться))
+        //Но! При вызове (во вермя тестирования) this.townModel.findAll().then(towns=>console.log(towns)) 
+        //города выводяться (также как и на продакшене и в режиме разработки)
+        return this.townModel.findOne({
           include: [
             {
               model: this.masterModel,
@@ -75,7 +80,7 @@ class MastersController {
           ],
           where: { id: towns.id },
         })
-      )
+      })
       .then((result) => {
         if (result.length === 0) {
           return Promise.reject({
