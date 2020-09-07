@@ -36,7 +36,6 @@ class OrdersController {
         if (data.length === 0) {
           return {
             payload: [],
-            msg: "This user has no orders yet",
             status: 404,
           };
         }
