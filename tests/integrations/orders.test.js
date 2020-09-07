@@ -4,7 +4,6 @@ const resetDB = require("../../helpers/resetDB");
 
 const MasterModel = require("../../models/mastersModel");
 const TownsModel = require("../../models/townsModel");
-const MasterTownsModel = require("../../models/masters_towns");
 const OrdersModel = require("../../models/ordersModel");
 const UsersModel = require("../../models/usersModel");
 
@@ -12,18 +11,18 @@ const token = require("./token");
 
 describe("Orders requests", ()=>{
     beforeEach(()=>resetDB());
+    const testData = {
+        id: 1,
+        name: "TEST",
+        email: "admin@example.com",
+        size: "large",
+        town: "Dnipro",
+        date: "2020-10-10",
+        time: "12:00",
+        masterId: 1,
+        endTime: "15:00"
+    }
     describe("GET 'all' orders", ()=>{
-        const testData = {
-            id: 1,
-            name: "TEST",
-            email: "example@example.com",
-            size: "large",
-            town: "Dnipro",
-            date: "2020-10-10",
-            time: "12:00",
-            masterId: 1,
-            endTime: "15:00"
-        }
         beforeEach(()=>{
             return OrdersModel.create(testData);
         })
@@ -42,19 +41,10 @@ describe("Orders requests", ()=>{
             })
         })
     })
+    
     describe("GET 'user\'s' orders", ()=>{
         const email = "admin@example.com";
-        const orderTestData = {
-            id: 1,
-            name: "TEST",
-            email: email,
-            size: "large",
-            town: "Dnipro",
-            date: "2020-10-10",
-            time: "12:00",
-            masterId: 1,
-            endTime: "15:00"
-        }
+        const orderTestData = {...testData, email: email}
         beforeEach(()=>OrdersModel.create(orderTestData));
         describe("works", ()=>{
             it("done", (done)=>{
@@ -89,7 +79,6 @@ describe("Orders requests", ()=>{
                     .set("Authorization", token)
                     .set("Content-Type", "application/json")
                     .end((err, res)=>{
-                        console.log(res.body)
                         if(err) return done(err);
                         expect(res.body).toEqual([]);
                         expect(res.status).toEqual(404);
@@ -141,22 +130,11 @@ describe("Orders requests", ()=>{
     })
 
     describe("POST new order", ()=>{
-        const testData = {
-            id: 1,
-            name: "TEST",
-            email: "admin@example.com",
-            size: "large",
-            town: "Dnipro",
-            date: "2020-10-10",
-            time: "12:00",
-            masterId: 1,
-            endTime: "15:00"
+        function init(){
+            return TownsModel.create({id: 1, name: testData.town})
+            .then(()=>MasterModel.create({id: testData.masterId, name: "TEST", rating: 5}))
         }
         describe("work", ()=>{
-            function init(){
-                return TownsModel.create({id: 1, name: "Dnipro"})
-                .then(()=>MasterModel.create({id: 1, name: "TEST", rating: 5}))
-            }
             beforeEach(()=>init());
             it("done", (done)=>{
                 request
@@ -172,11 +150,43 @@ describe("Orders requests", ()=>{
                 })
             })
         })
+        describe("master with define id not-exist", ()=>{
+            beforeEach(()=>init());
+            it("done", (done)=>{
+                request
+                .post("/orders/post")
+                .send({...testData, masterId: 2})
+                .set("Authorization", token)
+                .set("Content-Type", "application/json")
+                .end((err, res)=>{
+                    if(err) return done(err)
+                    expect(res.body.msg).toEqual(`Master with id ${2} was not found`);
+                    expect(res.status).toEqual(400);
+                    return done();
+                })
+            })
+        })
+        describe("town with define name not-exist", ()=>{
+            beforeEach(()=>init());
+            it("done", (done)=>{
+                request
+                .post("/orders/post")
+                .send({...testData, town: "Nonexist"})
+                .set("Authorization", token)
+                .set("Content-Type", "application/json")
+                .end((err, res)=>{
+                    if(err) return done(err)
+                    expect(res.body.msg).toEqual("Town not found");
+                    expect(res.status).toEqual(400);
+                    return done();
+                })
+            })
+        })
         describe("empty field", ()=>{
             it("done", (done)=>{
                 request
                 .post("/orders/post")
-                .send({testData, name: ""})
+                .send({...testData, name: ""})
                 .set("Authorization", token)
                 .set("Content-Type", "application/json")
                 .end((err, res)=>{
@@ -192,7 +202,7 @@ describe("Orders requests", ()=>{
             it("done", (done)=>{
                 request
                 .post("/orders/post")
-                .send({testData, name: "INVALID_TEST_1"})
+                .send({...testData, name: "INVALID_TEST_1"})
                 .set("Authorization", token)
                 .set("Content-Type", "application/json")
                 .end((err, res)=>{
@@ -208,7 +218,7 @@ describe("Orders requests", ()=>{
             it("done", (done)=>{
                 request
                 .post("/orders/post")
-                .send({testData, email: "invalid.com"})
+                .send({...testData, email: "invalid.com"})
                 .set("Authorization", token)
                 .set("Content-Type", "application/json")
                 .end((err, res)=>{
@@ -224,7 +234,7 @@ describe("Orders requests", ()=>{
             it("done", (done)=>{
                 request
                 .post("/orders/post")
-                .send({testData, size: "invalid"})
+                .send({...testData, size: "invalid"})
                 .set("Authorization", token)
                 .set("Content-Type", "application/json")
                 .end((err, res)=>{
@@ -240,7 +250,7 @@ describe("Orders requests", ()=>{
             it("done", (done)=>{
                 request
                 .post("/orders/post")
-                .send({testData, date: "10-10-2021"})
+                .send({...testData, date: "10-10-2021"})
                 .set("Authorization", token)
                 .set("Content-Type", "application/json")
                 .end((err, res)=>{
@@ -258,7 +268,7 @@ describe("Orders requests", ()=>{
             it("done", (done)=>{
                 request
                 .post("/orders/post")
-                .send({testData, date: newDate})
+                .send({...testData, date: newDate})
                 .set("Authorization", token)
                 .set("Content-Type", "application/json")
                 .end((err, res)=>{
@@ -274,7 +284,7 @@ describe("Orders requests", ()=>{
             it("done", (done)=>{
                 request
                 .post("/orders/post")
-                .send({testData, time: "19:00"})
+                .send({...testData, time: "19:00"})
                 .set("Authorization", token)
                 .set("Content-Type", "application/json")
                 .end((err, res)=>{
@@ -289,28 +299,17 @@ describe("Orders requests", ()=>{
     })
 
     describe("PUT order", ()=>{
-        const testData = {
-            id: 1,
-            name: "TEST",
-            email: "admin@example.com",
-            size: "large",
-            town: "Dnipro",
-            date: "2020-10-10",
-            time: "12:00",
-            masterId: 1,
-            endTime: "15:00"
+        function init(){
+            return TownsModel.create({id: 1, name: testData.town})
+            .then(()=>MasterModel.create({id: testData.masterId, name: "TEST", rating: 5}))
+            .then(()=>OrdersModel.create({...testData}))
         }
         describe("work", ()=>{
-            function init(){
-                return TownsModel.create({id: 1, name: "Dnipro"})
-                .then(()=>MasterModel.create({id: 1, name: "TEST", rating: 5}))
-                .then(()=>OrdersModel.create(testData))
-            }
             beforeEach(()=>init());
             it("done", (done)=>{
                 request
-                .put("/orders/put/1")
-                .send({...testData, name: "TEST_PUT_DATA"})
+                .put(`/orders/put/${testData.id}`)
+                .send({...testData})
                 .set("Authorization", token)
                 .set("Content-Type", "application/json")
                 .end((err, res)=>{
@@ -318,15 +317,49 @@ describe("Orders requests", ()=>{
                     expect(res.status).toEqual(200)
                     expect(res.body.msg).toEqual("You update order")
                     expect(res.body.success).toEqual(true);
-                    return done();
+                    done();
+                })
+            })
+        })
+        describe("master with define id non-exist", ()=>{
+            beforeEach(()=>init());
+            it("done", (done)=>{
+                request
+                .put(`/orders/put/${testData.id}`)
+                .send({...testData, masterId: 128})
+                .set("Authorization", token)
+                .set("Content-Type", "application/json")
+                .end((err, res)=>{
+                    if(err) return done(err)
+                    expect(res.status).toEqual(404);
+                    expect(res.body.msg).toEqual(`Master with id ${128} not found!`)
+                    expect(res.body.success).toEqual(false);
+                    done();
+                })
+            })
+        })
+        describe("town with define name non-exist", ()=>{
+            beforeEach(()=>init());
+            it("done", (done)=>{
+                request
+                .put(`/orders/put/${testData.id}`)
+                .send({...testData, town: "Non-exist"})
+                .set("Authorization", token)
+                .set("Content-Type", "application/json")
+                .end((err, res)=>{
+                    if(err) return done(err)
+                    expect(res.status).toEqual(404);
+                    expect(res.body.msg).toEqual(`Town with name ${"Non-exist"} not found!`)
+                    expect(res.body.success).toEqual(false);
+                    done();
                 })
             })
         })
         describe("empty field", ()=>{
             it("done", (done)=>{
                 request
-                .post("/orders/post")
-                .send({testData, name: ""})
+                .put(`/orders/put/${testData.id}`)
+                .send({...testData, name: ""})
                 .set("Authorization", token)
                 .set("Content-Type", "application/json")
                 .end((err, res)=>{
@@ -334,15 +367,15 @@ describe("Orders requests", ()=>{
                     expect(res.body.msg).toEqual("Please, fill all fields!");
                     expect(res.body.success).toEqual(false);
                     expect(res.status).toEqual(400);
-                    return done();
+                    done();
                 })
             })
         })
         describe("invalid 'name' field", ()=>{
             it("done", (done)=>{
                 request
-                .post("/orders/post")
-                .send({testData, name: "INVALID_TEST_1"})
+                .put(`/orders/put/${testData.id}`)
+                .send({...testData, name: "INVALID_TEST_1"})
                 .set("Authorization", token)
                 .set("Content-Type", "application/json")
                 .end((err, res)=>{
@@ -357,8 +390,8 @@ describe("Orders requests", ()=>{
         describe("invalid 'email' field", ()=>{
             it("done", (done)=>{
                 request
-                .post("/orders/post")
-                .send({testData, email: "invalid.com"})
+                .put(`/orders/put/${testData.id}`)
+                .send({...testData, email: "invalid.com"})
                 .set("Authorization", token)
                 .set("Content-Type", "application/json")
                 .end((err, res)=>{
@@ -373,8 +406,8 @@ describe("Orders requests", ()=>{
         describe("invalid 'size' field", ()=>{
             it("done", (done)=>{
                 request
-                .post("/orders/post")
-                .send({testData, size: "invalid"})
+                .put(`/orders/put/${testData.id}`)
+                .send({...testData, size: "invalid"})
                 .set("Authorization", token)
                 .set("Content-Type", "application/json")
                 .end((err, res)=>{
@@ -389,8 +422,8 @@ describe("Orders requests", ()=>{
         describe("invalid 'date' field format", ()=>{
             it("done", (done)=>{
                 request
-                .post("/orders/post")
-                .send({testData, date: "10-10-2021"})
+                .put(`/orders/put/${testData.id}`)
+                .send({...testData, date: "10-10-2021"})
                 .set("Authorization", token)
                 .set("Content-Type", "application/json")
                 .end((err, res)=>{
@@ -407,8 +440,8 @@ describe("Orders requests", ()=>{
             const newDate = `${currDate.getFullYear()-1}-${("0" + (+currDate.getMonth() + 1)).slice(-2)}-${("0" + currDate.getDate()).slice(-2)}`;
             it("done", (done)=>{
                 request
-                .post("/orders/post")
-                .send({testData, date: newDate})
+                .put(`/orders/put/${testData.id}`)
+                .send({...testData, date: newDate})
                 .set("Authorization", token)
                 .set("Content-Type", "application/json")
                 .end((err, res)=>{
@@ -423,8 +456,8 @@ describe("Orders requests", ()=>{
         describe("invalid 'date' field", ()=>{
             it("done", (done)=>{
                 request
-                .post("/orders/post")
-                .send({testData, time: "19:00"})
+                .put(`/orders/put/${testData.id}`)
+                .send({...testData, time: "19:00"})
                 .set("Authorization", token)
                 .set("Content-Type", "application/json")
                 .end((err, res)=>{

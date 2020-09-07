@@ -74,7 +74,7 @@ class OrdersController {
         res.status(200).send({ success: true, msg: "You added order", payload: data });
       })
       .catch((err) =>
-        res.status(err.status || 500).send({ success: false, msg: err })
+        res.status(err.status || 500).send({ success: false, msg: err.msg || err })
       );
   }
   edit(req, res) {
