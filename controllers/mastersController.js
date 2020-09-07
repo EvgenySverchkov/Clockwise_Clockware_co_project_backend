@@ -66,8 +66,8 @@ class MastersController {
           name: req.body.town,
         },
       })
-      .then((towns) =>{
-        console.log(towns)//когда запускаються интеграционные тесты, 
+      .then((town) =>{
+        console.log(town)//когда запускаються интеграционные тесты, 
         //здесь выводиться null (при запуске на продакшене и в режиме разработки 
         //выводиться города(как и планируеться))
         //Но! При вызове (во вермя тестирования) this.townModel.findAll().then(towns=>console.log(towns)) 
@@ -78,7 +78,7 @@ class MastersController {
               model: this.masterModel,
             },
           ],
-          where: { id: towns.id },
+          where: { id: town.id },
         })
       })
       .then((result) => {

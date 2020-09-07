@@ -35,14 +35,14 @@ class OrdersController {
       .then((data) => {
         if (data.length === 0) {
           return {
-            success: false,
+            payload: [],
             msg: "This user has no orders yet",
-            status: 400,
+            status: 404,
           };
         }
-        return data;
+        return {status: 200, payload: data};
       })
-      .then((data) => res.status(data.status || 200).send(data))
+      .then((data) => res.status(data.status || 200).send(data.payload))
       .catch((err) => res.send(err));
   }
   add(req, res) {
@@ -72,7 +72,7 @@ class OrdersController {
         }
       })
       .then((data) => {
-        res.send({ success: true, msg: "You added order", payload: data });
+        res.status(200).send({ success: true, msg: "You added order", payload: data });
       })
       .catch((err) =>
         res.status(err.status || 500).send({ success: false, msg: err })

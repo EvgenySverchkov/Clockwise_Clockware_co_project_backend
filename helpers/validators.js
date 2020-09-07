@@ -68,6 +68,7 @@ class Validators {
     return { success: true };
   }
   getUserOrdersValidator(infoObj) {
+    console.log(infoObj);
     if (!infoObj.email) {
       return {
         success: false,

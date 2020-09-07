@@ -28,11 +28,6 @@ describe("Testing master validator", () => {
         validators.mastersValidator({ ...validObj, rating: "" })
       ).toMatchObject(resObj);
     });
-    test("Towns field is empty", () => {
-      expect(
-        validators.mastersValidator({ ...validObj, towns: "" })
-      ).toMatchObject(resObj);
-    });
   });
   describe("Name field validation", () => {
     const resObj = {
@@ -85,17 +80,6 @@ describe("Testing master validator", () => {
       expect(
         validators.mastersValidator({ ...validObj, rating: "6" })
       ).toMatchObject(resObj);
-    });
-  });
-  describe("Towns field validation", () => {
-    test("Contain space character", () => {
-      expect(
-        validators.mastersValidator({ ...validObj, towns: "Dnipro, Uzhorod" })
-      ).toMatchObject({
-        success: false,
-        msg: "Towns field must not contain space character",
-        status: 400,
-      });
     });
   });
 });
