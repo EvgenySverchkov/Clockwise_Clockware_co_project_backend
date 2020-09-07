@@ -302,14 +302,14 @@ describe("Orders requests", ()=>{
         function init(){
             return TownsModel.create({id: 1, name: testData.town})
             .then(()=>MasterModel.create({id: testData.masterId, name: "TEST", rating: 5}))
-            .then(()=>OrdersModel.create({...testData}))
+            .then(()=>OrdersModel.create(testData))
         }
         describe("work", ()=>{
             beforeEach(()=>init());
             it("done", (done)=>{
                 request
                 .put(`/orders/put/${testData.id}`)
-                .send({...testData})
+                .send(testData)
                 .set("Authorization", token)
                 .set("Content-Type", "application/json")
                 .end((err, res)=>{
