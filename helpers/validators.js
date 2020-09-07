@@ -32,7 +32,7 @@ class Validators {
               status: falseStatus,
             };
           }
-        break;
+          break;
       }
     }
     return { success: true };

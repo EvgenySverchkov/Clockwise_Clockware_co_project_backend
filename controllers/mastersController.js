@@ -66,11 +66,11 @@ class MastersController {
           name: req.body.town,
         },
       })
-      .then((town) =>{
-        console.log(town)//когда запускаються интеграционные тесты, 
-        //здесь выводиться null (при запуске на продакшене и в режиме разработки 
+      .then((town) => {
+        console.log(town); //когда запускаються интеграционные тесты,
+        //здесь выводиться null (при запуске на продакшене и в режиме разработки
         //выводиться города(как и планируеться))
-        //Но! При вызове (во вермя тестирования) this.townModel.findAll().then(towns=>console.log(towns)) 
+        //Но! При вызове (во вермя тестирования) this.townModel.findAll().then(towns=>console.log(towns))
         //города выводяться (также как и на продакшене и в режиме разработки)
         return this.townModel.findOne({
           include: [
@@ -79,7 +79,7 @@ class MastersController {
             },
           ],
           where: { id: town.id },
-        })
+        });
       })
       .then((result) => {
         if (result.length === 0) {
