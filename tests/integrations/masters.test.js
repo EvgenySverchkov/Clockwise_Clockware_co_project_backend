@@ -69,7 +69,6 @@ describe("Master requests", ()=>{
     })
   })
 
-
   describe("GET 'all' masters", ()=>{
     describe("works", ()=>{
       beforeEach(()=> {return MasterModel.create({id: 1, name: "TEST", rating: 5})});
@@ -106,6 +105,7 @@ describe("Master requests", ()=>{
       })
     })
   })
+
   describe("POST new master", ()=>{
     beforeEach(()=>TownsModel.create({id: 1, name: "Dnipro"}));
     it("works", (done)=>{
@@ -148,6 +148,7 @@ describe("Master requests", ()=>{
       })
     })
   })
+
   describe("PUT master", ()=>{
     function init(){
       return TownsModel.create({id: 1, name: "Dnipro"})
@@ -196,6 +197,7 @@ describe("Master requests", ()=>{
       })
     })
   })
+  
   describe("DELETE master", ()=>{
     beforeEach(()=>MasterModel.create({id: 1, name: "TEST", rating: 5}))
     it("work", (done)=>{
