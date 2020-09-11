@@ -3,9 +3,7 @@
 ## Instructions for running locally
 
 
-### `1` 
-
-Clone a project from the directory: 
+### `Clone a project from the directory: ` 
 
 https://github.com/EvgenySverchkov/Clockwise_Clockware_co_project_backend.<br>
 
