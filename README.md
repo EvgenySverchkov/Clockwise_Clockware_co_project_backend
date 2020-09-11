@@ -7,42 +7,26 @@ Clone a project from the directory:
 
 https://github.com/EvgenySverchkov/Clockwise_Clockware_co_project_backend.<br>
 
-### `2`
-
-Open the folder with the cloned project and in the cmd run 
+Open the folder with the cloned project and in the cmd run:
 
 ```npm install```
 
-### `3`
-
-In the cmd run  
+In the cmd run:
 
 ```npm start```
 
-### `4`
-
-Server run on 
+Server run on:
 
 ```http://localhost:9000/```
 
 ## LOCAL DB
 
-### `1`
-
-Create local connection
-
-### `2`
-
-Create local DB
-
-### `3`
+Create local DB (the database name must be 'local_db')
 
 Сreating tables:
  - run migration files (in the project folder):
 
 ```sequelize db:migrate```
-
-### `4`
 
 Filling tables with test data:
  - run seeders files (in the project folder):
