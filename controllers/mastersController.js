@@ -67,11 +67,6 @@ class MastersController {
         },
       })
       .then((town) => {
-        console.log(town); //когда запускаються интеграционные тесты,
-        //здесь выводиться null (при запуске на продакшене и в режиме разработки
-        //выводиться города(как и планируеться))
-        //Но! При вызове (во вермя тестирования) this.townModel.findAll().then(towns=>console.log(towns))
-        //города выводяться (также как и на продакшене и в режиме разработки)
         return this.townModel.findOne({
           include: [
             {
@@ -82,7 +77,7 @@ class MastersController {
         });
       })
       .then((result) => {
-        if (result.length === 0) {
+        if (result.masters.length === 0) {
           return Promise.reject({
             msg: "We don't have masters in this town",
             status: 404,
@@ -106,6 +101,10 @@ class MastersController {
         let freeMasters = mastersArrByTown.filter(
           (item) => !bookedMastersIdx.includes(item.id)
         );
+        freeMasters = freeMasters.map(item=>{
+          delete item.dataValues.masters_town
+          return item.dataValues;
+        })
         if (freeMasters.length === 0) {
           return Promise.reject({
             msg: "We don't have masters on these date and time",
@@ -244,26 +243,25 @@ class MastersController {
       .catch((err) => res.status(500).send({ success: false, msg: err }));
   }
   delete(req, res) {
-    this.masterModel
+    return this.masterModel
       .findOne({ where: { id: req.params.id } })
       .then((result) => {
         if (result) {
           return this.masterModel.destroy({ where: { id: req.params.id } });
         } else {
-          res.status(400).send({
-            success: false,
-            msg: `Master with id: ${req.params.id} not found`,
-          });
+          return Promise.reject({status: 400, msg: `Master with id: ${req.params.id} not found`, success: false})
         }
       })
-      .then(() =>
-        res.status(200).send({
+      .then(() =>{
+        return res.status(200).send({
           success: true,
           msg: "You deleted master",
           payload: +req.params.id,
         })
-      )
-      .catch((err) => res.status(500).send({ success: false, msg: err }));
+      })
+      .catch((err) => {
+        res.status(err.status || 500).send(err)
+      });
   }
 }
 

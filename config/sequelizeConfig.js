@@ -20,6 +20,7 @@ if (process.env.CLEARDB_DATABASE_URL) {
         timestamps: false,
       },
       operatorsAliases,
+      logging: false
     }
   );
 } else {
@@ -31,6 +32,7 @@ if (process.env.CLEARDB_DATABASE_URL) {
     },
     sync: { force: true },
     operatorsAliases,
+    logging: false
   });
 }
 

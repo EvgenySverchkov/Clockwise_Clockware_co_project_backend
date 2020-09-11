@@ -78,10 +78,7 @@ class TownsController {
         if (result) {
           return this.model.destroy({ where: { id: req.params.id } });
         } else {
-          res.status(400).send({
-            success: false,
-            msg: `Town with id: ${req.params.id} not found`,
-          });
+          return Promise.reject({status: 400, success: false, msg: `Town with id: ${req.params.id} not found`});
         }
       })
       .then(() =>
@@ -91,7 +88,7 @@ class TownsController {
           payload: +req.params.id,
         })
       )
-      .catch((err) => res.status(500).send({ success: false, msg: err }));
+      .catch((err) => res.status(err.status||500).send(err));
   }
 }
 

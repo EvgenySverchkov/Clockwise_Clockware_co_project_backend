@@ -3,7 +3,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const passport = require("passport");
-const Sequelize = require("sequelize");
 
 const mastersRouter = require("./routes/mastersRouter");
 const townsRouter = require("./routes/townsRouter");
@@ -38,6 +37,14 @@ app.use((error, req, res, next) => {
   console.log("Error handler");
   next(error);
 });
-app.listen(process.env.PORT || 9000, function () {
-  console.log("Server start");
-});
+if(process.env.NODE_ENV === 'test'){
+  app.listen(process.env.PORT || 5000, function () {
+    console.log("Server start on test port");
+  });
+}else{
+  app.listen(process.env.PORT || 9000, function () {
+    console.log("Server start");
+  });
+}
+
+module.exports = app;

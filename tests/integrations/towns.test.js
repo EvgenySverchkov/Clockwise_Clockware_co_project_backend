@@ -1,21 +1,26 @@
 require("mysql2/node_modules/iconv-lite").encodingExists("foo");
-const request = require("supertest")("http://localhost:9000");
+const supertest = require("supertest");
 const resetDB = require("../../helpers/resetDB");
 
 const TownsModel = require("../../models/townsModel");
+const {connectOption} = require("../../config/sequelizeConfig");
 
-const token = require("./token");
+const app = require("../../server");
 
 describe("Towns requests", () => {
+  afterAll((done)=>{
+    connectOption.close();
+    done();
+  });
+  const api = supertest(app)
   beforeEach(() => resetDB());
   const testData = { id: 1, name: "Test" };
   describe("GET  towns", () => {
     describe("work", () => {
       beforeEach(() => TownsModel.create(testData));
       it("done", (done) => {
-        request
+        api
           .get("/towns")
-          .set("Authoriztion", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -30,10 +35,9 @@ describe("Towns requests", () => {
   describe("POST new town", () => {
     describe("work", () => {
       it("done", (done) => {
-        request
+        api
           .post("/towns/post")
           .send(testData)
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -47,10 +51,9 @@ describe("Towns requests", () => {
     describe("town already exist", () => {
       beforeEach(() => TownsModel.create(testData));
       it("done", (done) => {
-        request
+        api
           .post("/towns/post")
           .send(testData)
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -65,10 +68,9 @@ describe("Towns requests", () => {
     });
     describe("empty field", () => {
       it("done", (done) => {
-        request
+        api
           .post("/towns/post")
           .send({ ...testData, name: "" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -81,10 +83,9 @@ describe("Towns requests", () => {
     });
     describe("name don't start with capital letter", () => {
       it("done", (done) => {
-        request
+        api
           .post("/towns/post")
           .send({ ...testData, name: "test" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -99,10 +100,9 @@ describe("Towns requests", () => {
     });
     describe("name field containt number", () => {
       it("done", (done) => {
-        request
+        api
           .post("/towns/post")
           .send({ ...testData, name: "Test1" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -121,10 +121,9 @@ describe("Towns requests", () => {
     describe("works", () => {
       beforeEach(() => TownsModel.create(testData));
       it("done", (done) => {
-        request
+        api
           .put(`/towns/put/${testData.id}`)
           .send({ ...testData, name: "Updtest" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -139,10 +138,9 @@ describe("Towns requests", () => {
     describe("town already exist", () => {
       beforeEach(() => TownsModel.create(testData));
       it("done", (done) => {
-        request
+        api
           .put(`/towns/put/${testData.id}`)
           .send(testData)
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -157,10 +155,9 @@ describe("Towns requests", () => {
     });
     describe("empty field", () => {
       it("done", (done) => {
-        request
+        api
           .put(`/towns/put/${testData.id}`)
           .send({ ...testData, name: "" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -173,10 +170,9 @@ describe("Towns requests", () => {
     });
     describe("name don't start with capital letter", () => {
       it("done", (done) => {
-        request
+        api
           .put(`/towns/put/${testData.id}`)
           .send({ ...testData, name: "test" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -191,10 +187,9 @@ describe("Towns requests", () => {
     });
     describe("name field containt number", () => {
       it("done", (done) => {
-        request
+        api
           .put(`/towns/put/${testData.id}`)
           .send({ ...testData, name: "Test1" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -213,9 +208,8 @@ describe("Towns requests", () => {
     describe("work", () => {
       beforeEach(() => TownsModel.create(testData));
       it("done", (done) => {
-        request
+        api
           .delete(`/towns/delete/${testData.id}`)
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -229,9 +223,8 @@ describe("Towns requests", () => {
     });
     describe("non-exist town", () => {
       it("done", (done) => {
-        request
+        api
           .delete(`/towns/delete/${1}`)
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);

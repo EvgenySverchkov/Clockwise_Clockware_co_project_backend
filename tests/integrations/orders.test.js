@@ -1,15 +1,21 @@
 require("mysql2/node_modules/iconv-lite").encodingExists("foo");
-const request = require("supertest")("http://localhost:9000");
+const supertest = require("supertest");
 const resetDB = require("../../helpers/resetDB");
 
 const MasterModel = require("../../models/mastersModel");
 const TownsModel = require("../../models/townsModel");
 const OrdersModel = require("../../models/ordersModel");
 const UsersModel = require("../../models/usersModel");
+const {connectOption} = require("../../config/sequelizeConfig");
 
-const token = require("./token");
+const app = require("../../server");
 
 describe("Orders requests", () => {
+  afterAll((done)=>{
+    connectOption.close();
+    done();
+  })
+  const api = supertest(app);
   beforeEach(() => resetDB());
   const testData = {
     id: 1,
@@ -28,9 +34,8 @@ describe("Orders requests", () => {
     });
     describe("work", () => {
       it("done", (done) => {
-        request
+        api
           .get("/orders")
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -50,10 +55,9 @@ describe("Orders requests", () => {
       it("done", (done) => {
         UsersModel.findOne({ where: { id: 1 } }).then((data) => {
           const { email, role, name, id } = data.dataValues;
-          request
+          api
             .post("/orders/getUserOrders")
             .send({ email, role, name, id })
-            .set("Authorization", token)
             .set("Content-Type", "application/json")
             .end((err, res) => {
               if (err) return done(err);
@@ -77,10 +81,9 @@ describe("Orders requests", () => {
       it("done", (done) => {
         UsersModel.findOne({ where: { id: 2 } }).then((data) => {
           const { email, role, name, id } = data.dataValues;
-          request
+          api
             .post("/orders/getUserOrders")
             .send({ email, role, name, id })
-            .set("Authorization", token)
             .set("Content-Type", "application/json")
             .end((err, res) => {
               if (err) return done(err);
@@ -95,10 +98,9 @@ describe("Orders requests", () => {
       it("done", (done) => {
         UsersModel.findOne({ where: { id: 1 } }).then((data) => {
           const { email, role, name, id } = data.dataValues;
-          request
+          api
             .post("/orders/getUserOrders")
             .send({ email: "", role, name, id })
-            .set("Authorization", token)
             .set("Content-Type", "application/json")
             .end((err, res) => {
               if (err) return done(err);
@@ -116,10 +118,9 @@ describe("Orders requests", () => {
       it("done", (done) => {
         UsersModel.findOne({ where: { id: 1 } }).then((data) => {
           const { email, role, name, id } = data.dataValues;
-          request
+          api
             .post("/orders/getUserOrders")
             .send({ email: "invalid.com", role, name, id })
-            .set("Authorization", token)
             .set("Content-Type", "application/json")
             .end((err, res) => {
               if (err) return done(err);
@@ -144,10 +145,9 @@ describe("Orders requests", () => {
     describe("work", () => {
       beforeEach(() => init());
       it("done", (done) => {
-        request
+        api
           .post("/orders/post")
           .send(testData)
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -160,10 +160,9 @@ describe("Orders requests", () => {
     describe("master with define id not-exist", () => {
       beforeEach(() => init());
       it("done", (done) => {
-        request
+        api
           .post("/orders/post")
           .send({ ...testData, masterId: 2 })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -176,10 +175,9 @@ describe("Orders requests", () => {
     describe("town with define name not-exist", () => {
       beforeEach(() => init());
       it("done", (done) => {
-        request
+        api
           .post("/orders/post")
           .send({ ...testData, town: "Nonexist" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -191,10 +189,9 @@ describe("Orders requests", () => {
     });
     describe("empty field", () => {
       it("done", (done) => {
-        request
+        api
           .post("/orders/post")
           .send({ ...testData, name: "" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -207,10 +204,9 @@ describe("Orders requests", () => {
     });
     describe("invalid 'name' field", () => {
       it("done", (done) => {
-        request
+        api
           .post("/orders/post")
           .send({ ...testData, name: "INVALID_TEST_1" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -225,10 +221,9 @@ describe("Orders requests", () => {
     });
     describe("invalid 'email' field", () => {
       it("done", (done) => {
-        request
+        api
           .post("/orders/post")
           .send({ ...testData, email: "invalid.com" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -243,10 +238,9 @@ describe("Orders requests", () => {
     });
     describe("invalid 'size' field", () => {
       it("done", (done) => {
-        request
+        api
           .post("/orders/post")
           .send({ ...testData, size: "invalid" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -261,10 +255,9 @@ describe("Orders requests", () => {
     });
     describe("invalid 'date' field format", () => {
       it("done", (done) => {
-        request
+        api
           .post("/orders/post")
           .send({ ...testData, date: "10-10-2021" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -284,10 +277,9 @@ describe("Orders requests", () => {
         (+currDate.getMonth() + 1)
       ).slice(-2)}-${("0" + currDate.getDate()).slice(-2)}`;
       it("done", (done) => {
-        request
+        api
           .post("/orders/post")
           .send({ ...testData, date: newDate })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -302,10 +294,9 @@ describe("Orders requests", () => {
     });
     describe("invalid 'date' field", () => {
       it("done", (done) => {
-        request
+        api
           .post("/orders/post")
           .send({ ...testData, time: "19:00" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -331,10 +322,9 @@ describe("Orders requests", () => {
     describe("work", () => {
       beforeEach(() => init());
       it("done", (done) => {
-        request
+        api
           .put(`/orders/put/${testData.id}`)
           .send(testData)
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -348,10 +338,9 @@ describe("Orders requests", () => {
     describe("master with define id non-exist", () => {
       beforeEach(() => init());
       it("done", (done) => {
-        request
+        api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, masterId: 128 })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -365,10 +354,9 @@ describe("Orders requests", () => {
     describe("town with define name non-exist", () => {
       beforeEach(() => init());
       it("done", (done) => {
-        request
+        api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, town: "Non-exist" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -383,10 +371,9 @@ describe("Orders requests", () => {
     });
     describe("empty field", () => {
       it("done", (done) => {
-        request
+        api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, name: "" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -399,10 +386,9 @@ describe("Orders requests", () => {
     });
     describe("invalid 'name' field", () => {
       it("done", (done) => {
-        request
+        api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, name: "INVALID_TEST_1" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -417,10 +403,9 @@ describe("Orders requests", () => {
     });
     describe("invalid 'email' field", () => {
       it("done", (done) => {
-        request
+        api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, email: "invalid.com" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -435,10 +420,9 @@ describe("Orders requests", () => {
     });
     describe("invalid 'size' field", () => {
       it("done", (done) => {
-        request
+        api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, size: "invalid" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -453,10 +437,9 @@ describe("Orders requests", () => {
     });
     describe("invalid 'date' field format", () => {
       it("done", (done) => {
-        request
+        api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, date: "10-10-2021" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -476,10 +459,9 @@ describe("Orders requests", () => {
         (+currDate.getMonth() + 1)
       ).slice(-2)}-${("0" + currDate.getDate()).slice(-2)}`;
       it("done", (done) => {
-        request
+        api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, date: newDate })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -494,10 +476,9 @@ describe("Orders requests", () => {
     });
     describe("invalid 'date' field", () => {
       it("done", (done) => {
-        request
+        api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, time: "19:00" })
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -529,9 +510,8 @@ describe("Orders requests", () => {
       });
       it("done", (done) => {
         const orderId = 1;
-        request
+        api
           .delete(`/orders/delete/${orderId}`)
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
@@ -546,9 +526,8 @@ describe("Orders requests", () => {
     describe("no order with defined id", () => {
       it("done", (done) => {
         const orderId = 1;
-        request
+        api
           .delete(`/orders/delete/${orderId}`)
-          .set("Authorization", token)
           .set("Content-Type", "application/json")
           .end((err, res) => {
             if (err) return done(err);
