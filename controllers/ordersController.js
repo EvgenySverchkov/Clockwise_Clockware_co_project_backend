@@ -136,20 +136,21 @@ class OrdersController {
             },
           });
         } else {
-          res.status(400).send({
+          return Promise.reject({
             success: false,
             msg: `Order with id: ${req.params.id} not found`,
+            status: 400
           });
         }
       })
-      .then((data) =>
+      .then(() =>
         res.status(200).send({
           success: true,
           msg: "You deleted order",
           payload: +req.params.id,
         })
       )
-      .catch((err) => res.status(500).send({ success: false, msg: err }));
+      .catch((err) => res.status(err.status || 500).send(err));
   }
 }
 

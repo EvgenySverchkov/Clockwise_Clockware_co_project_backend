@@ -8,6 +8,7 @@ const operatorsAliases = {
   $in: Op.in,
 };
 let sequelize;
+const isLogging = !(process.env.NODE_ENV === 'test');
 if (process.env.CLEARDB_DATABASE_URL) {
   sequelize = new Sequelize(
     "heroku_c647561c828c05a",
@@ -20,7 +21,7 @@ if (process.env.CLEARDB_DATABASE_URL) {
         timestamps: false,
       },
       operatorsAliases,
-      logging: false
+      logging: isLogging
     }
   );
 } else {
@@ -32,7 +33,7 @@ if (process.env.CLEARDB_DATABASE_URL) {
     },
     sync: { force: true },
     operatorsAliases,
-    logging: false
+    logging: isLogging
   });
 }
 

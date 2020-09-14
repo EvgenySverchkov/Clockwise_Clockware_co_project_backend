@@ -15,46 +15,41 @@ describe("Master requests", () => {
   beforeEach(() => {
     return resetDB();
   });
-  afterAll((done)=>{
+  afterAll(()=>{
     connectOption.close();
-    done();
   })
   describe("GET 'all' masters", () => {
-    describe("works", () => {
+    describe("given that there is one master in all towns", () => {
       beforeEach(() => {
         return MasterModel.create({ id: 1, name: "TEST", rating: 5 });
       });
-      it("done", (done) => {
-        api
+      it("return all masters", () => {
+        return api
           .post("/masters")
           .send({})
           .set("Content-Type", "application/json")
           .set("include", "all")
-          .end(function (err, res) {
-            if (err) return done(err);
+          .then((res)=>{
             expect(res.body).toEqual([
               { id: 1, name: "TEST", rating: 5, towns: "" },
             ]);
             expect(res.status).toEqual(200);
-            done();
           });
+        });
       });
-    });
-    describe("if table is empty", () => {
-      it("done", (done) => {
-        api
+    describe("given that there no masters", () => {
+      it("return empty arrray", () => {
+        return api
           .post("/masters")
           .send({})
           .set("Content-Type", "application/json")
           .set("include", "all")
-          .end(function (err, res) {
-            if (err) return done(err);
+          .then((res)=>{
             expect(res.body).toEqual([]);
             expect(res.status).toEqual(200);
-            done();
           });
+        });
       });
-    });
   });
 
   describe("GET 'free' masters", () => {
@@ -67,7 +62,7 @@ describe("Master requests", () => {
     const timeEnd = "16:00";
     const town = "Dnipro";
     const masterTestData = {id: 1,name: "TEST",rating: 5}
-    describe("works", () => {
+    describe("given that there is one master in 'Dnipro' and one orders of this master", () => {
       function init() {
         MasterModel.belongsToMany(TownsModel, { through: MasterTownsModel });
         TownsModel.belongsToMany(MasterModel, { through: MasterTownsModel });
@@ -98,8 +93,8 @@ describe("Master requests", () => {
       beforeEach(() => {
         return init();
       });
-      it("done", (done) => {
-        api
+      it("return free masters", () => {
+        return api
           .post("/masters")
           .send({
             date: newDate,
@@ -109,23 +104,21 @@ describe("Master requests", () => {
           })
           .set("Content-Type", "application/json")
           .set("include", "free")
-          .end((err, res) => {
-            if (err) return done(err);
+          .then((res)=>{
             expect(res.body.payload).toEqual([
               { id: 1, name: "TEST", rating: 5 },
             ]);
-            done();
           });
       });
     });
-    describe("no masters in define town", () => {
+    describe("given that there is one master without town and one town", () => {
       function init(){
         return TownsModel.create({ id: 2, name: "Kiyv" })
         .then(()=>MasterModel.create(masterTestData))
       }
       beforeEach(()=>init())
-      it("done", (done) => {
-        api
+      it("retrun message", () => {
+        return api
         .post("/masters")
         .send({
           date: newDate,
@@ -135,15 +128,13 @@ describe("Master requests", () => {
         })
         .set("Content-Type", "application/json")
         .set("include", "free")
-        .end((err, res) => {
-          if (err) return done(err);
+        .then((res) => {
           expect(res.body.msg).toEqual("We don't have masters in this town");
           expect(res.status).toEqual(404);
-          done();
         });
       });
     });
-    describe("no masters on define date and time", ()=>{
+    describe("given that there is one master with town and one town but he is booked on define date and time", ()=>{
       function init() {
         MasterModel.belongsToMany(TownsModel, { through: MasterTownsModel });
         TownsModel.belongsToMany(MasterModel, { through: MasterTownsModel });
@@ -172,8 +163,8 @@ describe("Master requests", () => {
           );
       }
       beforeEach(()=>init());
-      it("done", (done)=>{
-        api
+      it("return message", ()=>{
+        return api
         .post("/masters")
         .send({
           date: newDate,
@@ -183,17 +174,15 @@ describe("Master requests", () => {
         })
         .set("Content-Type", "application/json")
         .set("include", "free")
-        .end((err, res) => {
-          if (err) return done(err);
+        .then((res) => {
           expect(res.body.msg).toEqual("We don't have masters on these date and time");
           expect(res.status).toEqual(404);
-          done();
         });
       })
     });
-    describe("empty entrance field", ()=>{
-      it("done", (done)=>{
-        api
+    describe("given that all fields are empty", ()=>{
+      it("retun message", ()=>{
+        return api
         .post("/masters")
         .send({
           date: "",
@@ -203,26 +192,16 @@ describe("Master requests", () => {
         })
         .set("Content-Type", "application/json")
         .set("include", "free")
-        .end((err, res) => {
-          if (err) return done(err);
+        .then((res) => {
           expect(res.body.msg).toEqual("Please, fill all fields!");
           expect(res.body.success).toEqual(false);
           expect(res.status).toEqual(400);
-          done();
         });
       })
     });
-    describe("invalid date field", ()=>{
-      const req = {
-        body: {
-          date: "01-01-2021",
-          town,
-          timeStart,
-          timeEnd
-        }
-      }
-      it("done", (done)=>{
-        api
+    describe("given that date field is invalid", ()=>{
+      it("done", ()=>{
+        return api
         .post("/masters")
         .send({
           date: "01-01-2021",
@@ -232,22 +211,20 @@ describe("Master requests", () => {
         })
         .set("Content-Type", "application/json")
         .set("include", "free")
-        .end((err, res) => {
-          if (err) return done(err);
+        .then((res) => {
           expect(res.body.msg).toEqual("The date must be in the format: yyyy-mm-dd");
           expect(res.body.success).toEqual(false);
           expect(res.status).toEqual(400);
-          done();
         });
       })
     });
-    describe("date less then current date", ()=>{
+    describe("given that input date less then current date", ()=>{
       const currDate = new Date();
       const wrongDate = `${currDate.getFullYear() - 1}-${(
         "0" +
         (+currDate.getMonth() + 1)
         ).slice(-2)}-${("0" + currDate.getDate()).slice(-2)}`;
-        it("done", (done)=>{
+        it("return message", ()=>{
           api
           .post("/masters")
           .send({
@@ -258,68 +235,60 @@ describe("Master requests", () => {
           })
           .set("Content-Type", "application/json")
           .set("include", "free")
-          .end((err, res) => {
-            if (err) return done(err);
+          .then((res) => {
             expect(res.body.msg).toEqual("Date must not be less than or equal to the current date!");
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-            done();
           });
         })
     })
   });
 
-  describe("POST new master", () => {
+  describe("POST /masters/post", () => {
     beforeEach(() => TownsModel.create({ id: 1, name: "Dnipro" }));
-    describe("works", ()=>{
-      it("done", (done) => {
-        api
+    describe("given that there are no masters", ()=>{
+      it("return posted master", () => {
+        return api
           .post("/masters/post")
           .send({ id: 1, name: "TEST", rating: 5, towns: "Dnipro" })
           .set("Content-Type", "application/json; charset=utf-8")
-          .end((err, res) => {
-            if (err) return done(err);
+          .then((res) => {
             expect(res.body.payload).toEqual({ id: 1, name: "TEST", rating: 5 });
             expect(res.status).toEqual(200);
-            done();
           });
       });
     });
-    describe("if invalid name field", ()=>{
-      it("done", (done) => {
-        api
+    describe("given that name field is invalid", ()=>{
+      it("retrun message", () => {
+        return api
           .post("/masters/post")
           .send({ id: 1, name: "TEST1", rating: 5, towns: "Dnipro" })
           .set("Content-Type", "application/json; charset=utf-8")
-          .end((err, res) => {
-            if (err) return done(err);
+          .then((res) => {
             expect(res.body.msg).toEqual(
               "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters\n4. Do not contain Cyrillic characters!"
             );
             expect(res.status).toEqual(400);
-            done();
           });
       });
     });
-    describe("if invalid rating field", ()=>{
-      it("if invalid rating field", (done) => {
-        api
+    describe("given that rating field is invalid", ()=>{
+      it("return message", () => {
+        return api
           .post("/masters/post")
           .send({ id: 1, name: "TEST", rating: 6, towns: "Dnipro" })
           .set("Content-Type", "application/json; charset=utf-8")
-          .end((err, res) => {
-            if (err) return done(err);
+          .then((res) => {
             expect(res.body.msg).toEqual(
               "Rating value must be from 1 to 5 inclusive"
             );
             expect(res.status).toEqual(400);
-            done();
           });
       });
     })
   });
 
-  describe("PUT master", () => {
+  describe("PUT /masters/put/:id", () => {
     function init() {
       return TownsModel.create({ id: 1, name: "Dnipro" }).then(() => {
         return MasterModel.create({
@@ -331,14 +300,13 @@ describe("Master requests", () => {
       });
     }
     beforeEach(() => init());
-    describe("work", ()=>{
-      it("done", (done) => {
-        api
+    describe("given that there are one master", ()=>{
+      it("retrun updated master", () => {
+        return api
           .put("/masters/put/1")
           .send({ id: 1, name: "TEST_UPDATE_DATA", rating: 5, towns: "Dnipro" })
           .set("Content-Type", "application/json")
-          .end((err, res) => {
-            if (err) return done(err);
+          .then((res) => {
             expect(res.body.payload).toEqual({
               id: 1,
               name: "TEST_UPDATE_DATA",
@@ -346,68 +314,59 @@ describe("Master requests", () => {
               townsnames: [],
             });
             expect(res.status).toEqual(200);
-            done();
           });
       });
     });
-    describe("if invalid name field", ()=>{
-      it("done", (done) => {
-        api
-          .post("/masters/post")
+    describe("given that name field is invalid", ()=>{
+      it("return message", () => {
+        return api
+          .put("/masters/put/1")
           .send({ id: 1, name: "TEST1", rating: 5, towns: "Dnipro" })
           .set("Content-Type", "application/json; charset=utf-8")
-          .end((err, res) => {
-            if (err) return done(err);
+          .then((res) => {
             expect(res.body.msg).toEqual(
               "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters\n4. Do not contain Cyrillic characters!"
             );
             expect(res.status).toEqual(400);
-            done();
           });
       });
     });
-    describe("if invalid rating field", ()=>{
-      it("done", (done) => {
-        api
-          .post("/masters/post")
+    describe("given that rating field is invalid", ()=>{
+      it("return message", () => {
+        return api
+          .put("/masters/put/1")
           .send({ id: 1, name: "TEST", rating: 6, towns: "Dnipro" })
           .set("Content-Type", "application/json; charset=utf-8")
-          .end((err, res) => {
-            if (err) return done(err);
+          .then((res) => {
             expect(res.body.msg).toEqual(
               "Rating value must be from 1 to 5 inclusive"
             );
             expect(res.status).toEqual(400);
-            done();
           });
       });
     });
   });
 
-  describe("DELETE master", () => {
+  describe("DELETE /masters/delete/:id", () => {
     beforeEach(() => MasterModel.create({ id: 1, name: "TEST", rating: 5 }));
-    describe("work", ()=>{
-      it("done", (done) => {
-        api
+    describe("given that there are one master", ()=>{
+      it("retrun id of deleted master", () => {
+        return api
           .delete("/masters/delete/1")
-          .end((err, res) => {
-            if (err) return done(err);
+          .then((res) => {
             expect(res.body.payload).toEqual(1);
             expect(res.status).toEqual(200);
-            done();
           });
       });
     });
-    describe("non-existent master", ()=>{
-      it("done", (done) => {
+    describe("given that there are no masters", ()=>{
+      it("retrun message", () => {
         const id = 2;
-        api
+        return api
           .delete(`/masters/delete/${id}`)
-          .end((err, res) => {
-            if (err) return done(err);
+          .then((res) => {
             expect(res.body.msg).toEqual(`Master with id: ${id} not found`);
             expect(res.status).toEqual(400);
-            done();
           });
       });
     });

@@ -37,14 +37,11 @@ app.use((error, req, res, next) => {
   console.log("Error handler");
   next(error);
 });
-if(process.env.NODE_ENV === 'test'){
-  app.listen(process.env.PORT || 5000, function () {
-    console.log("Server start on test port");
-  });
-}else{
+
+module.exports = app;
+
+if(!(process.env.NODE_ENV === 'test')){
   app.listen(process.env.PORT || 9000, function () {
     console.log("Server start");
   });
 }
-
-module.exports = app;
