@@ -15,9 +15,6 @@ describe("Master requests", () => {
   beforeEach(() => {
     return resetDB();
   });
-  afterAll(()=>{
-    connectOption.close();
-  })
   describe("GET 'all' masters", () => {
     describe("given that there is one master in all towns", () => {
       beforeEach(() => {

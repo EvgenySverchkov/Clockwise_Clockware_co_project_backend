@@ -6,14 +6,10 @@ const MasterModel = require("../../models/mastersModel");
 const TownsModel = require("../../models/townsModel");
 const OrdersModel = require("../../models/ordersModel");
 const UsersModel = require("../../models/usersModel");
-const {connectOption} = require("../../config/sequelizeConfig");
 
 const app = require("../../server");
 
 describe("Orders requests", () => {
-  afterAll(()=>{
-    connectOption.close();
-  })
   const api = supertest(app);
   beforeEach(() => resetDB());
   const testData = {

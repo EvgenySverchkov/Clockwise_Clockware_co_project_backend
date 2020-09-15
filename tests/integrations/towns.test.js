@@ -3,14 +3,9 @@ const supertest = require("supertest");
 const resetDB = require("../../helpers/resetDB");
 
 const TownsModel = require("../../models/townsModel");
-const {connectOption} = require("../../config/sequelizeConfig");
-
 const app = require("../../server");
 
 describe("Towns requests", () => {
-  afterAll(()=>{
-    connectOption.close();
-  });
   const api = supertest(app)
   beforeEach(() => resetDB());
   const testData = { id: 1, name: "Test" };
