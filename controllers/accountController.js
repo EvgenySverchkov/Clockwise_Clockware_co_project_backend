@@ -20,8 +20,7 @@ class AccountController {
     const infoObj = req.body;
     const validationResult = validators.updateUserInfoValidator(infoObj);
     if (!validationResult.success) {
-      res.status(validationResult.status).send(validationResult);
-      return false;
+      return Promise.reject(validationResult);
     }
     this.model
       .findOne({

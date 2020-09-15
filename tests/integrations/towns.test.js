@@ -64,7 +64,7 @@ describe("Towns requests", () => {
             expect(res.body.msg).toEqual("Please, fill all fields!");
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+          })
       });
     });
     describe("given that town name field start with capital letter", () => {

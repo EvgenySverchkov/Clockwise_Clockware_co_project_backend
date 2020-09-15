@@ -84,7 +84,7 @@ describe("Orders requests", () => {
       });
     });
     describe("given that email field is empty", () => {
-      it("done", () => {
+      it("return message", () => {
         return UsersModel.findOne({ where: { id: 1 } }).then((data) => {
           const { email, role, name, id } = data.dataValues;
           return api
@@ -102,7 +102,7 @@ describe("Orders requests", () => {
       });
     });
     describe("given that email field is invalid", () => {
-      it("done", () => {
+      it("return message", () => {
         return UsersModel.findOne({ where: { id: 1 } }).then((data) => {
           const { email, role, name, id } = data.dataValues;
           return api
@@ -225,7 +225,7 @@ describe("Orders requests", () => {
       });
     });
     describe("given that 'date' format is invalid", () => {
-      it("done", () => {
+      it("retrun message", () => {
         return api
           .post("/orders/post")
           .send({ ...testData, date: "10-10-2021" })

@@ -48,8 +48,7 @@ class OrdersController {
     const infoObj = req.body;
     const validationResult = validators.ordersValidator(infoObj);
     if (!validationResult.success) {
-      res.status(validationResult.status).send(validationResult);
-      return false;
+      return res.status(validationResult.status).send(validationResult);
     }
     this.masterModel
       .findOne({ where: { id: infoObj.masterId } })

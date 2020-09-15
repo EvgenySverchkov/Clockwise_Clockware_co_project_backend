@@ -197,7 +197,7 @@ describe("Master requests", () => {
       })
     });
     describe("given that date field is invalid", ()=>{
-      it("done", ()=>{
+      it("return message", ()=>{
         return api
         .post("/masters")
         .send({

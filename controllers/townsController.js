@@ -18,8 +18,7 @@ class TownsController {
   add(req, res) {
     const validationResult = validators.townsValidator(req.body);
     if (!validationResult.success) {
-      res.status(validationResult.status).send(validationResult);
-      return false;
+      return res.status(validationResult.status).send(validationResult);
     }
     this.model
       .findOne({ where: { name: req.body.name } })

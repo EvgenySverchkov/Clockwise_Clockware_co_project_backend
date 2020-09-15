@@ -140,8 +140,7 @@ class MastersController {
   add(req, res) {
     const validationResult = validators.mastersValidator(req.body);
     if (!validationResult.success) {
-      res.status(validationResult.status).send(validationResult);
-      return false;
+      return res.status(validationResult.status).send(validationResult);
     }
     const townsArr = req.body.towns.split(",");
     let lastPromise = Promise.resolve();
