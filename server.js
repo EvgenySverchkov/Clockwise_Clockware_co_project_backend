@@ -1,4 +1,4 @@
-// require("dotenv-flow").config();
+process.env.NODE_ENV === 'test'?null:require("dotenv-flow").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -40,8 +40,6 @@ app.use((error, req, res, next) => {
 });
 
 module.exports = app;
-
-// console.log(process.env)
 
 if(!(process.env.NODE_ENV === 'test')){
   app.listen(process.env.PORT || 9000, function () {
