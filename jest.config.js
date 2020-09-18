@@ -1,5 +1,8 @@
 module.exports = {
     setupFilesAfterEnv: [
-        "./testsConfig.js"
+        "./tests/setup.after.js"
+    ],
+    setupFiles: [
+        "./tests/setup.env.js"
     ]
 }

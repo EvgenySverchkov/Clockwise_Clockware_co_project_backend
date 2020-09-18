@@ -1,6 +1,5 @@
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
-const { connectOption } = require("../config/sequelizeConfig");
 
 const Master = require("../models/mastersModel");
 const Town = require("../models/townsModel");
