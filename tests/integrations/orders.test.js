@@ -43,8 +43,8 @@ describe("Orders requests", () => {
   describe("GET /orders/getUserOrders", () => {
     const email = "admin@example.com";
     const orderTestData = { ...testData, email: email };
-    beforeEach(() => OrdersModel.create(orderTestData));
     describe("given that there is one order in user", () => {
+      beforeEach(() => OrdersModel.create(orderTestData));
       it("return all user's orders", () => {
         return UsersModel.findOne({ where: { id: 1 } }).then((data) => {
           const { email, role, name, id } = data.dataValues;
@@ -84,9 +84,9 @@ describe("Orders requests", () => {
       });
     });
     describe("given that email field is empty", () => {
-      it("return message", () => {
+      it("not added order and return error message", () => {
         return UsersModel.findOne({ where: { id: 1 } }).then((data) => {
-          const { email, role, name, id } = data.dataValues;
+          const { role, name, id } = data.dataValues;
           return api
             .post("/orders/getUserOrders")
             .send({ email: "", role, name, id })
@@ -97,14 +97,16 @@ describe("Orders requests", () => {
               expect(res.body.msg).toEqual(
                 "Email field is empty, please fill it in"
               );
-            });
+              return OrdersModel.findOne({where:{id: 1}})
+            })
+            .then((data)=>expect(data).toEqual(null));
         });
       });
     });
     describe("given that email field is invalid", () => {
-      it("return message", () => {
+      it("not added order and return error message", () => {
         return UsersModel.findOne({ where: { id: 1 } }).then((data) => {
-          const { email, role, name, id } = data.dataValues;
+          const { role, name, id } = data.dataValues;
           return api
             .post("/orders/getUserOrders")
             .send({ email: "invalid.com", role, name, id })
@@ -115,7 +117,9 @@ describe("Orders requests", () => {
               expect(res.body.msg).toEqual(
                 "Invalid email format. Please check your email!"
               );
-            });
+              return OrdersModel.findOne({where:{id: 1}})
+            })
+            .then((data)=>expect(data).toEqual(null));
         });
       });
     });
@@ -142,7 +146,7 @@ describe("Orders requests", () => {
     });
     describe("given that master with define id not-exist", () => {
       beforeEach(() => init());
-      it("return message", () => {
+      it("not added order and return error message", () => {
         return api
           .post("/orders/post")
           .send({ ...testData, masterId: 2 })
@@ -150,12 +154,14 @@ describe("Orders requests", () => {
           .then((res) => {
             expect(res.body.msg).toEqual(`Master with id ${2} was not found`);
             expect(res.status).toEqual(400);
-          });
+            return OrdersModel.findOne({where:{id: 1}})
+          })
+          .then((data)=>expect(data).toEqual(null));
       });
     });
     describe("given that town with define name not-exist", () => {
       beforeEach(() => init());
-      it("retrun message", () => {
+      it("not added order and return error message", () => {
         return api
           .post("/orders/post")
           .send({ ...testData, town: "Nonexist" })
@@ -163,11 +169,13 @@ describe("Orders requests", () => {
           .then((res) => {
             expect(res.body.msg).toEqual("Town not found");
             expect(res.status).toEqual(400);
-          });
+            return OrdersModel.findOne({where:{id: 1}})
+          })
+          .then((data)=>expect(data).toEqual(null));
       });
     });
     describe("given that one field is empty", () => {
-      it("return message", () => {
+      it("not added order and return error message", () => {
         return api
           .post("/orders/post")
           .send({ ...testData, name: "" })
@@ -176,11 +184,13 @@ describe("Orders requests", () => {
             expect(res.body.msg).toEqual("Please, fill all fields!");
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return OrdersModel.findOne({where:{id: 1}})
+          })
+          .then((data)=>expect(data).toEqual(null));
       });
     });
     describe("given that 'name' field is invalid", () => {
-      it("return message", () => {
+      it("not added order and return error message", () => {
         return api
           .post("/orders/post")
           .send({ ...testData, name: "INVALID_TEST_1" })
@@ -191,11 +201,13 @@ describe("Orders requests", () => {
             );
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return OrdersModel.findOne({where:{id: 1}})
+          })
+          .then((data)=>expect(data).toEqual(null));
       });
     });
     describe("given that 'email' field is invalid", () => {
-      it("return message", () => {
+      it("not added order and return error message", () => {
         return api
           .post("/orders/post")
           .send({ ...testData, email: "invalid.com" })
@@ -206,7 +218,9 @@ describe("Orders requests", () => {
             );
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return OrdersModel.findOne({where:{id: 1}})
+          })
+          .then((data)=>expect(data).toEqual(null));
       });
     });
     describe("given that 'size' field is invalid", () => {
@@ -225,7 +239,7 @@ describe("Orders requests", () => {
       });
     });
     describe("given that 'date' format is invalid", () => {
-      it("retrun message", () => {
+      it("not added order and return error message", () => {
         return api
           .post("/orders/post")
           .send({ ...testData, date: "10-10-2021" })
@@ -236,7 +250,9 @@ describe("Orders requests", () => {
             );
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return OrdersModel.findOne({where:{id: 1}})
+          })
+          .then((data)=>expect(data).toEqual(null));
       });
     });
     describe("given that 'date' is less than current date", () => {
@@ -245,7 +261,7 @@ describe("Orders requests", () => {
         "0" +
         (+currDate.getMonth() + 1)
       ).slice(-2)}-${("0" + currDate.getDate()).slice(-2)}`;
-      it("return message", () => {
+      it("not added order and return error message", () => {
         return api
           .post("/orders/post")
           .send({ ...testData, date: newDate })
@@ -256,11 +272,13 @@ describe("Orders requests", () => {
             );
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return OrdersModel.findOne({where:{id: 1}})
+          })
+          .then((data)=>expect(data).toEqual(null));
       });
     });
     describe("given that 'date' field is invalid", () => {
-      it("retrun messages", () => {
+      it("not added order and return error message", () => {
         return api
           .post("/orders/post")
           .send({ ...testData, time: "19:00" })
@@ -271,7 +289,9 @@ describe("Orders requests", () => {
             );
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return OrdersModel.findOne({where:{id: 1}})
+          })
+          .then((data)=>expect(data).toEqual(null));
       });
     });
   });
@@ -284,9 +304,9 @@ describe("Orders requests", () => {
         )
         .then(() => OrdersModel.create(testData));
     }
+    beforeEach(() => init());
     describe("given that there are one order", () => {
-      beforeEach(() => init());
-      it("return message", () => {
+      it("return success message", () => {
         return api
           .put(`/orders/put/${testData.id}`)
           .send(testData)
@@ -299,8 +319,7 @@ describe("Orders requests", () => {
       });
     });
     describe("given that master with define id not-exist", () => {
-      beforeEach(() => init());
-      it("return message", () => {
+      it("not updated order and return error message", () => {
         return api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, masterId: 128 })
@@ -309,12 +328,13 @@ describe("Orders requests", () => {
             expect(res.status).toEqual(404);
             expect(res.body.msg).toEqual(`Master with id ${128} not found!`);
             expect(res.body.success).toEqual(false);
-          });
+            return OrdersModel.findOne({where:{id: 1}})
+          })
+          .then((data)=>expect(data.dataValues).toEqual(testData));
       });
     });
     describe("given that town with define name not-exist", () => {
-      beforeEach(() => init());
-      it("return message", () => {
+      it("not updated order and return error message", () => {
         return api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, town: "Non-exist" })
@@ -325,11 +345,13 @@ describe("Orders requests", () => {
               `Town with name ${"Non-exist"} not found!`
             );
             expect(res.body.success).toEqual(false);
-          });
+            return OrdersModel.findOne({where:{id: 1}})
+          })
+          .then((data)=>expect(data.dataValues).toEqual(testData));
       });
     });
     describe("given that one field is empty", () => {
-      it("return message", () => {
+      it("not updated order and return error message", () => {
         return api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, name: "" })
@@ -338,11 +360,13 @@ describe("Orders requests", () => {
             expect(res.body.msg).toEqual("Please, fill all fields!");
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return OrdersModel.findOne({where:{id: 1}})
+          })
+          .then((data)=>expect(data.dataValues).toEqual(testData));
       });
     });
     describe("given that 'name' field is invalid", () => {
-      it("return message", () => {
+      it("not updated order and return error message", () => {
         return api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, name: "INVALID_TEST_1" })
@@ -353,11 +377,13 @@ describe("Orders requests", () => {
             );
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return OrdersModel.findOne({where:{id: 1}})
+          })
+          .then((data)=>expect(data.dataValues).toEqual(testData));
       });
     });
     describe("given that 'email' field is invalid", () => {
-      it("return message", () => {
+      it("not updated order and return error message", () => {
         return api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, email: "invalid.com" })
@@ -368,11 +394,13 @@ describe("Orders requests", () => {
             );
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return OrdersModel.findOne({where:{id: 1}})
+          })
+          .then((data)=>expect(data.dataValues).toEqual(testData));
       });
     });
     describe("given that 'size' field is invalid", () => {
-      it("return message", () => {
+      it("not updated order and return error message", () => {
         return api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, size: "invalid" })
@@ -383,11 +411,13 @@ describe("Orders requests", () => {
             );
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return OrdersModel.findOne({where:{id: 1}})
+          })
+          .then((data)=>expect(data.dataValues).toEqual(testData));
       });
     });
     describe("given that 'date' format is invalid", () => {
-      it("return message", () => {
+      it("not updated order and return error message", () => {
         return api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, date: "10-10-2021" })
@@ -398,7 +428,9 @@ describe("Orders requests", () => {
             );
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return OrdersModel.findOne({where:{id: 1}})
+          })
+          .then((data)=>expect(data.dataValues).toEqual(testData));
       });
     });
     describe("given that 'date' is less than current date", () => {
@@ -407,7 +439,7 @@ describe("Orders requests", () => {
         "0" +
         (+currDate.getMonth() + 1)
       ).slice(-2)}-${("0" + currDate.getDate()).slice(-2)}`;
-      it("return message", () => {
+      it("not updated order and return error message", () => {
         return api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, date: newDate })
@@ -417,12 +449,13 @@ describe("Orders requests", () => {
               "Date must not be less than or equal to the current date!"
             );
             expect(res.body.success).toEqual(false);
-            expect(res.status).toEqual(400);
-          });
+            return OrdersModel.findOne({where:{id: 1}})
+          })
+          .then((data)=>expect(data.dataValues).toEqual(testData));
       });
     });
     describe("given that 'date' field is invalid", () => {
-      it("return message", () => {
+      it("not updated order and return error message", () => {
         return api
           .put(`/orders/put/${testData.id}`)
           .send({ ...testData, time: "19:00" })
@@ -433,7 +466,9 @@ describe("Orders requests", () => {
             );
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return OrdersModel.findOne({where:{id: 1}})
+          })
+          .then((data)=>expect(data.dataValues).toEqual(testData));
       });
     });
   });
@@ -467,7 +502,7 @@ describe("Orders requests", () => {
       });
     });
     describe("given that there no orders", () => {
-      it("retrun message", () => {
+      it("return error message", () => {
         const orderId = 1;
         return api
           .delete(`/orders/delete/${orderId}`)

@@ -40,10 +40,10 @@ describe("Towns requests", () => {
     });
     describe("given that there are one town with the same name", () => {
       beforeEach(() => TownsModel.create(testData));
-      it("retrun message", () => {
+      it("no added town and return error message", () => {
         return api
           .post("/towns/post")
-          .send(testData)
+          .send({...testData, id: 2})
           .set("Content-Type", "application/json")
           .then((res) => {
             expect(res.body.msg).toEqual(
@@ -51,11 +51,13 @@ describe("Towns requests", () => {
             );
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return TownsModel.findOne({where: {id: 2}})
+          })
+          .then(data=>expect(data).toEqual(null));
       });
     });
     describe("given that one input field is empty", () => {
-      it("return message", () => {
+      it("no added town and return error message", () => {
         return api
           .post("/towns/post")
           .send({ ...testData, name: "" })
@@ -64,11 +66,13 @@ describe("Towns requests", () => {
             expect(res.body.msg).toEqual("Please, fill all fields!");
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
+            return TownsModel.findOne({where: {id: 1}})
           })
+          .then(data=>expect(data).toEqual(null));
       });
     });
     describe("given that town name field start with capital letter", () => {
-      it("return message", () => {
+      it("no added town and return error message", () => {
         return api
           .post("/towns/post")
           .send({ ...testData, name: "test" })
@@ -79,11 +83,13 @@ describe("Towns requests", () => {
             );
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return TownsModel.findOne({where: {id: 1}})
+          })
+          .then(data=>expect(data).toEqual(null));
       });
     });
     describe("given that town name field containt number", () => {
-      it("retrun message", () => {
+      it("no added town and return error message", () => {
         return api
           .post("/towns/post")
           .send({ ...testData, name: "Test1" })
@@ -94,15 +100,17 @@ describe("Towns requests", () => {
             );
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return TownsModel.findOne({where: {id: 1}})
+          })
+          .then(data=>expect(data).toEqual(null));
       });
     });
   });
 
   describe("PUT /towns/put/:id", () => {
+    beforeEach(() => TownsModel.create(testData));
     describe("given that there are one town", () => {
-      beforeEach(() => TownsModel.create(testData));
-      it("return array [1] and message", () => {
+      it("return array [1] and success message", () => {
         return api
           .put(`/towns/put/${testData.id}`)
           .send({ ...testData, name: "Updtest" })
@@ -116,8 +124,7 @@ describe("Towns requests", () => {
       });
     });
     describe("given that there are one town with the same name", () => {
-      beforeEach(() => TownsModel.create(testData));
-      it("return message", () => {
+      it("no updated town and return error message", () => {
         return api
           .put(`/towns/put/${testData.id}`)
           .send(testData)
@@ -128,11 +135,13 @@ describe("Towns requests", () => {
             );
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return TownsModel.findOne({where: {id: 1}})
+          })
+          .then(data=>expect(data.dataValues).toEqual(testData));
       });
     });
     describe("given that one input field is empty", () => {
-      it("return message", () => {
+      it("no updated town and return error message", () => {
         return api
           .put(`/towns/put/${testData.id}`)
           .send({ ...testData, name: "" })
@@ -141,11 +150,13 @@ describe("Towns requests", () => {
             expect(res.body.msg).toEqual("Please, fill all fields!");
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return TownsModel.findOne({where: {id: 1}})
+          })
+          .then(data=>expect(data.dataValues).toEqual(testData));
       });
     });
     describe("given that town name field start with capital letter", () => {
-      it("return message", () => {
+      it("no updated town and return error message", () => {
         return api
           .put(`/towns/put/${testData.id}`)
           .send({ ...testData, name: "test" })
@@ -156,11 +167,13 @@ describe("Towns requests", () => {
             );
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return TownsModel.findOne({where: {id: 1}})
+          })
+          .then(data=>expect(data.dataValues).toEqual(testData));
       });
     });
     describe("given that town name field start with capital letter", () => {
-      it("return message", () => {
+      it("no updated town and return error message", () => {
         return api
           .put(`/towns/put/${testData.id}`)
           .send({ ...testData, name: "Test1" })
@@ -171,7 +184,9 @@ describe("Towns requests", () => {
             );
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
-          });
+            return TownsModel.findOne({where: {id: 1}})
+          })
+          .then(data=>expect(data.dataValues).toEqual(testData));
       });
     });
   });
@@ -192,7 +207,7 @@ describe("Towns requests", () => {
       });
     });
     describe("given that there no towns", () => {
-      it("retrun message", () => {
+      it("return error message", () => {
         return api
           .delete(`/towns/delete/${1}`)
           .set("Content-Type", "application/json")

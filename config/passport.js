@@ -1,8 +1,5 @@
-const secret = require("./secretKey").secretKey;
-var JwtStrategy = require("passport-jwt").Strategy,
-  ExtractJwt = require("passport-jwt").ExtractJwt;
-const configDB = require("../config/sequelizeConfig");
-const passport = require("passport");
+const secret = process.env.TOKEN_SECRET_KEY;
+var JwtStrategy = require("passport-jwt").Strategy;
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/usersModel");

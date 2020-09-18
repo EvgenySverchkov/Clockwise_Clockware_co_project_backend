@@ -1,4 +1,4 @@
-const configDB = require("../config/sequelizeConfig");
+const configDB = require("../db/init");
 
 const ordersModel = function (sequelize, DataType) {
   return sequelize.define("order", {

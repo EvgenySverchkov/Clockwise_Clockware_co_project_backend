@@ -205,11 +205,8 @@ class MastersController {
             if (master) {
               if (townsFields.length <= master.townsnames.length) {
                 master.townsnames.forEach((item) => {
-                  if (townsFields.find((item1) => item.name === item1.name)) {
-                    console.log("Nothing", item.name);
-                  } else {
+                  if (!townsFields.find((item1) => item.name === item1.name)) {
                     master.removeTownsname(item);
-                    console.log("Delete", item.name);
                   }
                 });
               }
@@ -217,12 +214,9 @@ class MastersController {
               if (townsFields.length >= master.townsnames.length) {
                 townsFields.forEach((item) => {
                   if (
-                    master.townsnames.find((item1) => item.name === item1.name)
+                    !master.townsnames.find((item1) => item.name === item1.name)
                   ) {
-                    console.log("Do nothing", item.name);
-                  } else {
                     master.addTownsname(item);
-                    console.log("Add association", item.name);
                   }
                 });
               }

@@ -1,7 +1,7 @@
 const User = require("../models/usersModel");
 
-const SALT = require("../config/salt").salt;
-const secret = require("../config/secretKey").secretKey;
+const SALT = +process.env.SALT_FOR_PASSWOR_HASHING;
+const secret = process.env.TOKEN_SECRET_KEY;
 
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -141,7 +141,7 @@ class AccountController {
         function bcryptHashCallBack(err, hash) {
           let newObj = { ...data, password: hash };
           if (err) {
-            res.status(500).send({
+            return res.status(500).send({
               success: false,
               msg: "Error during password verification",
               error: err,

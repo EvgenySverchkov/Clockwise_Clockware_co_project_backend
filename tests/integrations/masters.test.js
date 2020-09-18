@@ -8,8 +8,6 @@ const TownsModel = require("../../models/townsModel");
 const MasterTownsModel = require("../../models/masters_towns");
 const OrdersModel = require("../../models/ordersModel");
 
-const {connectOption} = require("../../config/sequelizeConfig")
-
 describe("Master requests", () => {
   const api = supertest(app);
   beforeEach(() => {
@@ -114,7 +112,7 @@ describe("Master requests", () => {
         .then(()=>MasterModel.create(masterTestData))
       }
       beforeEach(()=>init())
-      it("retrun message", () => {
+      it("return only error message", () => {
         return api
         .post("/masters")
         .send({
@@ -160,7 +158,7 @@ describe("Master requests", () => {
           );
       }
       beforeEach(()=>init());
-      it("return message", ()=>{
+      it("return only error message", ()=>{
         return api
         .post("/masters")
         .send({
@@ -197,7 +195,7 @@ describe("Master requests", () => {
       })
     });
     describe("given that date field is invalid", ()=>{
-      it("return message", ()=>{
+      it("return only error message", ()=>{
         return api
         .post("/masters")
         .send({
@@ -221,7 +219,7 @@ describe("Master requests", () => {
         "0" +
         (+currDate.getMonth() + 1)
         ).slice(-2)}-${("0" + currDate.getDate()).slice(-2)}`;
-        it("return message", ()=>{
+        it("return only error message", ()=>{
           api
           .post("/masters")
           .send({
@@ -256,7 +254,7 @@ describe("Master requests", () => {
       });
     });
     describe("given that name field is invalid", ()=>{
-      it("retrun message", () => {
+      it("no added master and  return error message", () => {
         return api
           .post("/masters/post")
           .send({ id: 1, name: "TEST1", rating: 5, towns: "Dnipro" })
@@ -266,11 +264,13 @@ describe("Master requests", () => {
               "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters\n4. Do not contain Cyrillic characters!"
             );
             expect(res.status).toEqual(400);
-          });
+            return MasterModel.findOne({where: {id: 1}})
+          })
+          .then(data=>expect(data).toEqual(null));
       });
     });
     describe("given that rating field is invalid", ()=>{
-      it("return message", () => {
+      it("no added master and return error message", () => {
         return api
           .post("/masters/post")
           .send({ id: 1, name: "TEST", rating: 6, towns: "Dnipro" })
@@ -280,7 +280,9 @@ describe("Master requests", () => {
               "Rating value must be from 1 to 5 inclusive"
             );
             expect(res.status).toEqual(400);
-          });
+            return MasterModel.findOne({where: {id: 1}})
+          })
+          .then(data=>expect(data).toEqual(null));
       });
     })
   });
@@ -315,7 +317,7 @@ describe("Master requests", () => {
       });
     });
     describe("given that name field is invalid", ()=>{
-      it("return message", () => {
+      it("no updated master and return error message", () => {
         return api
           .put("/masters/put/1")
           .send({ id: 1, name: "TEST1", rating: 5, towns: "Dnipro" })
@@ -325,11 +327,17 @@ describe("Master requests", () => {
               "String name should:\n1. Not contain numbers\n2. Not be shorter than 3 characters\n3. Not longer than 20 characters\n4. Do not contain Cyrillic characters!"
             );
             expect(res.status).toEqual(400);
-          });
+            return MasterModel.findOne({where: {id: 1}})
+          })
+          .then(data=>expect(data.dataValues).toEqual({
+            id: 1,
+            name: "TEST",
+            rating: 5,
+          }));
       });
     });
     describe("given that rating field is invalid", ()=>{
-      it("return message", () => {
+      it("no updated master and return error message", () => {
         return api
           .put("/masters/put/1")
           .send({ id: 1, name: "TEST", rating: 6, towns: "Dnipro" })
@@ -339,7 +347,13 @@ describe("Master requests", () => {
               "Rating value must be from 1 to 5 inclusive"
             );
             expect(res.status).toEqual(400);
-          });
+            return MasterModel.findOne({where: {id: 1}})
+          })
+          .then(data=>expect(data.dataValues).toEqual({
+            id: 1,
+            name: "TEST",
+            rating: 5,
+          }));
       });
     });
   });
@@ -357,7 +371,7 @@ describe("Master requests", () => {
       });
     });
     describe("given that there are no masters", ()=>{
-      it("retrun message", () => {
+      it("return error message", () => {
         const id = 2;
         return api
           .delete(`/masters/delete/${id}`)
