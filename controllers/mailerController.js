@@ -21,11 +21,9 @@ class MailerController {
     };
     transporter.sendMail(options, function (err, info) {
       if (err) {
-        console.log(err);
-        res.send(err);
+        return res.status(400).send(err);
       }
-      console.log("Email is send");
-      res.json(info);
+      return res.status(200).json(info);
     });
   }
 }

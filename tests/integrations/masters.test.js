@@ -45,6 +45,19 @@ describe("Master requests", () => {
           });
         });
       });
+    describe("given that there no include field in headers", () => {
+        it("return warning message and false success", ()=>{
+          return api
+            .post("/masters")
+            .send({})
+            .set("Content-Type", "application/json")
+            .then(res=>{
+              expect(res.status).toBe(400);
+              expect(res.body.success).toBe(false);
+              expect(res.body.msg).toBe("You must provide a value field with a value of 'all' or 'free'");
+            });
+        });
+      });
   });
 
   describe("GET 'free' masters", () => {

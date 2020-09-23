@@ -118,21 +118,6 @@ class AccountController {
             status: 400,
           });
         } else {
-          return this.model.findOne({
-            where: {
-              email: infoObj.email,
-            },
-          });
-        }
-      })
-      .then((data) => {
-        if (data) {
-          return Promise.reject({
-            success: false,
-            msg: "A user with this email is already registered",
-            status: 400,
-          });
-        } else {
           infoObj.role = "user";
           return infoObj;
         }
@@ -147,9 +132,9 @@ class AccountController {
               error: err,
             });
           }
-          this.model
+          return this.model
             .create(newObj)
-            .then((data) => {
+            .then((data) => (
               res.status(200).send({
                 success: true,
                 msg: "You have successfully registered",
@@ -157,11 +142,11 @@ class AccountController {
                   email: data.dataValues.email,
                   name: data.dataValues.name,
                 },
-              });
-            })
+              })
+            ))
             .catch((err) => res.status(500).send({ success: false, msg: err }));
         }
-        bcrypt.hash(data.password, SALT, bcryptHashCallBack.bind(this));
+        return bcrypt.hash(data.password, SALT, bcryptHashCallBack.bind(this));
       })
       .catch((data) => res.status(data.status || 500).send(data));
   }
