@@ -7,6 +7,12 @@
     "start": "node server.js",
     "test": "jest --runInBand"
   },
+  "jest": {
+    "collectCoverage": true,
+    "coverageReporters": [
+      "html"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/EvgenySverchkov/Clockwise_Clockware_co_project_backend.git"
@@ -24,6 +30,7 @@
     "dotenv": "^8.2.0",
     "dotenv-flow": "^3.2.0",
     "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
     "http-errors": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.1.0",
