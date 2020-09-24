@@ -19,7 +19,7 @@ class MailerController {
       text: `You ordered master on ${req.body.date} ${req.body.time} in ${req.body.town}`,
       html: `You ordered master on ${req.body.date} ${req.body.time} in ${req.body.town}`,
     };
-    transporter.sendMail(options, function (err, info) {
+    return transporter.sendMail(options, function (err, info) {
       if (err) {
         return res.status(400).send(err);
       }

@@ -20,9 +20,9 @@ class AccountController {
     const infoObj = req.body;
     const validationResult = validators.updateUserInfoValidator(infoObj);
     if (!validationResult.success) {
-      return Promise.reject(validationResult);
+      return res.status(validationResult.status).send(validationResult);
     }
-    this.model
+    return this.model
       .findOne({
         where: { email: req.body.email },
       })
@@ -35,13 +35,14 @@ class AccountController {
           return Promise.reject({
             succes: false,
             msg: "Such user does not exist",
+            status: 404
           });
         }
       })
-      .then((data) =>
+      .then(() =>
         res.status(200).send({ succes: true, msg: "You updated your data" })
       )
-      .catch((err) => res.send(err));
+      .catch((err) => res.status(err.status||500).send(err));
   }
   comparePassword(password, user) {
     return new Promise((response, reject) => {
@@ -78,10 +79,9 @@ class AccountController {
     const { email, password } = req.body;
     const validationResult = validators.loginValidator(req.body);
     if (!validationResult.success) {
-      res.status(validationResult.status).send(validationResult);
-      return false;
+      return res.status(validationResult.status).send(validationResult);
     }
-    this.model
+    return this.model
       .findOne({ where: { email: email } })
       .then((user) => {
         if (!user) {
@@ -90,12 +90,8 @@ class AccountController {
           return this.comparePassword(password, user);
         }
       })
-      .then((data) => {
-        res.status(data.status).send(data);
-      })
-      .catch((err) => {
-        res.status(err.status).send(err);
-      });
+      .then((data) => res.status(data.status).send(data))
+      .catch((err) => res.status(err.status).send(err));
   }
   signUp(req, res) {
     const infoObj = req.body;
@@ -157,7 +153,7 @@ class AccountController {
       res.status(validationResult.status).send(validationResult);
       return false;
     }
-    this.model
+    return this.model
       .findOne({ where: { email: email } })
       .then((user) => {
         if (!user || user.role !== "admin") {
@@ -169,12 +165,8 @@ class AccountController {
           return this.comparePassword(password, user);
         }
       })
-      .then((data) => {
-        res.status(data.status).send(data);
-      })
-      .catch((err) => {
-        res.status(err.status).send(err);
-      });
+      .then((data) => res.status(data.status).send(data))
+      .catch((err) => res.status(err.status).send(err));
   }
 }
 

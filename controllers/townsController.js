@@ -10,7 +10,7 @@ class TownsController {
     this.delete = this.delete.bind(this);
   }
   index(req, res) {
-    this.model
+    return this.model
       .findAll({ raw: true })
       .then((data) => res.send(data))
       .catch((err) => res.send(err));
@@ -20,7 +20,7 @@ class TownsController {
     if (!validationResult.success) {
       return res.status(validationResult.status).send(validationResult);
     }
-    this.model
+    return this.model
       .findOne({ where: { name: req.body.name } })
       .then((result) => {
         if (result) {
@@ -46,7 +46,7 @@ class TownsController {
       res.status(validationResult.status).send(validationResult);
       return false;
     }
-    this.model
+    return this.model
       .findOne({ where: { name: req.body.name } })
       .then((result) => {
         if (result) {
@@ -71,7 +71,7 @@ class TownsController {
       .catch((data) => res.status(data.status).send(data));
   }
   delete(req, res) {
-    this.model
+    return this.model
       .findOne({ where: { id: req.params.id } })
       .then((result) => {
         if (result) {

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.07% </span>
+                <span class="strong">90.91% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>102/112</span>
+                <span class='fraction'>100/110</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.82% </span>
+                <span class="strong">91.67% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>101/110</span>
+                <span class='fraction'>99/108</span>
             </div>
         
             
@@ -313,11 +313,7 @@
 <a name='L254'></a><a href='#L254'>254</a>
 <a name='L255'></a><a href='#L255'>255</a>
 <a name='L256'></a><a href='#L256'>256</a>
-<a name='L257'></a><a href='#L257'>257</a>
-<a name='L258'></a><a href='#L258'>258</a>
-<a name='L259'></a><a href='#L259'>259</a>
-<a name='L260'></a><a href='#L260'>260</a>
-<a name='L261'></a><a href='#L261'>261</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
+<a name='L257'></a><a href='#L257'>257</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
@@ -366,9 +362,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -444,9 +438,7 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -607,7 +599,7 @@ class MastersController {
     this.mastersTowns.sync({ alert: true });
   }
   getAllMasters(res) {
-    this.masterModel
+    return this.masterModel
       .findAll({
         include: [
           {
@@ -626,9 +618,7 @@ class MastersController {
           return { ...item.dataValues, towns: townsString };
         });
       })
-      .then((data) =&gt; {
-        res.send(data);
-      })
+      .then((data) =&gt; res.status(200).send(data))
       .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; <span class="cstat-no" title="statement not covered" >res.send(err))</span>;
   }
   getFreeMasters(req, res) {
@@ -638,7 +628,7 @@ class MastersController {
       return false;
     }
     let mastersArrByTown;
-    this.townModel
+    return this.townModel
       .findOne({
         where: {
           name: req.body.town,
@@ -703,13 +693,11 @@ class MastersController {
   index(req, res) {
     switch (req.headers.include) {
       case "all":
-        this.getAllMasters(res);
-        break;
+        return this.getAllMasters(res);
       case "free":
-        this.getFreeMasters(req, res);
-        break;
+        return this.getFreeMasters(req, res);
       default:
-        res.status(400).send({
+        return res.status(400).send({
           success: false,
           msg: "You must provide a value field with a value of 'all' or 'free'",
         });
@@ -731,7 +719,7 @@ class MastersController {
           .then((town) =&gt; townFields.push(town));
       });
     });
-    lastPromise
+    return lastPromise
       .then(() =&gt; townFields)
       .then((townsFields) =&gt; {
         return this.masterModel.create({ ...req.body }).then((master) =&gt; {
@@ -747,9 +735,9 @@ class MastersController {
           status: 200,
         };
       })
-      .then((data) =&gt; {
-        res.status(data.status).send(data);
-      })
+      .then((data) =&gt; 
+        res.status(data.status).send(data)
+      )
       .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; <span class="cstat-no" title="statement not covered" >res.status(err.status || 500).send(err))</span>;
   }
   edit(req, res) {
@@ -769,7 +757,7 @@ class MastersController {
           .then((town) =&gt; townFields.push(town));
       });
     });
-    lastPromise
+    return lastPromise
       .then(() =&gt; townFields)
       .then((townsFields) =&gt; {
         return this.masterModel
@@ -823,16 +811,16 @@ class MastersController {
           return Promise.reject({status: 400, msg: `Master with id: ${req.params.id} not found`, success: false})
         }
       })
-      .then(() =&gt;{
-        return res.status(200).send({
+      .then(() =&gt;
+        res.status(200).send({
           success: true,
           msg: "You deleted master",
           payload: +req.params.id,
         })
-      })
-      .catch((err) =&gt; {
+      )
+      .catch((err) =&gt;
         res.status(err.status || <span class="branch-1 cbranch-no" title="branch not covered" >500)</span>.send(err)
-      });
+      );
   }
 }
 &nbsp;
@@ -844,7 +832,7 @@ module.exports = new MastersController(Master, Town, Order, MastersTowns);
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Sep 23 2020 23:05:21 GMT+0300 (GMT+03:00)
+                at Thu Sep 24 2020 12:21:20 GMT+0300 (GMT+03:00)
             </div>
         </div>
         <script src="../../prettify.js"></script>

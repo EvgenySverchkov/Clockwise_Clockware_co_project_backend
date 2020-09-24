@@ -28,7 +28,7 @@ class MastersController {
     this.mastersTowns.sync({ alert: true });
   }
   getAllMasters(res) {
-    this.masterModel
+    return this.masterModel
       .findAll({
         include: [
           {
@@ -47,9 +47,7 @@ class MastersController {
           return { ...item.dataValues, towns: townsString };
         });
       })
-      .then((data) => {
-        res.send(data);
-      })
+      .then((data) => res.status(200).send(data))
       .catch((err) => res.send(err));
   }
   getFreeMasters(req, res) {
@@ -59,7 +57,7 @@ class MastersController {
       return false;
     }
     let mastersArrByTown;
-    this.townModel
+    return this.townModel
       .findOne({
         where: {
           name: req.body.town,
@@ -124,13 +122,11 @@ class MastersController {
   index(req, res) {
     switch (req.headers.include) {
       case "all":
-        this.getAllMasters(res);
-        break;
+        return this.getAllMasters(res);
       case "free":
-        this.getFreeMasters(req, res);
-        break;
+        return this.getFreeMasters(req, res);
       default:
-        res.status(400).send({
+        return res.status(400).send({
           success: false,
           msg: "You must provide a value field with a value of 'all' or 'free'",
         });
@@ -152,7 +148,7 @@ class MastersController {
           .then((town) => townFields.push(town));
       });
     });
-    lastPromise
+    return lastPromise
       .then(() => townFields)
       .then((townsFields) => {
         return this.masterModel.create({ ...req.body }).then((master) => {
@@ -168,9 +164,9 @@ class MastersController {
           status: 200,
         };
       })
-      .then((data) => {
-        res.status(data.status).send(data);
-      })
+      .then((data) => 
+        res.status(data.status).send(data)
+      )
       .catch((err) => res.status(err.status || 500).send(err));
   }
   edit(req, res) {
@@ -190,7 +186,7 @@ class MastersController {
           .then((town) => townFields.push(town));
       });
     });
-    lastPromise
+    return lastPromise
       .then(() => townFields)
       .then((townsFields) => {
         return this.masterModel
@@ -244,16 +240,16 @@ class MastersController {
           return Promise.reject({status: 400, msg: `Master with id: ${req.params.id} not found`, success: false})
         }
       })
-      .then(() =>{
-        return res.status(200).send({
+      .then(() =>
+        res.status(200).send({
           success: true,
           msg: "You deleted master",
           payload: +req.params.id,
         })
-      })
-      .catch((err) => {
+      )
+      .catch((err) =>
         res.status(err.status || 500).send(err)
-      });
+      );
   }
 }
 

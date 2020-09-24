@@ -15,7 +15,7 @@ class OrdersController {
     this.getUserOrders = this.getUserOrders.bind(this);
   }
   index(req, res) {
-    this.model
+    return this.model
       .findAll({ raw: true })
       .then((data) => res.send(data))
       .catch((err) => res.send(err));
@@ -27,7 +27,7 @@ class OrdersController {
       res.status(validationResult.status).send(validationResult);
       return false;
     }
-    this.model
+    return this.model
       .findAll({
         raw: true,
         where: { email: infoObj.email },
@@ -50,7 +50,7 @@ class OrdersController {
     if (!validationResult.success) {
       return res.status(validationResult.status).send(validationResult);
     }
-    this.masterModel
+    return this.masterModel
       .findOne({ where: { id: infoObj.masterId } })
       .then((data) => {
         if (data) {
@@ -69,11 +69,11 @@ class OrdersController {
           return this.model.create(infoObj);
         }
       })
-      .then((data) => {
+      .then((data) => 
         res
           .status(200)
-          .send({ success: true, msg: "You added order", payload: data });
-      })
+          .send({ success: true, msg: "You added order", payload: data })
+      )
       .catch((err) =>
         res
           .status(err.status || 500)
@@ -87,7 +87,7 @@ class OrdersController {
       res.status(validationResult.status).send(validationResult);
       return false;
     }
-    this.masterModel
+    return this.masterModel
       .findOne({ where: { id: infoObj.masterId } })
       .then((data) => {
         if (data) {
@@ -125,7 +125,7 @@ class OrdersController {
       );
   }
   delete(req, res) {
-    this.model
+    return this.model
       .findOne({ where: { id: req.params.id } })
       .then((result) => {
         if (result) {
