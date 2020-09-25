@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/usersModel");
 
-function myExtracktor(req) {
+function myExtractor(req) {
   const token = req.headers.authorization;
   if (!token) {
     if (
@@ -32,7 +32,7 @@ function myExtracktor(req) {
 }
 module.exports = function (passport) {
   var opts = {};
-  opts.jwtFromRequest = myExtracktor;
+  opts.jwtFromRequest = myExtractor;
   opts.secretOrKey = secret;
   passport.use(
     new JwtStrategy(opts, function (jwt_payload, done) {
