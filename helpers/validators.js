@@ -6,7 +6,7 @@ class Validators {
   mastersValidator(infoObj) {
     const falseStatus = 400;
     for (let key in infoObj) {
-      if (!infoObj[key]) {
+      if (!infoObj[key] || infoObj[key].length === 0) {
         return {
           success: false,
           msg: "Please, fill all fields!",
@@ -86,7 +86,7 @@ class Validators {
   }
   ordersValidator(infoObj) {
     for (let key in infoObj) {
-      if (!infoObj[key]) {
+      if (!infoObj[key] || infoObj[key].length === 0) {
         return { success: false, msg: "Please, fill all fields!", status: 400 };
       }
       switch (key) {
