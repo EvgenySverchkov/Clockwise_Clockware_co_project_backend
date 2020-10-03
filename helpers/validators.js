@@ -134,7 +134,7 @@ class Validators {
           if (!this.dateHelper.isClientDateLargeThenCurrDate(infoObj[key])) {
             return {
               success: false,
-              msg: "Date must not be less than or equal to the current date!",
+              msg: "Date must not be less than current date!",
               status: 400,
             };
           }
