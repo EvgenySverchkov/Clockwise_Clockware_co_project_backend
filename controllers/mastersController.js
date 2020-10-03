@@ -87,7 +87,7 @@ class MastersController {
               date: infoObj.date,
               [Op.or]: [
                 { time: infoObj.timeStart },
-                { endTime: { [Op.gte]: infoObj.timeStart } },
+                { endTime: { [Op.gt]: infoObj.timeStart } },
               ],
             },
           });
