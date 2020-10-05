@@ -235,7 +235,7 @@ describe("Testing order validator", () => {
         validators.ordersValidator({ ...validObj, date: wrongDate })
       ).toMatchObject({
         success: false,
-        msg: "Date must not be less than or equal to the current date!",
+        msg: "Date must not be less than current date!",
         status: 400,
       });
     });

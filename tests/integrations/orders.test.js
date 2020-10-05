@@ -268,7 +268,7 @@ describe("Orders requests", () => {
           .set("Content-Type", "application/json")
           .then((res) => {
             expect(res.body.msg).toEqual(
-              "Date must not be less than or equal to the current date!"
+              "Date must not be less than current date!"
             );
             expect(res.body.success).toEqual(false);
             expect(res.status).toEqual(400);
@@ -446,7 +446,7 @@ describe("Orders requests", () => {
           .set("Content-Type", "application/json")
           .then((res) => {
             expect(res.body.msg).toEqual(
-              "Date must not be less than or equal to the current date!"
+              "Date must not be less than current date!"
             );
             expect(res.body.success).toEqual(false);
             return OrdersModel.findOne({where:{id: 1}})

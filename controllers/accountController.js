@@ -150,8 +150,7 @@ class AccountController {
     const { email, password } = req.body;
     const validationResult = validators.loginValidator(req.body);
     if (!validationResult.success) {
-      res.status(validationResult.status).send(validationResult);
-      return false;
+      return res.status(validationResult.status).send(validationResult);
     }
     return this.model
       .findOne({ where: { email: email } })
