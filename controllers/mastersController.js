@@ -85,10 +85,22 @@ class MastersController {
           return this.orderModel.findAll({
             where: {
               date: infoObj.date,
-              [Op.or]: [
-                { time: infoObj.timeStart },
-                { endTime: { [Op.gt]: infoObj.timeStart } },
-              ],
+              [Op.or]: [{
+                [Op.and] : [
+                  {time: {[Op.lt]: infoObj.timeEnd}},
+                  {endTime: {[Op.gt]: infoObj.timeEnd}}
+                ]
+              },{
+                [Op.and] : [
+                  {time: {[Op.lte]: infoObj.timeStart}},
+                  {endTime: {[Op.gt]: infoObj.timeStart}}
+                ]
+              },{
+                [Op.and] : [
+                  {time: {[Op.gt]: infoObj.timeStart}},
+                  {endTime: infoObj.timeEnd}
+                ]
+              }]
             },
           });
         }
