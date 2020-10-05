@@ -60,14 +60,14 @@ describe("Master requests", () => {
       });
   });
 
-  describe("GET 'free' masters", () => {
+  describe.only("GET 'free' masters", () => {
     const currDate = new Date();
     const newDate = `${currDate.getFullYear() + 1}-${(
       "0" +
       (+currDate.getMonth() + 1)
     ).slice(-2)}-${("0" + currDate.getDate()).slice(-2)}`;
-    const timeStart = "13:00";
-    const timeEnd = "16:00";
+    let timeStart = "13:00";
+    let timeEnd = "16:00";
     const town = "Dnipro";
     const masterTestData = {id: 1,name: "TEST",rating: 5}
     describe("given that there is one master in 'Dnipro' and one orders of this master", () => {
@@ -250,6 +250,570 @@ describe("Master requests", () => {
           });
         })
     })
+    describe("given that user wants to order at 10, but there's already an order at 12", ()=>{
+      function init() {
+        MasterModel.belongsToMany(TownsModel, { through: MasterTownsModel });
+        TownsModel.belongsToMany(MasterModel, { through: MasterTownsModel });
+  
+        return MasterTownsModel.sync({ alert: true })
+          .then(() => {
+            return TownsModel.create({ id: 1, name: "Dnipro" });
+          })
+          .then((townField) => {
+            return MasterModel.create(masterTestData).then((master) => {
+              return master.addTownsname(townField);
+            });
+          })
+          .then(() =>
+            OrdersModel.create({
+              id: 1,
+              name: "TEST",
+              email: "test@test.com",
+              size: "large",
+              town: town,
+              date: newDate,
+              time: "12:00",
+              masterId: 1,
+              endTime: "15:00",
+            })
+          );
+      }
+      beforeEach(()=>{
+        return init();
+      }) 
+      it("should allow to book small clock", ()=>{
+        timeStart = "10:00"; 
+        timeEnd = "11:00";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.success).toBe(true);
+            expect(res.status).toBe(200);
+            return MasterModel.findOne({where: {id: 1}})
+            .then(data=>{
+              expect([data.dataValues]).toEqual(res.body.payload)
+            });
+          });
+      });
+      it("should allow to book middle clock", ()=>{
+        timeStart = "10:00"; 
+        timeEnd = "12:00";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.success).toBe(true);
+            expect(res.status).toBe(200);
+            return MasterModel.findOne({where: {id: 1}})
+            .then(data=>{
+              expect([data.dataValues]).toEqual(res.body.payload)
+            });
+          });
+      });
+      it("shouldn't allow to book large clock", ()=>{
+        timeStart = "10:00"; 
+        timeEnd = "13:00";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.msg).toBe("We don't have masters on these date and time");
+            expect(res.status).toBe(404);
+          });
+      });
+    });
+    describe("given that user wants to order at 11, but there's already an order at 12", ()=>{
+      function init() {
+        MasterModel.belongsToMany(TownsModel, { through: MasterTownsModel });
+        TownsModel.belongsToMany(MasterModel, { through: MasterTownsModel });
+  
+        return MasterTownsModel.sync({ alert: true })
+          .then(() => {
+            return TownsModel.create({ id: 1, name: "Dnipro" });
+          })
+          .then((townField) => {
+            return MasterModel.create(masterTestData).then((master) => {
+              return master.addTownsname(townField);
+            });
+          })
+          .then(() =>
+            OrdersModel.create({
+              id: 1,
+              name: "TEST",
+              email: "test@test.com",
+              size: "large",
+              town: town,
+              date: newDate,
+              time: "12:00",
+              masterId: 1,
+              endTime: "15:00",
+            })
+          );
+      }
+      beforeEach(()=>{
+        return init();
+      });
+      it("should allow to book small clock", ()=>{
+        timeStart = "11:00"; 
+        timeEnd = "12:00";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.success).toBe(true);
+            expect(res.status).toBe(200);
+            return MasterModel.findOne({where: {id: 1}})
+            .then(data=>{
+              expect([data.dataValues]).toEqual(res.body.payload)
+            });
+          });
+      });
+      it("shouldn't allow to book middle clock", ()=>{
+        timeStart = "11:00"; 
+        timeEnd = "13:00";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.msg).toBe("We don't have masters on these date and time");
+            expect(res.status).toBe(404);
+          });
+      });
+      it("shouldn't not allow to book big clock", ()=>{
+        timeStart = "11:00"; 
+        timeEnd = "14:00";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.msg).toBe("We don't have masters on these date and time");
+            expect(res.status).toBe(404);
+          });
+      });
+    });
+    describe("given that user wants to order at 12, but there's already an order at 12 and no free masters", ()=>{
+      function init() {
+        MasterModel.belongsToMany(TownsModel, { through: MasterTownsModel });
+        TownsModel.belongsToMany(MasterModel, { through: MasterTownsModel });
+  
+        return MasterTownsModel.sync({ alert: true })
+          .then(() => {
+            return TownsModel.create({ id: 1, name: "Dnipro" });
+          })
+          .then((townField) => {
+            return MasterModel.create(masterTestData).then((master) => {
+              return master.addTownsname(townField);
+            });
+          })
+          .then(() =>
+            OrdersModel.create({
+              id: 1,
+              name: "TEST",
+              email: "test@test.com",
+              size: "large",
+              town: town,
+              date: newDate,
+              time: "12:00",
+              masterId: 1,
+              endTime: "15:00",
+            })
+          );
+      }
+      beforeEach(()=>{
+        return init();
+      });
+      it("should not allow to book small clock", ()=>{
+        timeStart = "12:00"; 
+        timeEnd = "13:00";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.msg).toBe("We don't have masters on these date and time");
+            expect(res.status).toBe(404);
+        });
+      });
+      it("should not allow to book middle clock", ()=>{
+        timeStart = "12:00"; 
+        timeEnd = "14:00";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.msg).toBe("We don't have masters on these date and time");
+            expect(res.status).toBe(404);
+        });
+      });
+      it("should not allow to book big clock", ()=>{
+        timeStart = "12:00"; 
+        timeEnd = "15:00";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.msg).toBe("We don't have masters on these date and time");
+            expect(res.status).toBe(404);
+        });
+      });
+    });
+    describe("given that user wants to order at 12:30, but there's already an order at 11:30 for small clock", ()=>{
+      function init() {
+        MasterModel.belongsToMany(TownsModel, { through: MasterTownsModel });
+        TownsModel.belongsToMany(MasterModel, { through: MasterTownsModel });
+  
+        return MasterTownsModel.sync({ alert: true })
+          .then(() => {
+            return TownsModel.create({ id: 1, name: "Dnipro" });
+          })
+          .then((townField) => {
+            return MasterModel.create(masterTestData).then((master) => {
+              return master.addTownsname(townField);
+            });
+          })
+          .then(() =>
+            OrdersModel.create({
+              id: 1,
+              name: "TEST",
+              email: "test@test.com",
+              size: "large",
+              town: town,
+              date: newDate,
+              time: "11:30",
+              masterId: 1,
+              endTime: "12:30",
+            })
+          );
+      }
+      beforeEach(()=>{
+        return init();
+      });
+      it("should allow to book small clock", ()=>{
+        timeStart = "12:30"; 
+        timeEnd = "13:30";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.success).toBe(true);
+            expect(res.status).toBe(200);
+            return MasterModel.findOne({where: {id: 1}})
+            .then(data=>{
+              expect([data.dataValues]).toEqual(res.body.payload)
+            });
+          });
+      });
+      it("should allow to book middle clock", ()=>{
+        timeStart = "12:30"; 
+        timeEnd = "14:30";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.success).toBe(true);
+            expect(res.status).toBe(200);
+            return MasterModel.findOne({where: {id: 1}})
+            .then(data=>{
+              expect([data.dataValues]).toEqual(res.body.payload)
+            });
+          });
+      });
+      it("should allow to book big clock", ()=>{
+        timeStart = "12:30"; 
+        timeEnd = "15:30";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.success).toBe(true);
+            expect(res.status).toBe(200);
+            return MasterModel.findOne({where: {id: 1}})
+            .then(data=>{
+              expect([data.dataValues]).toEqual(res.body.payload)
+            });
+          });
+      });
+    });
+    describe("given that user wants to order at 14, but there's already an order at 12 for middle clock", ()=>{
+      function init() {
+        MasterModel.belongsToMany(TownsModel, { through: MasterTownsModel });
+        TownsModel.belongsToMany(MasterModel, { through: MasterTownsModel });
+  
+        return MasterTownsModel.sync({ alert: true })
+          .then(() => {
+            return TownsModel.create({ id: 1, name: "Dnipro" });
+          })
+          .then((townField) => {
+            return MasterModel.create(masterTestData).then((master) => {
+              return master.addTownsname(townField);
+            });
+          })
+          .then(() =>
+            OrdersModel.create({
+              id: 1,
+              name: "TEST",
+              email: "test@test.com",
+              size: "large",
+              town: town,
+              date: newDate,
+              time: "12:00",
+              masterId: 1,
+              endTime: "14:00",
+            })
+          );
+      }
+      beforeEach(()=>{
+        return init();
+      });
+      it("should allow to book small clock", ()=>{
+        timeStart = "14:00"; 
+        timeEnd = "15:00";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.success).toBe(true);
+            expect(res.status).toBe(200);
+            return MasterModel.findOne({where: {id: 1}})
+            .then(data=>{
+              expect([data.dataValues]).toEqual(res.body.payload)
+            });
+          });
+      });
+      it("should allow to book middle clock", ()=>{
+        timeStart = "14:00"; 
+        timeEnd = "16:00";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.success).toBe(true);
+            expect(res.status).toBe(200);
+            return MasterModel.findOne({where: {id: 1}})
+            .then(data=>{
+              expect([data.dataValues]).toEqual(res.body.payload)
+            });
+          });
+      });
+      it("should allow to book big clock", ()=>{
+        timeStart = "14:00"; 
+        timeEnd = "17:00";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.success).toBe(true);
+            expect(res.status).toBe(200);
+            return MasterModel.findOne({where: {id: 1}})
+            .then(data=>{
+              expect([data.dataValues]).toEqual(res.body.payload)
+            });
+          });
+      });
+    });
+    describe("given that user wants to order at 15:00, but there's already an order at 12 for big clock", ()=>{
+      function init() {
+        MasterModel.belongsToMany(TownsModel, { through: MasterTownsModel });
+        TownsModel.belongsToMany(MasterModel, { through: MasterTownsModel });
+  
+        return MasterTownsModel.sync({ alert: true })
+          .then(() => {
+            return TownsModel.create({ id: 1, name: "Dnipro" });
+          })
+          .then((townField) => {
+            return MasterModel.create(masterTestData).then((master) => {
+              return master.addTownsname(townField);
+            });
+          })
+          .then(() =>
+            OrdersModel.create({
+              id: 1,
+              name: "TEST",
+              email: "test@test.com",
+              size: "large",
+              town: town,
+              date: newDate,
+              time: "12:00",
+              masterId: 1,
+              endTime: "15:00",
+            })
+          );
+      }
+      beforeEach(()=>{
+        return init();
+      });
+      it("should allow to book small clock", ()=>{
+        timeStart = "15:00"; 
+        timeEnd = "16:00";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.success).toBe(true);
+            expect(res.status).toBe(200);
+            return MasterModel.findOne({where: {id: 1}})
+            .then(data=>{
+              expect([data.dataValues]).toEqual(res.body.payload)
+            });
+          });
+      });
+      it("should allow to book middle clock", ()=>{
+        timeStart = "15:00"; 
+        timeEnd = "17:00";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.success).toBe(true);
+            expect(res.status).toBe(200);
+            return MasterModel.findOne({where: {id: 1}})
+            .then(data=>{
+              expect([data.dataValues]).toEqual(res.body.payload)
+            });
+          });
+      });
+      it("should allow to book big clock", ()=>{
+        timeStart = "15:00"; 
+        timeEnd = "18:00";
+        return api
+          .post("/masters")
+          .send({
+            date: newDate,
+            timeStart,
+            timeEnd,
+            town,
+          })
+          .set("Content-Type", "application/json")
+          .set("include", "free")
+          .then(res=>{
+            expect(res.body.success).toBe(true);
+            expect(res.status).toBe(200);
+            return MasterModel.findOne({where: {id: 1}})
+            .then(data=>{
+              expect([data.dataValues]).toEqual(res.body.payload)
+            });
+          });
+      });
+    });
   });
 
   describe("POST /masters/post", () => {
