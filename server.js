@@ -17,7 +17,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
-require("./config/passport")(passport);
+require("./passport/setup")(passport);
 
 app.get("/", function (req, res) {
   res.send("Welcome to the server!!!");
