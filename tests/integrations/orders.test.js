@@ -12,13 +12,20 @@ const app = require("../../server");
 describe("Orders requests", () => {
   const api = supertest(app);
   beforeEach(() => resetDB());
+  let date = new Date();
+  let buffDate = new Date();
+  buffDate.setDate(buffDate.getDate()+1);
+  const customDate = `${date.getFullYear()}-${("0" + (+date.getMonth() + 1)).slice(
+      -2
+  )}-${("0" + buffDate.getDate()).slice(-2)}`;
+  buffDate.setDate(buffDate.getDate()+1);
   const testData = {
     id: 1,
     name: "TEST",
     email: "admin@example.com",
     size: "large",
     town: "Dnipro",
-    date: "2020-10-10",
+    date: customDate,
     time: "12:00",
     masterId: 1,
     endTime: "15:00",
